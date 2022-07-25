@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./kinetic-sdk/kinetic_sdk/generated/openapi-client"
+    ]
+}

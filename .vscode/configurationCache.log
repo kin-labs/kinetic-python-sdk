@@ -1,0 +1,1 @@
+{"buildTargets":["all","clean","dev_sdk","generate","install_demo","install_open","install_sdk","restart_demo","restart_sdk","run_demo","run_sdk"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

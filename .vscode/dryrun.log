@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/alexramirez/Documents/Projects/Kin/kinetic-python'
+cd demo && poetry install
+make: Leaving directory `/Users/alexramirez/Documents/Projects/Kin/kinetic-python'
+ 

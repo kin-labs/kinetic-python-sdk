@@ -1,0 +1,85 @@
+import base58
+
+from openapi_client.api.account_api import AccountApi
+from openapi_client.api.airdrop_api import AirdropApi
+from openapi_client.api.app_api import AppApi
+from openapi_client.api.transaction_api import TransactionApi
+from openapi_client.model.create_account_request import CreateAccountRequest
+from openapi_client.model.make_transfer_request import MakeTransferRequest
+from solana.keypair import Keypair
+
+from util.generate_create_account_transaction import generate_create_account_transaction
+from util.generate_make_transfer_transaction import generate_make_transfer_transaction
+
+class KineticSdkInternal(object):
+
+    def __init__(self, config):
+        self.account_api = AccountApi()
+        self.airdrop_api = AirdropApi()
+        self.app_api = AppApi()
+        self.transaction_api = TransactionApi()
+        self.environment = config['environment']
+        self.index = config['index']
+        self.app_config = self.app_api.get_app_config(self.environment, self.index)
+
+    def get_app_config(self, environment, index):
+        return self.app_api.get_app_config(environment, index)
+
+    def get_balance(self, account_id: str):
+        return self.account_api.get_balance(self.environment, self.index, account_id)
+
+    def get_history(self, account: str, mint: str):
+        return self.account_api.get_history(self.environment, self.index, account, mint)
+
+    def get_token_accounts(self, account:str , mint: str):
+        return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
+
+    def create_account(self, owner: Keypair, mint: str):
+        tx =  generate_create_account_transaction(
+            add_memo=False,
+            appIndex=self.index,
+            mint_fee_payer=self.app_config['mint']['feePayer'],
+            mint_public_key=mint,
+            signer=owner
+        )
+
+        create_account_request = CreateAccountRequest(
+            environment=self.environment,
+            index=self.index,
+            mint=mint,
+            tx=tx,
+        )
+
+        return self.account_api.create_account(create_account_request)
+
+    def make_transfer(self, owner, destination, amount, mint, type):
+        tx = generate_make_transfer_transaction(
+            amount=amount,
+            add_memo=False,
+            appIndex=self.index,
+            destination=destination,
+            mint_fee_payer=owner.public_key,
+            mint_public_key=mint,
+            source=owner
+        )
+
+        blockhash = self._preparteTransaction(self.environment, self.index)
+        print('tx -->')
+        print(base58.b58encode_check(tx))
+        print('<--->')
+
+        make_transfer_request = MakeTransferRequest(
+            commitment='Confirmed',
+            environment=self.environment,
+            index=self.index,
+            last_valid_block_height = blockhash['last_valid_block_height'],
+            mint=mint,
+            reference_id=None,
+            reference_type=None,
+            tx=base58.b58decode_check(tx),
+        )
+
+        return self.transaction_api.make_transfer(make_transfer_request)
+
+    def _preparteTransaction(self, environment, index):
+        return self.transaction_api.get_latest_blockhash(environment, index)
