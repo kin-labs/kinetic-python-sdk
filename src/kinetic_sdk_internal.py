@@ -8,8 +8,8 @@ from openapi_client.model.create_account_request import CreateAccountRequest
 from openapi_client.model.make_transfer_request import MakeTransferRequest
 from solana.keypair import Keypair
 
-from util.generate_create_account_transaction import generate_create_account_transaction
-from util.generate_make_transfer_transaction import generate_make_transfer_transaction
+from helpers.generate_create_account_transaction import generate_create_account_transaction
+from helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
 
 class KineticSdkInternal(object):
 
@@ -64,9 +64,6 @@ class KineticSdkInternal(object):
         )
 
         blockhash = self._preparteTransaction(self.environment, self.index)
-        print('tx -->')
-        print(base58.b58encode_check(tx))
-        print('<--->')
 
         make_transfer_request = MakeTransferRequest(
             commitment='Confirmed',

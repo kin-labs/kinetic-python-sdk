@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "demo"
+name = "kinetic-sdk"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-fastapi = "^0.79.0"
-uvicorn = "^0.18.2"
-kinetic-sdk = {path = "../kinetic-sdk"}
+openapi-client = {path = "generated/openapi-client"}
+solana = "^0.25.1"
+base58 = "^2.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
