@@ -11,6 +11,9 @@ from solana.keypair import Keypair
 from helpers.generate_create_account_transaction import generate_create_account_transaction
 from helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
 
+from models.public_key_string import PublicKeyString
+from models.transaction_type import TransactionType
+
 class KineticSdkInternal(object):
 
     def __init__(self, config):
@@ -25,17 +28,17 @@ class KineticSdkInternal(object):
     def get_app_config(self, environment, index):
         return self.app_api.get_app_config(environment, index)
 
-    def get_balance(self, account_id: str):
-        return self.account_api.get_balance(self.environment, self.index, account_id)
+    def get_balance(self, account: PublicKeyString):
+        return self.account_api.get_balance(self.environment, self.index, account)
 
-    def get_history(self, account: str, mint: str):
+    def get_history(self, account: PublicKeyString, mint: PublicKeyString):
         return self.account_api.get_history(self.environment, self.index, account, mint)
 
-    def get_token_accounts(self, account:str , mint: str):
+    def get_token_accounts(self, account: PublicKeyString, mint: PublicKeyString):
         return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
 
     def create_account(self, owner: Keypair, mint: str):
-        tx =  generate_create_account_transaction(
+        tx = generate_create_account_transaction(
             add_memo=False,
             appIndex=self.index,
             mint_fee_payer=self.app_config['mint']['feePayer'],
@@ -52,7 +55,7 @@ class KineticSdkInternal(object):
 
         return self.account_api.create_account(create_account_request)
 
-    def make_transfer(self, owner, destination, amount, mint, type):
+    def make_transfer(self, owner, destination, amount, mint, type: TransactionType):
         tx = generate_make_transfer_transaction(
             amount=amount,
             add_memo=False,
@@ -80,3 +83,4 @@ class KineticSdkInternal(object):
 
     def _preparteTransaction(self, environment, index):
         return self.transaction_api.get_latest_blockhash(environment, index)
+

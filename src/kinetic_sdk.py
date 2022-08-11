@@ -1,5 +1,4 @@
-# from kinetic_sdk.kinetic_sdk_internal import KineticSdkInternal
-import kinetic_sdk_internal
+from kinetic_sdk_internal import KineticSdkInternal
 from solana.keypair import Keypair
 
 class KineticSdk(object):
@@ -8,8 +7,7 @@ class KineticSdk(object):
         self.config = {}
         self.config['environment'] = environment
         self.config['index'] = index
-        self.internal = kinetic_sdk_internal.KineticSdkInternal(self.config)
-        # self.internal = KineticSdkInternal(self.config)
+        self.internal = KineticSdkInternal(self.config)
 
     def get_balance(self, account: str):
         return self.internal.get_balance(account)

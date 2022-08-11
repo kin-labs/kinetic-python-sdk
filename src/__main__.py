@@ -30,7 +30,7 @@ print(token_accounts)
 print('***********')
 
 print('***** ACCOUNT CREATION ******')
-account = sdk.create_account(owner, mint)
+account = sdk.create_account(account_id, mint)
 print(account)
 print('***********')
 

@@ -1,8 +1,8 @@
 from openapi_client.model.balance_response import BalanceResponse
-
 from solana.keypair import Keypair
-
 from kinetic_sdk import KineticSdk
+
+import logging as log
 
 sdk = KineticSdk.setup('devnet', 1)
 
@@ -19,4 +19,4 @@ def test_get_balance():
 def test_get_history():
     """ Test getting history of an account """
     history = sdk.get_history(account_id, mint)
-    pass
+    print(history)

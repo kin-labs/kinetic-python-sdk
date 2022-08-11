@@ -1,10 +1,11 @@
 from spl.token.constants import TOKEN_PROGRAM_ID
-from spl.token.instructions import create_associated_token_account
 from spl.token.instructions import transfer_checked, TransferCheckedParams
 
 from solana.keypair import Keypair
 from solana.publickey import PublicKey
 from solana.transaction import Transaction
+
+from models.transaction_type import TransactionType
 
 def generate_make_transfer_transaction(
     amount: int,
@@ -13,7 +14,8 @@ def generate_make_transfer_transaction(
     destination: str,
     mint_fee_payer: str,
     mint_public_key: str,
-    source: Keypair
+    source: Keypair,
+    type: TransactionType = TransactionType.NONE
 ):
     transaction = Transaction()
     transaction.add(
