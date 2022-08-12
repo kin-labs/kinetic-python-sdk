@@ -12,6 +12,8 @@ from helpers.generate_make_transfer_transaction import generate_make_transfer_tr
 from models.public_key_string import PublicKeyString
 from models.transaction_type import TransactionType
 
+import pybase64
+
 class KineticSdkInternal(object):
 
     def __init__(self, config):
@@ -48,7 +50,7 @@ class KineticSdkInternal(object):
             environment=self.environment,
             index=self.index,
             mint=mint,
-            tx=tx,
+            tx=pybase64.b64encode_as_string(tx),
         )
 
         return self.account_api.create_account(create_account_request)
@@ -74,7 +76,7 @@ class KineticSdkInternal(object):
             mint=mint,
             reference_id=None,
             reference_type=None,
-            tx=tx.hex(),
+            tx=pybase64.b64encode_as_string(tx),
         )
 
         return self.transaction_api.make_transfer(make_transfer_request)
