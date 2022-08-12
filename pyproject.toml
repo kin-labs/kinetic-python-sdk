@@ -8,7 +8,6 @@ authors = ["Your Name <you@example.com>"]
 python = "^3.8"
 openapi-client = {path = "generated/openapi-client"}
 solana = "^0.25.1"
-base58 = "^2.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

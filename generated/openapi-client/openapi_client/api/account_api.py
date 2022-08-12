@@ -603,6 +603,7 @@ class AccountApi(object):
             index
         kwargs['account_id'] = \
             account_id
+
         return self.get_balance_endpoint.call_with_http_info(**kwargs)
 
     def get_history(

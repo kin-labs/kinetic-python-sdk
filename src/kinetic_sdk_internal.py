@@ -1,5 +1,3 @@
-import base58
-
 from openapi_client.api.account_api import AccountApi
 from openapi_client.api.airdrop_api import AirdropApi
 from openapi_client.api.app_api import AppApi
@@ -55,7 +53,7 @@ class KineticSdkInternal(object):
 
         return self.account_api.create_account(create_account_request)
 
-    def make_transfer(self, owner, destination, amount, mint, type: TransactionType):
+    def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount, mint, tx_type: TransactionType):
         tx = generate_make_transfer_transaction(
             amount=amount,
             add_memo=False,
@@ -76,7 +74,7 @@ class KineticSdkInternal(object):
             mint=mint,
             reference_id=None,
             reference_type=None,
-            tx=base58.b58decode_check(tx),
+            tx=tx.hex(),
         )
 
         return self.transaction_api.make_transfer(make_transfer_request)

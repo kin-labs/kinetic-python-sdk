@@ -6,16 +6,17 @@ from solana.publickey import PublicKey
 from solana.transaction import Transaction
 
 from models.transaction_type import TransactionType
+from models.public_key_string import PublicKeyString
 
 def generate_make_transfer_transaction(
     amount: int,
     add_memo: bool,
     appIndex: int,
-    destination: str,
+    destination: PublicKeyString,
     mint_fee_payer: str,
     mint_public_key: str,
     source: Keypair,
-    type: TransactionType = TransactionType.NONE
+    tx_type: TransactionType = TransactionType.NONE
 ):
     transaction = Transaction()
     transaction.add(

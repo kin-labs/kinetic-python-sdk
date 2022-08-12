@@ -1,5 +1,9 @@
 from kinetic_sdk_internal import KineticSdkInternal
+
 from solana.keypair import Keypair
+
+from models.transaction_type import TransactionType
+from models.public_key_string import PublicKeyString
 
 class KineticSdk(object):
 
@@ -9,20 +13,20 @@ class KineticSdk(object):
         self.config['index'] = index
         self.internal = KineticSdkInternal(self.config)
 
-    def get_balance(self, account: str):
+    def get_balance(self, account: PublicKeyString):
         return self.internal.get_balance(account)
 
-    def get_history(self, account: str, mint: str):
+    def get_history(self, account: PublicKeyString, mint: PublicKeyString):
         return self.internal.get_history(account, mint)
 
-    def get_token_accounts(self, account: str, mint: str):
+    def get_token_accounts(self, account: PublicKeyString, mint: PublicKeyString):
         return self.internal.get_token_accounts(account, mint)
 
-    def create_account(self, owner: Keypair, mint: str):
+    def create_account(self, owner: Keypair, mint: PublicKeyString):
         return self.internal.create_account(owner, mint)
 
-    def make_transfer(self, owner: Keypair, destination: str, amount: int, mint: str, type):
-        return self.internal.make_transfer(owner, destination, amount, mint, type)
+    def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount: int, mint: PublicKeyString, tx_type: TransactionType):
+        return self.internal.make_transfer(owner, destination, amount, mint, tx_type)
 
     def init(self):
         config = self.internal.get_app_config(self.config['environment'], self.config['index'])
