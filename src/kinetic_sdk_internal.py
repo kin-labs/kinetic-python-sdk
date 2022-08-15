@@ -59,9 +59,9 @@ class KineticSdkInternal(object):
         tx = generate_make_transfer_transaction(
             amount=amount,
             add_memo=False,
-            appIndex=self.index,
+            app_index=self.index,
             destination=destination,
-            mint_fee_payer=owner.public_key,
+            mint_fee_payer=self.app_config['mint']['feePayer'],
             mint_public_key=mint,
             source=owner
         )

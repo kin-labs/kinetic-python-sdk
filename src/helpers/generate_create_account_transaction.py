@@ -12,8 +12,10 @@ def generate_create_account_transaction(
     mint_public_key: PublicKeyString,
     signer: Keypair
 ):
+    payer = Keypair.generate()
+
     create_transaction_instruction = create_associated_token_account(
-        payer=PublicKey(mint_fee_payer), owner=signer.public_key, mint=PublicKey(mint_public_key)
+        payer=payer.public_key, owner=signer.public_key, mint=PublicKey(mint_public_key)
     )
 
     transaction = Transaction()
@@ -21,6 +23,10 @@ def generate_create_account_transaction(
         create_transaction_instruction
     )
 
-    transaction.sign_partial(signer)
+    tx_hash = transaction.serialize_message()
+
+    transaction.add_signature(payer.public_key, payer.sign(tx_hash))
+
+    transaction.sign_partial(payer)
 
     return transaction.serialize()
