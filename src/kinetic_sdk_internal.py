@@ -4,7 +4,10 @@ from openapi_client.api.app_api import AppApi
 from openapi_client.api.transaction_api import TransactionApi
 from openapi_client.model.create_account_request import CreateAccountRequest
 from openapi_client.model.make_transfer_request import MakeTransferRequest
+from openapi_client.model.request_airdrop_request import RequestAirdropRequest
+
 from solana.keypair import Keypair
+from solana.publickey import PublicKey
 
 from helpers.generate_create_account_transaction import generate_create_account_transaction
 from helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
@@ -80,6 +83,17 @@ class KineticSdkInternal(object):
         )
 
         return self.transaction_api.make_transfer(make_transfer_request)
+
+    def request_airdrop(self, account: PublicKeyString, amount: str, mint: str, commitment='Confirmed'):
+        request_airdrop_request = RequestAirdropRequest(
+            account=account,
+            commitment='Confirmed',
+            environment=self.environment,
+            index=self.index,
+            mint=mint,
+            amount=amount,
+        )
+        return self.airdrop_api.request_airdrop(request_airdrop_request)
 
     def _preparteTransaction(self, environment, index):
         return self.transaction_api.get_latest_blockhash(environment, index)

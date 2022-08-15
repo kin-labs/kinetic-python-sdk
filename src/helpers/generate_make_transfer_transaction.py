@@ -51,7 +51,7 @@ def generate_make_transfer_transaction(
 
     tx_hash = transaction.serialize_message()
 
-    transaction.add_signature(source.public_key, source.sign(tx_hash))
+    transaction.add_signature(owner.public_key, owner.sign(tx_hash))
 
     transaction.sign_partial(source)
 

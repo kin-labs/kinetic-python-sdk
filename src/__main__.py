@@ -30,6 +30,11 @@ token_accounts = sdk.get_token_accounts(account_id, mint)
 print(token_accounts)
 print('***********')
 
+print('***** REQUEST AIRDROP *****')
+airdrop = sdk.request_airdrop('ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA', '14', 'KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX')
+print(airdrop)
+print('***********')
+
 # print('***** ACCOUNT CREATION ******')
 # account = sdk.create_account(owner, mint)
 # print(account)

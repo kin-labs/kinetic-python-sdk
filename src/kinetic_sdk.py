@@ -28,6 +28,9 @@ class KineticSdk(object):
     def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount: int, mint: PublicKeyString, tx_type: TransactionType):
         return self.internal.make_transfer(owner, destination, amount, mint, tx_type)
 
+    def request_airdrop(self, account: PublicKeyString, amount: str, mint: PublicKeyString, commitment='Confirmed'):
+        return self.internal.request_airdrop(account, amount, mint, commitment)
+
     def init(self):
         config = self.internal.get_app_config(self.config['environment'], self.config['index'])
         self.config['mint'] = config['mint']['publicKey']
