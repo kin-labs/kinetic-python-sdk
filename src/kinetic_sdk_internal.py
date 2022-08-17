@@ -59,17 +59,18 @@ class KineticSdkInternal(object):
         return self.account_api.create_account(create_account_request)
 
     def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount, mint, tx_type: TransactionType):
+        blockhash = self._preparteTransaction(self.environment, self.index)
+
         tx = generate_make_transfer_transaction(
             amount=amount,
             add_memo=False,
             app_index=self.index,
+            recent_blockhash=blockhash['blockhash'],
             destination=destination,
             mint_fee_payer=self.app_config['mint']['feePayer'],
             mint_public_key=mint,
             source=owner
         )
-
-        blockhash = self._preparteTransaction(self.environment, self.index)
 
         make_transfer_request = MakeTransferRequest(
             commitment='Confirmed',

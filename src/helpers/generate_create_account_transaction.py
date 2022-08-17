@@ -12,21 +12,13 @@ def generate_create_account_transaction(
     mint_public_key: PublicKeyString,
     signer: Keypair
 ):
-    payer = Keypair.generate()
-
-    create_transaction_instruction = create_associated_token_account(
-        payer=payer.public_key, owner=signer.public_key, mint=PublicKey(mint_public_key)
-    )
-
     transaction = Transaction()
     transaction.add(
-        create_transaction_instruction
+        create_associated_token_account(
+            payer=PublicKey(mint_fee_payer), owner=signer.public_key, mint=PublicKey(mint_public_key)
+        )
     )
 
-    tx_hash = transaction.serialize_message()
-
-    transaction.add_signature(payer.public_key, payer.sign(tx_hash))
-
-    transaction.sign_partial(payer)
+    transaction.sign_partial(signer)
 
     return transaction.serialize()

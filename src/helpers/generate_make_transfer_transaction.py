@@ -17,13 +17,16 @@ def generate_make_transfer_transaction(
     amount: int,
     add_memo: bool,
     app_index: int,
+    recent_blockhash: str,
     destination: PublicKeyString,
     mint_fee_payer: str,
     mint_public_key: str,
     source: Keypair,
     tx_type: TransactionType = TransactionType.NONE
 ):
-    transaction = Transaction()
+    transaction = Transaction(
+        recent_blockhash
+    )
 
     source_token_account = get_associated_token_address(source.public_key, PublicKey(mint_public_key))
     destination_token_account = get_associated_token_address(PublicKey(destination), PublicKey(mint_public_key))
@@ -44,15 +47,11 @@ def generate_make_transfer_transaction(
                 dest=destination_token_account,
                 owner=source.public_key,
                 amount=amount,
-                signers=[source.public_key, owner.public_key]
+                signers=[source.public_key, PublicKey(mint_fee_payer)]
             )
         )
     )
 
-    tx_hash = transaction.serialize_message()
-
-    transaction.add_signature(owner.public_key, owner.sign(tx_hash))
-
     transaction.sign_partial(source)
 
-    return transaction.serialize()
+    return transaction.serialize(False)
