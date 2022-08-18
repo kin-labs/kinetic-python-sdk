@@ -3,6 +3,7 @@ import kinetic_sdk
 from solana.keypair import Keypair
 from models.transaction_type import TransactionType
 
+
 sdk = kinetic_sdk.KineticSdk.setup('devnet', 1)
 
 mint = 'KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX'

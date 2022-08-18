@@ -193,7 +193,7 @@ python-versions = "*"
 
 [[package]]
 name = "jsonrpcserver"
-version = "5.0.7"
+version = "5.0.8"
 description = "Process JSON-RPC requests"
 category = "main"
 optional = false
@@ -208,7 +208,7 @@ examples = ["aiohttp", "aiozmq", "flask", "flask-socketio", "gmqtt", "pyzmq", "t
 
 [[package]]
 name = "jsonschema"
-version = "4.9.1"
+version = "4.10.3"
 description = "An implementation of JSON Schema validation for Python"
 category = "main"
 optional = false
@@ -226,7 +226,7 @@ format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-
 
 [[package]]
 name = "more-itertools"
-version = "8.13.0"
+version = "8.14.0"
 description = "More routines for operating on iterables, beyond itertools"
 category = "dev"
 optional = false
@@ -502,7 +502,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "12939f3f3d1e61d3751c31ddc14643eb2e0e0c4df57833a19e218139186d640d"
+content-hash = "4001189ba8403542c24d28776c826116014c08927aae7584e324bbee6cf03104"
 
 [metadata.files]
 anyio = [
@@ -619,15 +619,15 @@ jsonrpcclient = [
     {file = "jsonrpcclient-4.0.2.tar.gz", hash = "sha256:c0d475494b3e1b591ecdee7883739accaf5695edb673f16b7383b8c6bbdb1ca3"},
 ]
 jsonrpcserver = [
-    {file = "jsonrpcserver-5.0.7.tar.gz", hash = "sha256:b15d3fd043ad0c40b2ff17f7df2ddaec2e880bb923b40d133939a107c97fde5c"},
+    {file = "jsonrpcserver-5.0.8.tar.gz", hash = "sha256:5150071e4abc9a93f086aa0fd0004dfe0410de66adfaaf513613baa2c2fc00d7"},
 ]
 jsonschema = [
-    {file = "jsonschema-4.9.1-py3-none-any.whl", hash = "sha256:8ebad55894c002585271af2d327d99339ef566fb085d9129b69e2623867c4106"},
-    {file = "jsonschema-4.9.1.tar.gz", hash = "sha256:408c4c8ed0dede3b268f7a441784f74206380b04f93eb2d537c7befb3df3099f"},
+    {file = "jsonschema-4.10.3-py3-none-any.whl", hash = "sha256:443442f9ac2fdfde7bc99079f0ba08e5d167fc67749e9fc706a393bc8857ca48"},
+    {file = "jsonschema-4.10.3.tar.gz", hash = "sha256:59ad13764820eb9d2cafc6db32e92fabd318c1e4e3f2205e646225283704a2c3"},
 ]
 more-itertools = [
-    {file = "more-itertools-8.13.0.tar.gz", hash = "sha256:a42901a0a5b169d925f6f217cd5a190e32ef54360905b9c39ee7db5313bfec0f"},
-    {file = "more_itertools-8.13.0-py3-none-any.whl", hash = "sha256:c5122bffc5f104d37c1626b8615b511f3427aa5389b94d61e5ef8236bfbc3ddb"},
+    {file = "more-itertools-8.14.0.tar.gz", hash = "sha256:c09443cd3d5438b8dafccd867a6bc1cb0894389e90cb53d227456b0b0bccb750"},
+    {file = "more_itertools-8.14.0-py3-none-any.whl", hash = "sha256:1bc4f91ee5b1b31ac7ceacc17c09befe6a40a503907baf9c839c229b5095cfd2"},
 ]
 openapi-client = []
 oslash = [
