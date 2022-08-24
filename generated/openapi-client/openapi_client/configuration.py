@@ -392,6 +392,14 @@ class Configuration(object):
             {
                 'url': "http://localhost:3000",
                 'description': "No description provided",
+            },
+            {
+                'url': "https://devnet.kinetic.kin.org",
+                'description': "No description provided",
+            },
+            {
+                'url': "https://mainnet.kinetic.kin.org",
+                'description': "No description provided",
             }
         ]
 

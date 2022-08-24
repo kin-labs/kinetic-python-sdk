@@ -5,12 +5,15 @@ from openapi_client.api.transaction_api import TransactionApi
 from openapi_client.model.create_account_request import CreateAccountRequest
 from openapi_client.model.make_transfer_request import MakeTransferRequest
 from openapi_client.model.request_airdrop_request import RequestAirdropRequest
+from openapi_client import ApiClient
+from openapi_client import Configuration
 
 from solana.keypair import Keypair
 from solana.publickey import PublicKey
 
 from helpers.generate_create_account_transaction import generate_create_account_transaction
 from helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
+from helpers.parse_kinetic_sdk_endpoint import parse_kinetic_sdk_endpoint
 
 from models.public_key_string import PublicKeyString
 from models.transaction_type import TransactionType
@@ -20,10 +23,12 @@ import pybase64
 class KineticSdkInternal(object):
 
     def __init__(self, config):
-        self.account_api = AccountApi()
-        self.airdrop_api = AirdropApi()
-        self.app_api = AppApi()
-        self.transaction_api = TransactionApi()
+        configuration = Configuration(host = parse_kinetic_sdk_endpoint('http://localhost:3000'))
+        api_client = ApiClient(configuration)
+        self.account_api = AccountApi(api_client)
+        self.airdrop_api = AirdropApi(api_client)
+        self.app_api = AppApi(api_client)
+        self.transaction_api = TransactionApi(api_client)
         self.environment = config['environment']
         self.index = config['index']
         self.app_config = self.app_api.get_app_config(self.environment, self.index)
@@ -41,9 +46,12 @@ class KineticSdkInternal(object):
         return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
 
     def create_account(self, owner: Keypair, mint: str):
+        blockhash = self._preparteTransaction(self.environment, self.index)
+
         tx = generate_create_account_transaction(
             add_memo=False,
             appIndex=self.index,
+            recent_blockhash=blockhash['blockhash'],
             mint_fee_payer=self.app_config['mint']['feePayer'],
             mint_public_key=mint,
             signer=owner
