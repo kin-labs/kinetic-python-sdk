@@ -10,6 +10,8 @@ openapi-client = {path = "generated/openapi-client"}
 solana = "^0.25.1"
 pybase64 = "^1.2.2"
 solders = "0.2.0"
+construct = "^2.10.67"
+base58 = "^2.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

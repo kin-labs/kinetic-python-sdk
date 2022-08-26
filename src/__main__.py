@@ -10,31 +10,31 @@ mint = 'KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX'
 
 account_id = 'ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA'
 
-print('***** BALANCE ******')
-balance = sdk.get_balance('ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA')
-print(balance)
-print('***********')
-print()
+# print('***** BALANCE ******')
+# balance = sdk.get_balance('ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA')
+# print(balance)
+# print('***********')
+# print()
 
 print('***** OWNER PUB KEY ******')
 owner = Keypair()
 print(owner.public_key)
 print('***********')
 
-print('***** HISTORY ******')
-history = sdk.get_history(account_id, mint)
-# print(history)
-print('***********')
+# print('***** HISTORY ******')
+# history = sdk.get_history(account_id, mint)
+# # print(history)
+# print('***********')
 
-print('***** TOKEN ACCOUNTS ******')
-token_accounts = sdk.get_token_accounts(account_id, mint)
-print(token_accounts)
-print('***********')
+# print('***** TOKEN ACCOUNTS ******')
+# token_accounts = sdk.get_token_accounts(account_id, mint)
+# print(token_accounts)
+# print('***********')
 
-print('***** REQUEST AIRDROP *****')
-airdrop = sdk.request_airdrop('ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA', '14', 'KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX')
-print(airdrop)
-print('***********')
+# print('***** REQUEST AIRDROP *****')
+# airdrop = sdk.request_airdrop('ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA', '14', 'KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX')
+# print(airdrop)
+# print('***********')
 
 # print('***** ACCOUNT CREATION ******')
 # account = sdk.create_account(owner, mint)
