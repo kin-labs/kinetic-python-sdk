@@ -60,3 +60,23 @@ tx = sdk.make_transfer(
 # Documentation
 
 This [file](https://github.com/kin-labs/kinetic-python/blob/main/src/__main__.py) can be followed for sample code, but more documentation and samples be [here](https://314-refactor-for-kinetic.kin-developer-docs.pages.dev/developers/python/).
+
+# Development
+
+Clone this request
+
+```
+git clone git@github.com:kin-labs/kinetic-python.git
+```
+
+Install the dependencies, the project uses [Poetry](https://python-poetry.org/), so you don't need to worry about creating virtual environments because it will create it for you.
+```
+make install
+```
+
+Run the main file with
+```
+make start
+```
+
+This will run [__main__.py](https://github.com/kin-labs/kinetic-python/blob/main/src/__main__.py) to give you an example of the SDK usage, modify this file as you see fit.
