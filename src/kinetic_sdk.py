@@ -5,6 +5,7 @@ from solana.keypair import Keypair
 from models.transaction_type import TransactionType
 from models.public_key_string import PublicKeyString
 
+
 class KineticSdk(object):
 
     def __init__(self, environment, index):
@@ -32,8 +33,11 @@ class KineticSdk(object):
         return self.internal.request_airdrop(account, amount, mint, commitment)
 
     def init(self):
-        config = self.internal.get_app_config(self.config['environment'], self.config['index'])
-        self.config['mint'] = config['mint']['publicKey']
+        print('self.config: ', self.config)
+        config = self.internal.get_app_config(
+            self.config['environment'], self.config['index'])
+        self.config['mint'] = 'KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX'
+        # self.config['mint'] = config['mint']['publicKey']
 
     @staticmethod
     def setup(environment, index):

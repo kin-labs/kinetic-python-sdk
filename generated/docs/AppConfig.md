@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **app** | [**AppConfigApp**](AppConfigApp.md) |  | 
+**api** | [**AppConfigApi**](AppConfigApi.md) |  | 
 **environment** | [**AppConfigEnvironment**](AppConfigEnvironment.md) |  | 
 **mint** | [**AppConfigMint**](AppConfigMint.md) |  | 
 **mints** | [**[AppConfigMint]**](AppConfigMint.md) |  | 

@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **create_account**
-> AppTransaction create_account(create_account_request)
+> Transaction create_account(create_account_request)
 
 
 
@@ -24,7 +24,7 @@ import time
 import openapi_client
 from openapi_client.api import account_api
 from openapi_client.model.create_account_request import CreateAccountRequest
-from openapi_client.model.app_transaction import AppTransaction
+from openapi_client.model.transaction import Transaction
 from pprint import pprint
 # Defining the host is optional and defaults to https://devnet.kinetic.kin.org
 # See configuration.py for a list of all supported configuration parameters.
@@ -38,9 +38,13 @@ with openapi_client.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = account_api.AccountApi(api_client)
     create_account_request = CreateAccountRequest(
+        commitment="Confirmed",
         environment="environment_example",
         index=1,
+        last_valid_block_height=1,
         mint="mint_example",
+        reference_id="reference_id_example",
+        reference_type="reference_type_example",
         tx='YQ==',
     ) # CreateAccountRequest | 
 
@@ -62,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AppTransaction**](AppTransaction.md)
+[**Transaction**](Transaction.md)
 
 ### Authorization
 

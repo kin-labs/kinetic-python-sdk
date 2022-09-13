@@ -3,6 +3,7 @@ from openapi_client.api.airdrop_api import AirdropApi
 from openapi_client.api.app_api import AppApi
 from openapi_client.api.transaction_api import TransactionApi
 from openapi_client.model.create_account_request import CreateAccountRequest
+import openapi_client
 from openapi_client.model.make_transfer_request import MakeTransferRequest
 from openapi_client.model.request_airdrop_request import RequestAirdropRequest
 
@@ -17,16 +18,21 @@ from models.transaction_type import TransactionType
 
 import pybase64
 
+
 class KineticSdkInternal(object):
 
     def __init__(self, config):
-        self.account_api = AccountApi()
-        self.airdrop_api = AirdropApi()
-        self.app_api = AppApi()
-        self.transaction_api = TransactionApi()
+        configuration = openapi_client.Configuration(
+            host='http://localhost:3000')
+        api = openapi_client.ApiClient(configuration=configuration)
+        self.account_api = AccountApi(api_client=api)
+        self.airdrop_api = AirdropApi(api_client=api)
+        self.app_api = AppApi(api_client=api)
+        self.transaction_api = TransactionApi(api_client=api)
         self.environment = config['environment']
         self.index = config['index']
-        self.app_config = self.app_api.get_app_config(self.environment, self.index)
+        self.app_config = self.app_api.get_app_config(
+            self.environment, self.index)
 
     def get_app_config(self, environment, index):
         return self.app_api.get_app_config(environment, index)
@@ -67,21 +73,34 @@ class KineticSdkInternal(object):
             app_index=self.index,
             recent_blockhash=blockhash['blockhash'],
             destination=destination,
-            mint_fee_payer=self.app_config['mint']['feePayer'],
+            # mint_fee_payer=self.app_config['mint']['feePayer'],
             mint_public_key=mint,
-            source=owner
+            owner=owner,
+            tx_type=tx_type
         )
+        print('tx: ', tx)
 
         make_transfer_request = MakeTransferRequest(
             commitment='Confirmed',
             environment=self.environment,
             index=self.index,
-            last_valid_block_height = blockhash['last_valid_block_height'],
+            last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
             reference_id=None,
             reference_type=None,
             tx=pybase64.b64encode_as_string(tx),
         )
+        # make_transfer_request = MakeTransferRequest(
+        #     commitment='Confirmed',
+        #     environment=self.environment,
+        #     index=self.index,
+        #     last_valid_block_height = blockhash['last_valid_block_height'],
+        #     mint=mint,
+        #     reference_id=None,
+        #     reference_type=None,
+        #     tx=pybase64.b64encode_as_string(tx),
+        # )
+        print('make_transfer_request: ', make_transfer_request)
 
         return self.transaction_api.make_transfer(make_transfer_request)
 
@@ -98,4 +117,3 @@ class KineticSdkInternal(object):
 
     def _preparteTransaction(self, environment, index):
         return self.transaction_api.get_latest_blockhash(environment, index)
-

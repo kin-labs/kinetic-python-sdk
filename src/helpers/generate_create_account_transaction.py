@@ -12,6 +12,10 @@ def generate_create_account_transaction(
     mint_public_key: PublicKeyString,
     signer: Keypair
 ):
+    print('appIndex: ', appIndex)
+    print('mint_fee_payer: ', mint_fee_payer)
+    print('mint_public_key: ', mint_public_key)
+    print('signer: ', signer)
     transaction = Transaction()
     transaction.add(
         create_associated_token_account(

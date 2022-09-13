@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_latest_blockhash**](TransactionApi.md#get_latest_blockhash) | **GET** /api/transaction/latest-blockhash/{environment}/{index} | 
 [**get_minimum_rent_exemption_balance**](TransactionApi.md#get_minimum_rent_exemption_balance) | **GET** /api/transaction/minimum-rent-exemption-balance/{environment}/{index} | 
+[**get_transaction**](TransactionApi.md#get_transaction) | **GET** /api/transaction/transaction/{environment}/{index}/{signature} | 
 [**make_transfer**](TransactionApi.md#make_transfer) | **POST** /api/transaction/make-transfer | 
 
 
@@ -145,8 +146,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **make_transfer**
-> AppTransaction make_transfer(make_transfer_request)
+# **get_transaction**
+> GetTransactionResponse get_transaction(environment, index, signature)
 
 
 
@@ -157,8 +158,77 @@ No authorization required
 import time
 import openapi_client
 from openapi_client.api import transaction_api
-from openapi_client.model.app_transaction import AppTransaction
+from openapi_client.model.get_transaction_response import GetTransactionResponse
+from pprint import pprint
+# Defining the host is optional and defaults to https://devnet.kinetic.kin.org
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "https://devnet.kinetic.kin.org"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = transaction_api.TransactionApi(api_client)
+    environment = "environment_example" # str | 
+    index = 1 # int | 
+    signature = "signature_example" # str | 
+
+    # example passing only required values which don't have defaults set
+    try:
+        # 
+        api_response = api_instance.get_transaction(environment, index, signature)
+        pprint(api_response)
+    except openapi_client.ApiException as e:
+        print("Exception when calling TransactionApi->get_transaction: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **environment** | **str**|  |
+ **index** | **int**|  |
+ **signature** | **str**|  |
+
+### Return type
+
+[**GetTransactionResponse**](GetTransactionResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **make_transfer**
+> Transaction make_transfer(make_transfer_request)
+
+
+
+### Example
+
+
+```python
+import time
+import openapi_client
+from openapi_client.api import transaction_api
 from openapi_client.model.make_transfer_request import MakeTransferRequest
+from openapi_client.model.transaction import Transaction
 from pprint import pprint
 # Defining the host is optional and defaults to https://devnet.kinetic.kin.org
 # See configuration.py for a list of all supported configuration parameters.
@@ -200,7 +270,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AppTransaction**](AppTransaction.md)
+[**Transaction**](Transaction.md)
 
 ### Authorization
 

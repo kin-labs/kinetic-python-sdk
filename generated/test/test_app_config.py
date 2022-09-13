@@ -12,9 +12,11 @@ import sys
 import unittest
 
 import openapi_client
+from openapi_client.model.app_config_api import AppConfigApi
 from openapi_client.model.app_config_app import AppConfigApp
 from openapi_client.model.app_config_environment import AppConfigEnvironment
 from openapi_client.model.app_config_mint import AppConfigMint
+globals()['AppConfigApi'] = AppConfigApi
 globals()['AppConfigApp'] = AppConfigApp
 globals()['AppConfigEnvironment'] = AppConfigEnvironment
 globals()['AppConfigMint'] = AppConfigMint

@@ -50,10 +50,10 @@ import time
 import openapi_client
 from pprint import pprint
 from openapi_client.api import account_api
-from openapi_client.model.app_transaction import AppTransaction
 from openapi_client.model.balance_response import BalanceResponse
 from openapi_client.model.create_account_request import CreateAccountRequest
 from openapi_client.model.history_response import HistoryResponse
+from openapi_client.model.transaction import Transaction
 # Defining the host is optional and defaults to https://devnet.kinetic.kin.org
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -67,9 +67,13 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = account_api.AccountApi(api_client)
     create_account_request = CreateAccountRequest(
+        commitment="Confirmed",
         environment="environment_example",
         index=1,
+        last_valid_block_height=1,
         mint="mint_example",
+        reference_id="reference_id_example",
+        reference_type="reference_type_example",
         tx='YQ==',
     ) # CreateAccountRequest | 
 
@@ -98,6 +102,7 @@ Class | Method | HTTP request | Description
 *AppApi* | [**get_app_health**](docs/AppApi.md#get_app_health) | **GET** /api/app/{environment}/{index}/health | 
 *TransactionApi* | [**get_latest_blockhash**](docs/TransactionApi.md#get_latest_blockhash) | **GET** /api/transaction/latest-blockhash/{environment}/{index} | 
 *TransactionApi* | [**get_minimum_rent_exemption_balance**](docs/TransactionApi.md#get_minimum_rent_exemption_balance) | **GET** /api/transaction/minimum-rent-exemption-balance/{environment}/{index} | 
+*TransactionApi* | [**get_transaction**](docs/TransactionApi.md#get_transaction) | **GET** /api/transaction/transaction/{environment}/{index}/{signature} | 
 *TransactionApi* | [**make_transfer**](docs/TransactionApi.md#make_transfer) | **POST** /api/transaction/make-transfer | 
 
 
@@ -107,23 +112,29 @@ Class | Method | HTTP request | Description
  - [AirdropStatsCounts](docs/AirdropStatsCounts.md)
  - [AirdropStatsDate](docs/AirdropStatsDate.md)
  - [AppConfig](docs/AppConfig.md)
+ - [AppConfigApi](docs/AppConfigApi.md)
  - [AppConfigApp](docs/AppConfigApp.md)
  - [AppConfigCluster](docs/AppConfigCluster.md)
  - [AppConfigEnvironment](docs/AppConfigEnvironment.md)
  - [AppConfigMint](docs/AppConfigMint.md)
  - [AppHealth](docs/AppHealth.md)
- - [AppTransaction](docs/AppTransaction.md)
- - [AppTransactionError](docs/AppTransactionError.md)
  - [BalanceResponse](docs/BalanceResponse.md)
  - [BalanceToken](docs/BalanceToken.md)
  - [ConfirmedSignatureInfo](docs/ConfirmedSignatureInfo.md)
+ - [ConfirmedTransactionMeta](docs/ConfirmedTransactionMeta.md)
  - [CreateAccountRequest](docs/CreateAccountRequest.md)
+ - [GetTransactionResponse](docs/GetTransactionResponse.md)
  - [HistoryResponse](docs/HistoryResponse.md)
  - [LatestBlockhashResponse](docs/LatestBlockhashResponse.md)
  - [MakeTransferRequest](docs/MakeTransferRequest.md)
  - [MinimumRentExemptionBalanceResponse](docs/MinimumRentExemptionBalanceResponse.md)
  - [RequestAirdropRequest](docs/RequestAirdropRequest.md)
  - [RequestAirdropResponse](docs/RequestAirdropResponse.md)
+ - [SignatureStatus](docs/SignatureStatus.md)
+ - [Transaction](docs/Transaction.md)
+ - [TransactionData](docs/TransactionData.md)
+ - [TransactionError](docs/TransactionError.md)
+ - [TransactionResponse](docs/TransactionResponse.md)
 
 
 ## Documentation For Authorization

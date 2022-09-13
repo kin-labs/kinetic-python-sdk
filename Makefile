@@ -8,7 +8,7 @@ start:
 	poetry run python src
 
 generate:
-	openapi-generator-cli generate -i ./api-swagger.json -g python -o generated
+	openapi-generator-cli generate -i https://raw.githubusercontent.com/kin-labs/kinetic/dev/api-swagger.json -g python -o generated
 
 clean:
 	rm -rf /Users/alexramirez/Library/Caches/pypoetry/virtualenvs/*

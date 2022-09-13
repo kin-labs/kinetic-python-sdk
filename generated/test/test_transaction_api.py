@@ -37,6 +37,13 @@ class TestTransactionApi(unittest.TestCase):
         """
         pass
 
+    def test_get_transaction(self):
+        """Test case for get_transaction
+
+          # noqa: E501
+        """
+        pass
+
     def test_make_transfer(self):
         """Test case for make_transfer
 
