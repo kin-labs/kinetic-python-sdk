@@ -20,18 +20,22 @@ from models.transaction_type import TransactionType
 
 import pybase64
 
+
 class KineticSdkInternal(object):
 
     def __init__(self, config):
-        configuration = Configuration(host = parse_kinetic_sdk_endpoint('http://localhost:3000'))
+        configuration = Configuration(
+            host=parse_kinetic_sdk_endpoint('http://localhost:3000'))
         api_client = ApiClient(configuration)
-        self.account_api = AccountApi(api_client)
-        self.airdrop_api = AirdropApi(api_client)
-        self.app_api = AppApi(api_client)
-        self.transaction_api = TransactionApi(api_client)
+        self.account_api = AccountApi(api_client=api_client)
+        self.airdrop_api = AirdropApi(api_client=api_client)
+        self.app_api = AppApi(api_client=api_client)
+        self.transaction_api = TransactionApi(api_client=api_client)
         self.environment = config['environment']
         self.index = config['index']
-        self.app_config = self.app_api.get_app_config(self.environment, self.index)
+        self.app_config = self.app_api.get_app_config(
+            self.environment, self.index)
+        print('self.app_config: ', self.app_config)
 
     def get_app_config(self, environment, index):
         return self.app_api.get_app_config(environment, index)
@@ -52,16 +56,20 @@ class KineticSdkInternal(object):
             add_memo=False,
             appIndex=self.index,
             recent_blockhash=blockhash['blockhash'],
-            mint_fee_payer=self.app_config['mint']['feePayer'],
+            mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
-            signer=owner
+            owner=owner
         )
 
         create_account_request = CreateAccountRequest(
+            commitment='Confirmed',
             environment=self.environment,
             index=self.index,
             mint=mint,
             tx=pybase64.b64encode_as_string(tx),
+            reference_id=None,
+            reference_type=None,
+            last_valid_block_height=blockhash['last_valid_block_height']
         )
 
         return self.account_api.create_account(create_account_request)
@@ -75,7 +83,7 @@ class KineticSdkInternal(object):
             app_index=self.index,
             recent_blockhash=blockhash['blockhash'],
             destination=destination,
-            mint_fee_payer=self.app_config['mint']['feePayer'],
+            mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
             source=owner
         )
@@ -84,11 +92,12 @@ class KineticSdkInternal(object):
             commitment='Confirmed',
             environment=self.environment,
             index=self.index,
-            last_valid_block_height = blockhash['last_valid_block_height'],
+            last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
             reference_id=None,
             reference_type=None,
             tx=pybase64.b64encode_as_string(tx),
+
         )
 
         return self.transaction_api.make_transfer(make_transfer_request)
@@ -106,4 +115,3 @@ class KineticSdkInternal(object):
 
     def _preparteTransaction(self, environment, index):
         return self.transaction_api.get_latest_blockhash(environment, index)
-
