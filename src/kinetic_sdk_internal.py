@@ -48,12 +48,14 @@ class KineticSdkInternal(object):
 
     def create_account(self, owner: Keypair, mint: str):
         blockhash = self._preparteTransaction(self.environment, self.index)
+        print('blockhash: ', blockhash)
+
         tx = generate_create_account_transaction(
             add_memo=False,
             appIndex=self.index,
             mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
-            signer=owner,
+            owner=owner,
             recent_blockhash=blockhash['blockhash'],
         )
 
@@ -62,6 +64,10 @@ class KineticSdkInternal(object):
             index=self.index,
             mint=mint,
             tx=pybase64.b64encode_as_string(tx),
+            reference_id='zzz',
+            reference_type='zzz',
+            commitment='Confirmed',
+            last_valid_block_height=blockhash['last_valid_block_height']
         )
 
         return self.account_api.create_account(create_account_request)

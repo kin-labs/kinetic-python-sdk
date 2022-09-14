@@ -39,7 +39,7 @@ def generate_make_transfer_transaction(
     destination: PublicKeyString,
     mint_fee_payer: str,
     mint_public_key: str,
-    owner,
+    owner: Keypair,
     tx_type: TransactionType = TransactionType.NONE,
     sender_create: bool = False
 ):
@@ -77,7 +77,8 @@ def generate_make_transfer_transaction(
     print('destination_token_account: ', destination_token_account)
 
     # Create Transaction
-    transaction = Transaction()
+    transaction = Transaction(
+        recent_blockhash=recent_blockhash, fee_payer=fee_payer_key)
     print('transaction raw: ', transaction)
 
     # Memo
