@@ -6,7 +6,7 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-openapi-client = {path = "generated/openapi-client"}
+openapi-client = {path = "src/generated"}
 solana = "^0.25.1"
 pybase64 = "^1.2.2"
 solders = "0.2.0"
