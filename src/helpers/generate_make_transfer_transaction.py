@@ -1,3 +1,5 @@
+import base64
+
 from spl.token.constants import TOKEN_PROGRAM_ID
 from spl.token.instructions import transfer, get_associated_token_address, TransferParams, create_associated_token_account
 
@@ -35,42 +37,61 @@ def generate_make_transfer_transaction(
     app_index: int,
     recent_blockhash: str,
     destination: PublicKeyString,
-    # mint_fee_payer: str,
+    mint_fee_payer: str,
     mint_public_key: str,
     owner,
-    tx_type: TransactionType = TransactionType.NONE
+    tx_type: TransactionType = TransactionType.NONE,
+    sender_create: bool = False
 ):
-    print('amount: ', amount)
-    print('app_index: ', app_index)
-    print('owner: ', owner)
-    print('destination: ', destination)
-    # print('mint_fee_payer: ', mint_fee_payer)
-    print('mint_public_key: ', mint_public_key)
-    print('tx_type: ', tx_type)
 
-    secret_key_signer = b"2L1KkefcqtLAa3f3y9rWHhAdqXVUEqz5KmU2PZSurteYZC6Zt29yPMB6rruafuF4wZX3TmKcS3fAXX5zQcCiJA4Q"
-    print('secret_key_signer: ', secret_key_signer)
-    signer = Keypair.from_secret_key(secret_key_signer)
-    print('signer: ', signer)
-    print('signer.public_key: ', signer.public_key)
+    # Fee Payer
+    # secret_key_signer = base64.b64decode(
+    #     "2L1KkefcqtLAa3f3y9rWHhAdqXVUEqz5KmU2PZSurteYZC6Zt29yPMB6rruafuF4wZX3TmKcS3fAXX5zQcCiJA4Q"
+    # )
+    # secret_key_signer = b"2L1KkefcqtLAa3f3y9rWHhAdqXVUEqz5KmU2PZSurteYZC6Zt29yPMB6rruafuF4wZX3TmKcS3fAXX5zQcCiJA4Q"
+    # print('secret_key_signer: ', secret_key_signer)
+    # signer = Keypair.from_secret_key(secret_key_signer)
+    # print('signer: ', signer.public_key)
+    # signer_pubkey = PublicKey(signer.public_key)
+    # print('signer_pubkey: ', signer_pubkey)
 
-    signer_pubkey = PublicKey(signer.public_key)
-    print('signer_pubkey: ', signer_pubkey)
+    # Fee Payer Key
+    print('mint_fee_payer: ', mint_fee_payer)
+    fee_payer_key = PublicKey(mint_fee_payer)
 
-    owner_pubkey = PublicKey(owner.public_key)
-    print('owner_pubkey: ', owner_pubkey)
-
-    destination_pubkey = PublicKey(destination)
-    print('owner_pubkey: ', owner_pubkey)
-
+    # Mint Key
     mint_pubkey = PublicKey(mint_public_key)
     print('mint_pubkey: ', mint_pubkey)
 
+    #  Get TokenAccount from Owner and Destination
+    owner_pubkey = PublicKey(owner.public_key)
+    print('owner_pubkey: ', owner_pubkey)
+    owner_token_account = get_associated_token_address(
+        owner_pubkey, mint_pubkey)
+    print('owner_token_account: ', owner_token_account)
+
+    destination_pubkey = PublicKey(destination)
+    print('destination_pubkey: ', destination_pubkey)
+    destination_token_account = get_associated_token_address(
+        destination_pubkey, mint_pubkey)
+    print('destination_token_account: ', destination_token_account)
+
+    # Create Transaction
     transaction = Transaction()
     print('transaction raw: ', transaction)
 
+    # Memo
+    if (add_memo):
+        memo_params = MemoParams(
+            program_id=MEMO_PROGRAM_ID,
+            signer=(fee_payer_key),
+            message=create_kin_memo(app_index, tx_type),
+        )
+        transaction.add(create_memo(memo_params))
+
+    # Setting Fee Payer
     create_transaction_instruction = create_associated_token_account(
-        payer=signer_pubkey, owner=owner_pubkey, mint=mint_pubkey
+        payer=fee_payer_key, owner=owner_pubkey, mint=mint_pubkey
     )
     print('create_transaction_instruction: ', create_transaction_instruction)
     transaction.add(
@@ -78,18 +99,10 @@ def generate_make_transfer_transaction(
     )
     print('transaction with create instruction: ', transaction)
 
-    owner_token_account = get_associated_token_address(
-        owner_pubkey, mint_pubkey)
-    destination_token_account = get_associated_token_address(
-        destination_pubkey, mint_pubkey)
-
-    # if (add_memo):
-    #     memo_params = MemoParams(
-    #         program_id=MEMO_PROGRAM_ID,
-    #         signer=(mint_fee_payer),
-    #         message=create_kin_memo(app_index, tx_type),
-    #     )
-    #     transaction.add(create_memo(memo_params))
+    # Sender Create
+    if (sender_create):
+        # TODO
+        print('sender_create: ', sender_create)
 
     transaction.add(
         transfer(
@@ -98,13 +111,14 @@ def generate_make_transfer_transaction(
                 source=owner_token_account,
                 dest=destination_token_account,
                 owner=owner_pubkey,
-                amount=amount
-                # signers=[signer_pubkey, owner_pubkey, mint_pubkey]
+                amount=amount,
+                signers=[]
             )
         )
     )
+    # signers=[signer_pubkey, owner_pubkey, mint_pubkey]
 
-    transaction.sign_partial(signer)
+    transaction.sign_partial(owner)
     print('transaction signed: ', transaction)
 
     return transaction.serialize(False)

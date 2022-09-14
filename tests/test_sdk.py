@@ -27,56 +27,56 @@ fee_payer_devnet_account_byte_array = [66, 104, 28, 119, 223, 34, 56, 243, 209, 
                                        26, 227, 90, 228, 167, 169, 174, 143, 149, 169, 49, 61, 187, 137, 84, 82, 249, 156, 27, 161, 167, 196, 154, 54, 8, 176, 44, 240, 83, 79, 13, 193, 142, 119, 158, 97]
 
 
-def test_make_transfer():
-    """ Test Account Creation """
-    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    print('sdk: ', sdk)
-
-    print('devnet_account_1_secret_key: ', devnet_account_1_secret_key)
-    print('Keypair.from_secret_key: ', Keypair.from_secret_key)
-    owner = Keypair.from_secret_key(str.encode(devnet_account_1_secret_key))
-    print('owner: ', owner)
-    print('owner.public_key: ', owner.public_key)
-
-    destination = devnet_account_2_public_key
-    print('destination: ', destination)
-
-    amount = 1
-    print('amount: ', amount)
-
-    print('mint: ', mint)
-
-    tx_type = TransactionType.NONE
-    print('TransactionType: ', TransactionType)
-    print('tx_type: ', tx_type)
-
-    balance1 = sdk.get_balance(devnet_account_1_public_key)
-    print('balance1: ', balance1)
-    balance2 = sdk.get_balance(devnet_account_2_public_key)
-    print('balance2: ', balance2)
-    balance3 = sdk.get_balance(fee_payer_devnet_account_public_key)
-    print('balance3: ', balance3)
-
-    transfer = sdk.make_transfer(
-        owner=owner, destination=destination, mint=mint, amount=amount, tx_type=tx_type)
-    print('transfer: ', transfer)
-
-    # balance = sdk.get_balance(devnet_account_1_public_key)
-    # print('balance: ', balance)
-
-    balance = 1000
-    assert int(balance) > 999
-
-# def test_create_account():
+# def test_make_transfer():
 #     """ Test Account Creation """
-#     keypair = Keypair.generate()
-#     print('keypair: ', keypair.seed)
+#     print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+#     print('sdk: ', sdk)
 
-#     create = sdk.create_account(owner=keypair, mint=mint)
-#     print('create: ', create)
+#     print('devnet_account_1_secret_key: ', devnet_account_1_secret_key)
+#     print('Keypair.from_secret_key: ', Keypair.from_secret_key)
+#     owner = Keypair.from_secret_key(str.encode(devnet_account_1_secret_key))
+#     print('owner: ', owner)
+#     print('owner.public_key: ', owner.public_key)
+
+#     destination = devnet_account_2_public_key
+#     print('destination: ', destination)
+
+#     amount = 1
+#     print('amount: ', amount)
+
+#     print('mint: ', mint)
+
+#     tx_type = TransactionType.NONE
+#     print('TransactionType: ', TransactionType)
+#     print('tx_type: ', tx_type)
+
+#     balance1 = sdk.get_balance(devnet_account_1_public_key)
+#     print('balance1: ', balance1)
+#     balance2 = sdk.get_balance(devnet_account_2_public_key)
+#     print('balance2: ', balance2)
+#     balance3 = sdk.get_balance(fee_payer_devnet_account_public_key)
+#     print('balance3: ', balance3)
+
+#     transfer = sdk.make_transfer(
+#         owner=owner, destination=destination, mint=mint, amount=amount, tx_type=tx_type)
+#     print('transfer: ', transfer)
+
+#     # balance = sdk.get_balance(devnet_account_1_public_key)
+#     # print('balance: ', balance)
 
 #     balance = 1000
 #     assert int(balance) > 999
+
+def test_create_account():
+    """ Test Account Creation """
+    keypair = Keypair.generate()
+    print('keypair: ', keypair.seed)
+
+    create = sdk.create_account(owner=keypair, mint=mint)
+    print('create: ', create)
+
+    balance = 1000
+    assert int(balance) > 999
 
 
 # def test_get_balance():

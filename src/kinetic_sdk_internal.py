@@ -47,12 +47,14 @@ class KineticSdkInternal(object):
         return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
 
     def create_account(self, owner: Keypair, mint: str):
+        blockhash = self._preparteTransaction(self.environment, self.index)
         tx = generate_create_account_transaction(
             add_memo=False,
             appIndex=self.index,
-            mint_fee_payer=self.app_config['mint']['feePayer'],
+            mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
-            signer=owner
+            signer=owner,
+            recent_blockhash=blockhash['blockhash'],
         )
 
         create_account_request = CreateAccountRequest(
@@ -67,13 +69,14 @@ class KineticSdkInternal(object):
     def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount, mint, tx_type: TransactionType):
         blockhash = self._preparteTransaction(self.environment, self.index)
 
+        print('self.app_config: ', self.app_config)
         tx = generate_make_transfer_transaction(
             amount=amount,
             add_memo=False,
             app_index=self.index,
             recent_blockhash=blockhash['blockhash'],
             destination=destination,
-            # mint_fee_payer=self.app_config['mint']['feePayer'],
+            mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
             owner=owner,
             tx_type=tx_type
