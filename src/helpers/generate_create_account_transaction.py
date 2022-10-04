@@ -5,13 +5,14 @@ from solana.publickey import PublicKey
 from solana.transaction import Transaction
 from models.public_key_string import PublicKeyString
 
+
 def generate_create_account_transaction(
-    add_memo: bool,
-    appIndex: int,
-    recent_blockhash: str,
-    mint_fee_payer: PublicKeyString,
-    mint_public_key: PublicKeyString,
-    signer: Keypair
+        add_memo: bool,
+        app_index: int,
+        recent_blockhash: str,
+        mint_fee_payer: PublicKeyString,
+        mint_public_key: PublicKeyString,
+        signer: Keypair
 ):
     transaction = Transaction(recent_blockhash)
 

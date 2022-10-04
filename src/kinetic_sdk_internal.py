@@ -9,7 +9,6 @@ from openapi_client import ApiClient
 from openapi_client import Configuration
 
 from solana.keypair import Keypair
-from solana.publickey import PublicKey
 
 from helpers.generate_create_account_transaction import generate_create_account_transaction
 from helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
@@ -20,10 +19,11 @@ from models.transaction_type import TransactionType
 
 import pybase64
 
+
 class KineticSdkInternal(object):
 
     def __init__(self, config):
-        configuration = Configuration(host = parse_kinetic_sdk_endpoint('http://localhost:3000'))
+        configuration = Configuration(host=parse_kinetic_sdk_endpoint('http://localhost:3000'))
         api_client = ApiClient(configuration)
         self.account_api = AccountApi(api_client)
         self.airdrop_api = AirdropApi(api_client)
@@ -46,11 +46,11 @@ class KineticSdkInternal(object):
         return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
 
     def create_account(self, owner: Keypair, mint: str):
-        blockhash = self._preparteTransaction(self.environment, self.index)
+        blockhash = self._preparte_transaction(self.environment, self.index)
 
         tx = generate_create_account_transaction(
             add_memo=False,
-            appIndex=self.index,
+            app_index=self.index,
             recent_blockhash=blockhash['blockhash'],
             mint_fee_payer=self.app_config['mint']['feePayer'],
             mint_public_key=mint,
@@ -67,7 +67,7 @@ class KineticSdkInternal(object):
         return self.account_api.create_account(create_account_request)
 
     def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount, mint, tx_type: TransactionType):
-        blockhash = self._preparteTransaction(self.environment, self.index)
+        blockhash = self._prepare_transaction(self.environment, self.index)
 
         tx = generate_make_transfer_transaction(
             amount=amount,
@@ -84,7 +84,7 @@ class KineticSdkInternal(object):
             commitment='Confirmed',
             environment=self.environment,
             index=self.index,
-            last_valid_block_height = blockhash['last_valid_block_height'],
+            last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
             reference_id=None,
             reference_type=None,
@@ -104,6 +104,5 @@ class KineticSdkInternal(object):
         )
         return self.airdrop_api.request_airdrop(request_airdrop_request)
 
-    def _preparteTransaction(self, environment, index):
+    def _prepare_transaction(self, environment, index):
         return self.transaction_api.get_latest_blockhash(environment, index)
-

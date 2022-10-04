@@ -6,4 +6,4 @@ def parse_kinetic_sdk_endpoint(endpoint: str):
     elif endpoint.startswith('http'):
         return endpoint
     else:
-        raise('Unknown http or https endpoint')
+        raise 'Unknown http or https endpoint'

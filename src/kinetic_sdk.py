@@ -5,12 +5,11 @@ from solana.keypair import Keypair
 from models.transaction_type import TransactionType
 from models.public_key_string import PublicKeyString
 
+
 class KineticSdk(object):
 
     def __init__(self, environment, index):
-        self.config = {}
-        self.config['environment'] = environment
-        self.config['index'] = index
+        self.config = {'environment': environment, 'index': index}
         self.internal = KineticSdkInternal(self.config)
 
     def get_balance(self, account: PublicKeyString):
@@ -25,7 +24,8 @@ class KineticSdk(object):
     def create_account(self, owner: Keypair, mint: PublicKeyString):
         return self.internal.create_account(owner, mint)
 
-    def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount: int, mint: PublicKeyString, tx_type: TransactionType):
+    def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount: int, mint: PublicKeyString,
+                      tx_type: TransactionType):
         return self.internal.make_transfer(owner, destination, amount, mint, tx_type)
 
     def request_airdrop(self, account: PublicKeyString, amount: str, mint: PublicKeyString, commitment='Confirmed'):
