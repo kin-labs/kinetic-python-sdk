@@ -29,13 +29,13 @@ def generate_make_transfer_transaction(
     source_token_account = get_associated_token_address(source.public_key, PublicKey(mint_public_key))
     destination_token_account = get_associated_token_address(PublicKey(destination), PublicKey(mint_public_key))
 
-    if add_memo:
-        memo_params = MemoParams(
-            program_id=MEMO_PROGRAM_ID,
-            signer=PublicKey(mint_fee_payer),
-            message=create_kin_memo(app_index, tx_type),
-        )
-        transaction.add(create_memo(memo_params))
+    # if add_memo:
+    #     memo_params = MemoParams(
+    #         program_id=MEMO_PROGRAM_ID,
+    #         signer=PublicKey(mint_fee_payer),
+    #         message=create_kin_memo(app_index, tx_type),
+    #     )
+    #     transaction.add(create_memo(memo_params))
 
     transaction.add(
         transfer(
