@@ -5,6 +5,7 @@ from openapi_client.api.transaction_api import TransactionApi
 from openapi_client.model.create_account_request import CreateAccountRequest
 from openapi_client.model.make_transfer_request import MakeTransferRequest
 from openapi_client.model.request_airdrop_request import RequestAirdropRequest
+from openapi_client.model.commitment import Commitment
 from openapi_client import ApiClient
 from openapi_client import Configuration
 
@@ -52,14 +53,16 @@ class KineticSdkInternal(object):
             add_memo=False,
             app_index=self.index,
             recent_blockhash=blockhash['blockhash'],
-            mint_fee_payer=self.app_config['mint']['feePayer'],
+            mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
             owner=owner,
         )
 
         create_account_request = CreateAccountRequest(
+            commitment=Commitment("Confirmed"),
             environment=self.environment,
             index=self.index,
+            last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
             tx=pybase64.b64encode_as_string(tx),
         )
@@ -81,7 +84,7 @@ class KineticSdkInternal(object):
         )
 
         make_transfer_request = MakeTransferRequest(
-            commitment='Confirmed',
+            commitment=Commitment("Confirmed"),
             environment=self.environment,
             index=self.index,
             last_valid_block_height=blockhash['last_valid_block_height'],
@@ -96,7 +99,7 @@ class KineticSdkInternal(object):
     def request_airdrop(self, account: PublicKeyString, amount: str, mint: str, commitment='Confirmed'):
         request_airdrop_request = RequestAirdropRequest(
             account=account,
-            commitment='Confirmed',
+            commitment=Commitment("Finalized"),
             environment=self.environment,
             index=self.index,
             mint=mint,

@@ -33,7 +33,6 @@ class KineticSdk(object):
 
     def init(self):
         config = self.internal.get_app_config(self.config['environment'], self.config['index'])
-        print(config)
         self.config['mint'] = config['mint']['public_key']
 
     @staticmethod
