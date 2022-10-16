@@ -78,7 +78,7 @@ class KineticSdkInternal(object):
             app_index=self.index,
             recent_blockhash=blockhash['blockhash'],
             destination=destination,
-            mint_fee_payer=self.app_config['mint']['feePayer'],
+            mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
             source=owner,
         )

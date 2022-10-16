@@ -1,14 +1,14 @@
-from solders.pubkey import Pubkey
-from spl.token.instructions import create_associated_token_account, get_associated_token_address
-
-from solders.hash import Hash
-from solders.transaction import Transaction as SoldersTransaction
-from solders.message import Message as SoldersMessage
-from solders.instruction import AccountMeta, Instruction
-
 from solana.keypair import Keypair
 from solana.publickey import PublicKey
 from solana.transaction import Transaction
+
+from solders.hash import Hash
+from solders.instruction import AccountMeta, Instruction
+from solders.message import Message as SoldersMessage
+from solders.pubkey import Pubkey
+from solders.transaction import Transaction as SoldersTransaction
+
+from spl.token.instructions import get_associated_token_address
 
 from models.public_key_string import PublicKeyString
 
@@ -17,11 +17,12 @@ ASSOCIATED_TOKEN_PROGRAM_ID = Pubkey.from_string('ATokenGPvbdGVxr1b2hvZbsiqW5xWH
 SYSTEM_PROGRAM_PROGRAM_ID = Pubkey.from_string('11111111111111111111111111111111')
 SYSVAR_RENT_PUBKEY = Pubkey.from_string("SysvarRent111111111111111111111111111111111")
 
+
 def create_associated_token_account_instruction(
-    payer: Pubkey,
-    associated_token: Pubkey,
-    owner: Pubkey,
-    mint: Pubkey):
+        payer: Pubkey,
+        associated_token: Pubkey,
+        owner: Pubkey,
+        mint: Pubkey):
     account_metas = [
         AccountMeta(payer, True, True),
         AccountMeta(associated_token, False, True),
@@ -47,10 +48,6 @@ def generate_create_account_transaction(
         mint_public_key: PublicKeyString,
         owner: Keypair,
 ):
-    instruction = create_associated_token_account(
-        payer=PublicKey(mint_fee_payer), owner=owner.public_key, mint=PublicKey(mint_public_key)
-    )
-
     associated_token_account = get_associated_token_address(
         owner.public_key,
         PublicKey(mint_public_key)
