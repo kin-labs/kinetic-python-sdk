@@ -8,8 +8,8 @@ from models.public_key_string import PublicKeyString
 
 class KineticSdk(object):
 
-    def __init__(self, environment, index):
-        self.config = {'environment': environment, 'index': index}
+    def __init__(self, endpoint, environment, index):
+        self.config = {'endpoint': endpoint, 'environment': environment, 'index': index}
         self.internal = KineticSdkInternal(self.config)
 
     def get_balance(self, account: PublicKeyString):
@@ -36,7 +36,7 @@ class KineticSdk(object):
         self.config['mint'] = config['mint']['public_key']
 
     @staticmethod
-    def setup(environment, index):
-        sdk = KineticSdk(environment, index)
+    def setup(endpoint, environment, index):
+        sdk = KineticSdk(endpoint, environment, index)
         sdk.init()
         return sdk

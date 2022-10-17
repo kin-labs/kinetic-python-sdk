@@ -1,17 +1,19 @@
 import kinetic_sdk
 
 from solana.keypair import Keypair
-from models.transaction_type import TransactionType
 
+sdk = kinetic_sdk.KineticSdk.setup(
+    endpoint='http://localhost:3000',
+    environment='devnet',
+    index=1
+)
 
-sdk = kinetic_sdk.KineticSdk.setup('devnet', 1)
-
-mint = 'KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX'
+mint = sdk.config.get('mint')
 
 account_id = 'ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA'
 
 print('***** BALANCE ******')
-balance = sdk.get_balance('ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA')
+balance = sdk.get_balance(account_id)
 print(balance)
 print('***********')
 print()
@@ -32,7 +34,7 @@ print(token_accounts)
 print('***********')
 
 print('***** REQUEST AIRDROP *****')
-airdrop = sdk.request_airdrop('ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA', '14', 'KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX')
+airdrop = sdk.request_airdrop(account_id, '14', mint)
 print(airdrop)
 print('***********')
 

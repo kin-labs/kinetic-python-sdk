@@ -13,7 +13,6 @@ from solana.keypair import Keypair
 
 from helpers.generate_create_account_transaction import generate_create_account_transaction
 from helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
-from helpers.parse_kinetic_sdk_endpoint import parse_kinetic_sdk_endpoint
 
 from models.public_key_string import PublicKeyString
 from models.transaction_type import TransactionType
@@ -24,7 +23,7 @@ import pybase64
 class KineticSdkInternal(object):
 
     def __init__(self, config):
-        configuration = Configuration(host=parse_kinetic_sdk_endpoint('http://localhost:3000'))
+        configuration = Configuration(host=config['endpoint'])
         api_client = ApiClient(configuration)
         self.account_api = AccountApi(api_client)
         self.airdrop_api = AirdropApi(api_client)
