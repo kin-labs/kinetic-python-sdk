@@ -37,18 +37,20 @@ def generate_make_transfer_transaction(
     #     )
     #     transaction.add(create_memo(memo_params))
 
-    transaction.add(
-        transfer(
-            TransferParams(
-                program_id=TOKEN_PROGRAM_ID,
-                source=source_token_account,
-                dest=destination_token_account,
-                owner=source.public_key,
-                amount=amount,
-                signers=[source.public_key, PublicKey(mint_fee_payer)]
-            )
+    instruction = transfer(
+        TransferParams(
+            program_id=TOKEN_PROGRAM_ID,
+            source=source.public_key,
+            dest=PublicKey(destination),
+            owner=source.public_key,
+            amount=amount,
+            signers=[source.public_key, PublicKey(mint_fee_payer)]
         )
     )
+
+    print(instruction)
+
+    transaction.add(instruction)
 
     transaction.sign_partial(source)
 
