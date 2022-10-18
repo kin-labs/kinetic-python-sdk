@@ -1,57 +1,86 @@
-from spl.token.constants import TOKEN_PROGRAM_ID
-from spl.token.instructions import transfer, get_associated_token_address, TransferParams
-
-from spl.memo.constants import MEMO_PROGRAM_ID
-from spl.memo.instructions import create_memo, MemoParams
-
 from solana.publickey import PublicKey
 from solana.transaction import Transaction
-
 from models.transaction_type import TransactionType
+
+from solders.hash import Hash
+from solders.instruction import AccountMeta, Instruction
+from solders.message import Message as SoldersMessage
+from solders.pubkey import Pubkey
+from solders.transaction import Transaction as SoldersTransaction
+from solders import system_program
+
+from spl.token.instructions import get_associated_token_address
+
 from models.public_key_string import PublicKeyString
 
-from helpers.create_kin_memo import create_kin_memo
+TOKEN_PROGRAM_ID = Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+ASSOCIATED_TOKEN_PROGRAM_ID = Pubkey.from_string('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL')
+SYSTEM_PROGRAM_PROGRAM_ID = Pubkey.from_string('11111111111111111111111111111111')
+SYSVAR_RENT_PUBKEY = Pubkey.from_string("SysvarRent111111111111111111111111111111111")
+
+
+def create_make_transfer_instruction(
+    source: Pubkey,
+    source_token_account: Pubkey,
+    destination_token_account: Pubkey,
+    mint: Pubkey,
+    amount: int,
+):
+    account_metas = [
+        AccountMeta(source_token_account, False, True),
+        AccountMeta(mint, False, False),
+        AccountMeta(destination_token_account, False, True),
+        AccountMeta(source, True, False),
+    ]
+
+    return Instruction(
+        program_id=TOKEN_PROGRAM_ID,
+        data=bytes([12, 64, 44, 66, 6, 0, 0, 0, 0, 5]),
+        accounts=account_metas
+    )
 
 
 def generate_make_transfer_transaction(
-        amount: int,
-        add_memo: bool,
-        app_index: int,
-        recent_blockhash: str,
-        destination: PublicKeyString,
-        mint_fee_payer: str,
-        mint_public_key: str,
-        source,
-        tx_type: TransactionType = TransactionType.NONE
+    add_memo: bool,
+    app_index: int,
+    amount: int,
+    destination: PublicKeyString,
+    mint_fee_payer: str,
+    mint_public_key: str,
+    recent_blockhash: str,
+    source,
+    tx_type: TransactionType = TransactionType.NONE
 ):
-    transaction = Transaction(recent_blockhash)
-
     source_token_account = get_associated_token_address(source.public_key, PublicKey(mint_public_key))
     destination_token_account = get_associated_token_address(PublicKey(destination), PublicKey(mint_public_key))
 
-    # if add_memo:
-    #     memo_params = MemoParams(
-    #         program_id=MEMO_PROGRAM_ID,
-    #         signer=PublicKey(mint_fee_payer),
-    #         message=create_kin_memo(app_index, tx_type),
-    #     )
-    #     transaction.add(create_memo(memo_params))
-
-    instruction = transfer(
-        TransferParams(
-            program_id=TOKEN_PROGRAM_ID,
-            source=source.public_key,
-            dest=PublicKey(destination),
-            owner=source.public_key,
-            amount=amount,
-            signers=[source.public_key, PublicKey(mint_fee_payer)]
-        )
+    instruction = create_make_transfer_instruction(
+        source=source.public_key.to_solders(),
+        source_token_account=source_token_account.to_solders(),
+        destination_token_account=destination_token_account.to_solders(),
+        mint=PublicKey(mint_public_key).to_solders(),
+        amount=amount,
     )
 
-    print(instruction)
+    ix = system_program.transfer(
+        {
+            "from_pubkey": source.public_key.to_solders(),
+            "to_pubkey": PublicKey(destination).to_solders(),
+            "lamports": 1050,
+        }
+    )
 
-    transaction.add(instruction)
+    message = SoldersMessage([instruction], source.to_solders().pubkey())
+    solders_transaction = SoldersTransaction.new_unsigned(message)
 
-    transaction.sign_partial(source)
+    transaction = Transaction.from_solders(solders_transaction)
 
-    return transaction.serialize(False)
+    transaction.fee_payer = PublicKey(mint_fee_payer)
+
+    solders_transaction = transaction.to_solders()
+
+    solders_transaction.partial_sign([source.to_solders()], Hash.from_string(recent_blockhash))
+
+    transaction = Transaction.from_solders(solders_transaction)
+
+    return transaction.serialize(verify_signatures=False)
