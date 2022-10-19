@@ -1,17 +1,17 @@
 from solana.publickey import PublicKey
 from solana.transaction import Transaction
-from models.transaction_type import TransactionType
 
 from solders.hash import Hash
 from solders.instruction import AccountMeta, Instruction
 from solders.message import Message as SoldersMessage
 from solders.pubkey import Pubkey
 from solders.transaction import Transaction as SoldersTransaction
-from solders import system_program
 
+from spl.token._layouts import INSTRUCTIONS_LAYOUT, InstructionType
 from spl.token.instructions import get_associated_token_address
 
 from models.public_key_string import PublicKeyString
+from models.transaction_type import TransactionType
 
 TOKEN_PROGRAM_ID = Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
 ASSOCIATED_TOKEN_PROGRAM_ID = Pubkey.from_string('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL')
@@ -25,6 +25,7 @@ def create_make_transfer_instruction(
     destination_token_account: Pubkey,
     mint: Pubkey,
     amount: int,
+    decimals: int,
 ):
     account_metas = [
         AccountMeta(source_token_account, False, True),
@@ -33,9 +34,13 @@ def create_make_transfer_instruction(
         AccountMeta(source, True, False),
     ]
 
+    data = INSTRUCTIONS_LAYOUT.build(
+        dict(instruction_type=InstructionType.TRANSFER2, args=dict(amount=amount, decimals=decimals))
+    )
+
     return Instruction(
         program_id=TOKEN_PROGRAM_ID,
-        data=bytes([12, 64, 44, 66, 6, 0, 0, 0, 0, 5]),
+        data=data,
         accounts=account_metas
     )
 
@@ -45,6 +50,7 @@ def generate_make_transfer_transaction(
     app_index: int,
     amount: int,
     destination: PublicKeyString,
+    decimals: int,
     mint_fee_payer: str,
     mint_public_key: str,
     recent_blockhash: str,
@@ -60,14 +66,7 @@ def generate_make_transfer_transaction(
         destination_token_account=destination_token_account.to_solders(),
         mint=PublicKey(mint_public_key).to_solders(),
         amount=amount,
-    )
-
-    ix = system_program.transfer(
-        {
-            "from_pubkey": source.public_key.to_solders(),
-            "to_pubkey": PublicKey(destination).to_solders(),
-            "lamports": 1050,
-        }
+        decimals=decimals
     )
 
     message = SoldersMessage([instruction], source.to_solders().pubkey())
