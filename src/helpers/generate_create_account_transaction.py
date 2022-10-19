@@ -1,21 +1,19 @@
 from solana.keypair import Keypair
 from solana.publickey import PublicKey
-from solana.transaction import Transaction
 
-from solders.hash import Hash
 from solders.instruction import AccountMeta, Instruction
 from solders.message import Message as SoldersMessage
 from solders.pubkey import Pubkey
-from solders.transaction import Transaction as SoldersTransaction
 
 from spl.token.instructions import get_associated_token_address
 
-from models.public_key_string import PublicKeyString
+from helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
+from models.constants import ASSOCIATED_TOKEN_PROGRAM_ID
+from models.constants import SYSTEM_PROGRAM_PROGRAM_ID
+from models.constants import SYSVAR_RENT_PUBKEY
+from models.constants import TOKEN_PROGRAM_ID
 
-TOKEN_PROGRAM_ID = Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
-ASSOCIATED_TOKEN_PROGRAM_ID = Pubkey.from_string('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL')
-SYSTEM_PROGRAM_PROGRAM_ID = Pubkey.from_string('11111111111111111111111111111111')
-SYSVAR_RENT_PUBKEY = Pubkey.from_string("SysvarRent111111111111111111111111111111111")
+from models.public_key_string import PublicKeyString
 
 
 def create_associated_token_account_instruction(
@@ -61,16 +59,5 @@ def generate_create_account_transaction(
     )
 
     message = SoldersMessage([instruction], owner.to_solders().pubkey())
-    solders_transaction = SoldersTransaction.new_unsigned(message)
 
-    transaction = Transaction.from_solders(solders_transaction)
-
-    transaction.fee_payer = PublicKey(mint_fee_payer)
-
-    solders_transaction = transaction.to_solders()
-
-    solders_transaction.partial_sign([owner.to_solders()], Hash.from_string(recent_blockhash))
-
-    transaction = Transaction.from_solders(solders_transaction)
-
-    return transaction.serialize(verify_signatures=False)
+    return sign_and_serialize_transaction(message, mint_fee_payer, owner, recent_blockhash)
