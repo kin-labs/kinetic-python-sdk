@@ -74,9 +74,9 @@ Install the dependencies, the project uses [Poetry](https://python-poetry.org/),
 make install
 ```
 
-Run the main file with
+Run test
+
 ```
-make start
+make test
 ```
 
-This will run [__main__.py](https://github.com/kin-labs/kinetic-python/blob/main/src/__main__.py) to give you an example of the SDK usage, modify this file as you see fit.
