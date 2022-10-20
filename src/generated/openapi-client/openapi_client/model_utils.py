@@ -1423,7 +1423,7 @@ def deserialize_file(response_data, configuration, content_disposition=None):
 
 def attempt_convert_item(input_value, valid_classes, path_to_item,
                          configuration, spec_property_naming, key_type=False,
-                         must_convert=False, check_type=True):
+                         must_convert=False, check_type=False):
     """
     Args:
         input_value (any): the data to convert

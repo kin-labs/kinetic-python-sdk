@@ -24,16 +24,22 @@ def test_get_balance():
     assert int(balance['mints'][mint]) > 0
 
 
-def test_get_history():
-    """ Test getting history of an account """
-    history = sdk.get_history(account_id, mint)
-    # print(history)
-
-
 def test_get_config():
     """ Test getting config of an account """
     config = sdk.config
     print(config)
+
+
+def test_get_explorer_url():
+    """ Test getting explorer url """
+    url = sdk.get_explorer_url('/address/' + account_id)
+    print(url)
+
+
+def test_get_history():
+    """ Test getting history of an account """
+    history = sdk.get_history(account_id, mint)
+    # print(history)
 
 
 def test_get_token_accounts():
@@ -68,3 +74,9 @@ def test_make_transfer():
         tx_type=TransactionType.NONE
     )
     print(transfer)
+
+
+def test_get_transaction():
+    """ Test getting transaction """
+    # transaction = sdk.get_transaction('RymwR15HJu6rtasU1mcGzQ7CgqsDxBngCvfe9JgHzHDoKuazwQQgmWmdpidfG324KUJYGZFZXBmroxWoNkfbJ4b')
+    # print(transaction)

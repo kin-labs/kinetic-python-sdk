@@ -156,7 +156,7 @@ class TransactionResponse(ModelNormal):
             block_time (float, none_type): [optional]  # noqa: E501
         """
 
-        _check_type = kwargs.pop('_check_type', True)
+        _check_type = kwargs.pop('_check_type', False)
         _spec_property_naming = kwargs.pop('_spec_property_naming', True)
         _path_to_item = kwargs.pop('_path_to_item', ())
         _configuration = kwargs.pop('_configuration', None)
@@ -249,7 +249,7 @@ class TransactionResponse(ModelNormal):
             block_time (float, none_type): [optional]  # noqa: E501
         """
 
-        _check_type = kwargs.pop('_check_type', True)
+        _check_type = kwargs.pop('_check_type', False)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
         _configuration = kwargs.pop('_configuration', None)

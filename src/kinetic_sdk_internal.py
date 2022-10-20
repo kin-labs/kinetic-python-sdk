@@ -33,18 +33,6 @@ class KineticSdkInternal(object):
         self.index = config['index']
         self.app_config = self.app_api.get_app_config(self.environment, self.index)
 
-    def get_app_config(self, environment, index):
-        return self.app_api.get_app_config(environment, index)
-
-    def get_balance(self, account: PublicKeyString):
-        return self.account_api.get_balance(self.environment, self.index, account)
-
-    def get_history(self, account: PublicKeyString, mint: PublicKeyString):
-        return self.account_api.get_history(self.environment, self.index, account, mint)
-
-    def get_token_accounts(self, account: PublicKeyString, mint: PublicKeyString):
-        return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
-
     def create_account(self, owner: Keypair, mint: str):
         blockhash = self._prepare_transaction(self.environment, self.index)
 
@@ -67,6 +55,24 @@ class KineticSdkInternal(object):
         )
 
         return self.account_api.create_account(create_account_request)
+
+    def get_app_config(self, environment, index):
+        return self.app_api.get_app_config(environment, index)
+
+    def get_balance(self, account: PublicKeyString):
+        return self.account_api.get_balance(self.environment, self.index, account)
+
+    def get_explorer_url(self, path: str):
+        return self.app_config['environment']['explorer'].replace('{path}', path)
+
+    def get_history(self, account: PublicKeyString, mint: PublicKeyString):
+        return self.account_api.get_history(self.environment, self.index, account, mint)
+
+    def get_token_accounts(self, account: PublicKeyString, mint: PublicKeyString):
+        return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
+
+    def get_transaction(self, signature: str):
+        return self.transaction_api.get_transaction(self.environment, self.index, signature)
 
     def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount, mint, tx_type: TransactionType):
         blockhash = self._prepare_transaction(self.environment, self.index)
