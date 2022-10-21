@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "kinetic-sdk-generated"
+version = "1.0.0.rc.1"
+description = "Generated code"
+authors = ["Kin Foundation <dev@kin.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+urllib3 = "^1.25.3"
+python-dateutil = "^2.5.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

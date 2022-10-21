@@ -1,4 +1,4 @@
-# kinetic_api_client.TransactionApi
+# kinetic_sdk_generated.TransactionApi
 
 All URIs are relative to *http://localhost:3000*
 
@@ -20,19 +20,19 @@ Method | HTTP request | Description
 
 ```python
 import time
-import kinetic_api_client
-from kinetic_api_client.api import transaction_api
-from kinetic_api_client.model.latest_blockhash_response import LatestBlockhashResponse
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api import transaction_api
+from kinetic_sdk_generated.model.latest_blockhash_response import LatestBlockhashResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_api_client.Configuration(
+configuration = kinetic_sdk_generated.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_api_client.ApiClient() as api_client:
+with kinetic_sdk_generated.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = transaction_api.TransactionApi(api_client)
     environment = "environment_example" # str | 
@@ -43,7 +43,7 @@ with kinetic_api_client.ApiClient() as api_client:
         # 
         api_response = api_instance.get_latest_blockhash(environment, index)
         pprint(api_response)
-    except kinetic_api_client.ApiException as e:
+    except kinetic_sdk_generated.ApiException as e:
         print("Exception when calling TransactionApi->get_latest_blockhash: %s\n" % e)
 ```
 
@@ -87,19 +87,19 @@ No authorization required
 
 ```python
 import time
-import kinetic_api_client
-from kinetic_api_client.api import transaction_api
-from kinetic_api_client.model.minimum_rent_exemption_balance_response import MinimumRentExemptionBalanceResponse
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api import transaction_api
+from kinetic_sdk_generated.model.minimum_rent_exemption_balance_response import MinimumRentExemptionBalanceResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_api_client.Configuration(
+configuration = kinetic_sdk_generated.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_api_client.ApiClient() as api_client:
+with kinetic_sdk_generated.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = transaction_api.TransactionApi(api_client)
     environment = "environment_example" # str | 
@@ -111,7 +111,7 @@ with kinetic_api_client.ApiClient() as api_client:
         # 
         api_response = api_instance.get_minimum_rent_exemption_balance(environment, index, data_length)
         pprint(api_response)
-    except kinetic_api_client.ApiException as e:
+    except kinetic_sdk_generated.ApiException as e:
         print("Exception when calling TransactionApi->get_minimum_rent_exemption_balance: %s\n" % e)
 ```
 
@@ -156,19 +156,19 @@ No authorization required
 
 ```python
 import time
-import kinetic_api_client
-from kinetic_api_client.api import transaction_api
-from kinetic_api_client.model.get_transaction_response import GetTransactionResponse
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api import transaction_api
+from kinetic_sdk_generated.model.get_transaction_response import GetTransactionResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_api_client.Configuration(
+configuration = kinetic_sdk_generated.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_api_client.ApiClient() as api_client:
+with kinetic_sdk_generated.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = transaction_api.TransactionApi(api_client)
     environment = "environment_example" # str | 
@@ -180,7 +180,7 @@ with kinetic_api_client.ApiClient() as api_client:
         # 
         api_response = api_instance.get_transaction(environment, index, signature)
         pprint(api_response)
-    except kinetic_api_client.ApiException as e:
+    except kinetic_sdk_generated.ApiException as e:
         print("Exception when calling TransactionApi->get_transaction: %s\n" % e)
 ```
 
@@ -225,20 +225,20 @@ No authorization required
 
 ```python
 import time
-import kinetic_api_client
-from kinetic_api_client.api import transaction_api
-from kinetic_api_client.model.transaction import Transaction
-from kinetic_api_client.model.make_transfer_request import MakeTransferRequest
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api import transaction_api
+from kinetic_sdk_generated.model.transaction import Transaction
+from kinetic_sdk_generated.model.make_transfer_request import MakeTransferRequest
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_api_client.Configuration(
+configuration = kinetic_sdk_generated.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_api_client.ApiClient() as api_client:
+with kinetic_sdk_generated.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = transaction_api.TransactionApi(api_client)
     make_transfer_request = MakeTransferRequest(
@@ -257,7 +257,7 @@ with kinetic_api_client.ApiClient() as api_client:
         # 
         api_response = api_instance.make_transfer(make_transfer_request)
         pprint(api_response)
-    except kinetic_api_client.ApiException as e:
+    except kinetic_sdk_generated.ApiException as e:
         print("Exception when calling TransactionApi->make_transfer: %s\n" % e)
 ```
 

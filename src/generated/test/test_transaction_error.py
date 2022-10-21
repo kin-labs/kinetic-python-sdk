@@ -11,10 +11,10 @@
 import sys
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.model.transaction_error_type import TransactionErrorType
+import kinetic_sdk_generated
+from kinetic_sdk_generated.model.transaction_error_type import TransactionErrorType
 globals()['TransactionErrorType'] = TransactionErrorType
-from kinetic_api_client.model.transaction_error import TransactionError
+from kinetic_sdk_generated.model.transaction_error import TransactionError
 
 
 class TestTransactionError(unittest.TestCase):

@@ -11,16 +11,16 @@
 import sys
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.model.app_config_api import AppConfigApi
-from kinetic_api_client.model.app_config_app import AppConfigApp
-from kinetic_api_client.model.app_config_environment import AppConfigEnvironment
-from kinetic_api_client.model.app_config_mint import AppConfigMint
+import kinetic_sdk_generated
+from kinetic_sdk_generated.model.app_config_api import AppConfigApi
+from kinetic_sdk_generated.model.app_config_app import AppConfigApp
+from kinetic_sdk_generated.model.app_config_environment import AppConfigEnvironment
+from kinetic_sdk_generated.model.app_config_mint import AppConfigMint
 globals()['AppConfigApi'] = AppConfigApi
 globals()['AppConfigApp'] = AppConfigApp
 globals()['AppConfigEnvironment'] = AppConfigEnvironment
 globals()['AppConfigMint'] = AppConfigMint
-from kinetic_api_client.model.app_config import AppConfig
+from kinetic_sdk_generated.model.app_config import AppConfig
 
 
 class TestAppConfig(unittest.TestCase):

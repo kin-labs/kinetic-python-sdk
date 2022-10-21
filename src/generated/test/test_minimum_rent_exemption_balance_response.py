@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.model.minimum_rent_exemption_balance_response import MinimumRentExemptionBalanceResponse
+import kinetic_sdk_generated
+from kinetic_sdk_generated.model.minimum_rent_exemption_balance_response import MinimumRentExemptionBalanceResponse
 
 
 class TestMinimumRentExemptionBalanceResponse(unittest.TestCase):

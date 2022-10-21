@@ -1,4 +1,4 @@
-# kinetic_api_client.AccountApi
+# kinetic_sdk_generated.AccountApi
 
 All URIs are relative to *http://localhost:3000*
 
@@ -21,20 +21,20 @@ Method | HTTP request | Description
 
 ```python
 import time
-import kinetic_api_client
-from kinetic_api_client.api import account_api
-from kinetic_api_client.model.transaction import Transaction
-from kinetic_api_client.model.create_account_request import CreateAccountRequest
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api import account_api
+from kinetic_sdk_generated.model.transaction import Transaction
+from kinetic_sdk_generated.model.create_account_request import CreateAccountRequest
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_api_client.Configuration(
+configuration = kinetic_sdk_generated.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_api_client.ApiClient() as api_client:
+with kinetic_sdk_generated.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = account_api.AccountApi(api_client)
     create_account_request = CreateAccountRequest(
@@ -53,7 +53,7 @@ with kinetic_api_client.ApiClient() as api_client:
         # 
         api_response = api_instance.create_account(create_account_request)
         pprint(api_response)
-    except kinetic_api_client.ApiException as e:
+    except kinetic_sdk_generated.ApiException as e:
         print("Exception when calling AccountApi->create_account: %s\n" % e)
 ```
 
@@ -96,18 +96,18 @@ No authorization required
 
 ```python
 import time
-import kinetic_api_client
-from kinetic_api_client.api import account_api
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api import account_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_api_client.Configuration(
+configuration = kinetic_sdk_generated.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_api_client.ApiClient() as api_client:
+with kinetic_sdk_generated.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = account_api.AccountApi(api_client)
     environment = "environment_example" # str | 
@@ -118,7 +118,7 @@ with kinetic_api_client.ApiClient() as api_client:
     try:
         # 
         api_instance.get_account_info(environment, index, account_id)
-    except kinetic_api_client.ApiException as e:
+    except kinetic_sdk_generated.ApiException as e:
         print("Exception when calling AccountApi->get_account_info: %s\n" % e)
 ```
 
@@ -163,19 +163,19 @@ No authorization required
 
 ```python
 import time
-import kinetic_api_client
-from kinetic_api_client.api import account_api
-from kinetic_api_client.model.balance_response import BalanceResponse
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api import account_api
+from kinetic_sdk_generated.model.balance_response import BalanceResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_api_client.Configuration(
+configuration = kinetic_sdk_generated.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_api_client.ApiClient() as api_client:
+with kinetic_sdk_generated.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = account_api.AccountApi(api_client)
     environment = "environment_example" # str | 
@@ -187,7 +187,7 @@ with kinetic_api_client.ApiClient() as api_client:
         # 
         api_response = api_instance.get_balance(environment, index, account_id)
         pprint(api_response)
-    except kinetic_api_client.ApiException as e:
+    except kinetic_sdk_generated.ApiException as e:
         print("Exception when calling AccountApi->get_balance: %s\n" % e)
 ```
 
@@ -232,19 +232,19 @@ No authorization required
 
 ```python
 import time
-import kinetic_api_client
-from kinetic_api_client.api import account_api
-from kinetic_api_client.model.history_response import HistoryResponse
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api import account_api
+from kinetic_sdk_generated.model.history_response import HistoryResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_api_client.Configuration(
+configuration = kinetic_sdk_generated.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_api_client.ApiClient() as api_client:
+with kinetic_sdk_generated.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = account_api.AccountApi(api_client)
     environment = "environment_example" # str | 
@@ -257,7 +257,7 @@ with kinetic_api_client.ApiClient() as api_client:
         # 
         api_response = api_instance.get_history(environment, index, account_id, mint)
         pprint(api_response)
-    except kinetic_api_client.ApiException as e:
+    except kinetic_sdk_generated.ApiException as e:
         print("Exception when calling AccountApi->get_history: %s\n" % e)
 ```
 
@@ -303,18 +303,18 @@ No authorization required
 
 ```python
 import time
-import kinetic_api_client
-from kinetic_api_client.api import account_api
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api import account_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_api_client.Configuration(
+configuration = kinetic_sdk_generated.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_api_client.ApiClient() as api_client:
+with kinetic_sdk_generated.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = account_api.AccountApi(api_client)
     environment = "environment_example" # str | 
@@ -327,7 +327,7 @@ with kinetic_api_client.ApiClient() as api_client:
         # 
         api_response = api_instance.get_token_accounts(environment, index, account_id, mint)
         pprint(api_response)
-    except kinetic_api_client.ApiException as e:
+    except kinetic_sdk_generated.ApiException as e:
         print("Exception when calling AccountApi->get_token_accounts: %s\n" % e)
 ```
 

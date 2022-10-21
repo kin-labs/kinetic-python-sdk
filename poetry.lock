@@ -149,16 +149,21 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
-name = "kinetic-api-client"
-version = "1.0.0rc1"
-description = ""
+name = "kinetic-sdk-generated"
+version = "1.0.0.rc.1"
+description = "Generated code"
 category = "main"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = "^3.8"
+develop = false
 
 [package.dependencies]
-python-dateutil = ">=2.5.3,<3.0.0"
-urllib3 = ">=1.25.3,<2.0.0"
+python-dateutil = "^2.5.3"
+urllib3 = "^1.25.3"
+
+[package.source]
+type = "directory"
+url = "src/generated/kinetic-sdk-generated"
 
 [[package]]
 name = "more-itertools"
@@ -378,7 +383,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "78383022eb334e8128961fb73c130d303ca52f1e6d244b9da78c0260655a7bcf"
+content-hash = "32ed0e7f6de19a16879e9c0eaa84fd90953c58af0737214da08b2c3d2275aa51"
 
 [metadata.files]
 anyio = [
@@ -431,10 +436,7 @@ idna = [
     {file = "idna-3.4-py3-none-any.whl", hash = "sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2"},
     {file = "idna-3.4.tar.gz", hash = "sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4"},
 ]
-kinetic-api-client = [
-    {file = "kinetic-api-client-1.0.0rc1.tar.gz", hash = "sha256:43231fdf5669918e69faaff72e49bb192be333cb0f5222f38fa517e485290600"},
-    {file = "kinetic_api_client-1.0.0rc1-py3-none-any.whl", hash = "sha256:7acc648f31d42e2d542a8bc1854cf929bac4ba85c8639a1f1f83ecb929bf7a01"},
-]
+kinetic-sdk-generated = []
 more-itertools = [
     {file = "more-itertools-9.0.0.tar.gz", hash = "sha256:5a6257e40878ef0520b1803990e3e22303a41b5714006c32a3fd8304b26ea1ab"},
     {file = "more_itertools-9.0.0-py3-none-any.whl", hash = "sha256:250e83d7e81d0c87ca6bd942e6aeab8cc9daa6096d12c5308f3f92fa5e5c1f41"},

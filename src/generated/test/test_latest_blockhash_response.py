@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.model.latest_blockhash_response import LatestBlockhashResponse
+import kinetic_sdk_generated
+from kinetic_sdk_generated.model.latest_blockhash_response import LatestBlockhashResponse
 
 
 class TestLatestBlockhashResponse(unittest.TestCase):

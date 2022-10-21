@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.model.transaction_status import TransactionStatus
+import kinetic_sdk_generated
+from kinetic_sdk_generated.model.transaction_status import TransactionStatus
 
 
 class TestTransactionStatus(unittest.TestCase):

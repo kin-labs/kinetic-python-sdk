@@ -10,8 +10,8 @@
 
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.api.transaction_api import TransactionApi  # noqa: E501
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api.transaction_api import TransactionApi  # noqa: E501
 
 
 class TestTransactionApi(unittest.TestCase):

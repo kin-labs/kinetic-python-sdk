@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.model.app_config_mint import AppConfigMint
+import kinetic_sdk_generated
+from kinetic_sdk_generated.model.app_config_mint import AppConfigMint
 
 
 class TestAppConfigMint(unittest.TestCase):

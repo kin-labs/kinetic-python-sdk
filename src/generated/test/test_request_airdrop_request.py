@@ -11,10 +11,10 @@
 import sys
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.model.commitment import Commitment
+import kinetic_sdk_generated
+from kinetic_sdk_generated.model.commitment import Commitment
 globals()['Commitment'] = Commitment
-from kinetic_api_client.model.request_airdrop_request import RequestAirdropRequest
+from kinetic_sdk_generated.model.request_airdrop_request import RequestAirdropRequest
 
 
 class TestRequestAirdropRequest(unittest.TestCase):

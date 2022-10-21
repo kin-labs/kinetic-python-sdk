@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.model.confirmed_signature_info import ConfirmedSignatureInfo
+import kinetic_sdk_generated
+from kinetic_sdk_generated.model.confirmed_signature_info import ConfirmedSignatureInfo
 
 
 class TestConfirmedSignatureInfo(unittest.TestCase):

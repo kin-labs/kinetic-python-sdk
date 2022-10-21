@@ -10,8 +10,8 @@
 
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.api.account_api import AccountApi  # noqa: E501
+import kinetic_sdk_generated
+from kinetic_sdk_generated.api.account_api import AccountApi  # noqa: E501
 
 
 class TestAccountApi(unittest.TestCase):

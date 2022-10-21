@@ -3,14 +3,27 @@ name = "kinetic-sdk"
 version = "1.0.0-rc.1"
 description = ""
 authors = ["Kin Foundation <dev@kin.org>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/kin-labs/kinetic-python-sdk"
+documentation = "https://github.com/kin-labs/kinetic-python-sdk"
+keywords = ["solana", "blockchain", "kin", "web3"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
 solana = "^0.27.2"
 pybase64 = "^1.2.2"
 solders = "0.9.3"
-kinetic-api-client = "^1.0.0-rc.1" 
-# kinetic-api-client = {path = "src/generated/kinetic-api-client"}
+# kinetic-sdk-generated = "^1.0.0-rc.1" 
+kinetic-sdk-generated = {path = "src/generated/kinetic-sdk-generated"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

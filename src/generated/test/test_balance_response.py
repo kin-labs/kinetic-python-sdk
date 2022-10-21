@@ -11,10 +11,10 @@
 import sys
 import unittest
 
-import kinetic_api_client
-from kinetic_api_client.model.balance_token import BalanceToken
+import kinetic_sdk_generated
+from kinetic_sdk_generated.model.balance_token import BalanceToken
 globals()['BalanceToken'] = BalanceToken
-from kinetic_api_client.model.balance_response import BalanceResponse
+from kinetic_sdk_generated.model.balance_response import BalanceResponse
 
 
 class TestBalanceResponse(unittest.TestCase):
