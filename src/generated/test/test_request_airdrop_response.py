@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.request_airdrop_response import RequestAirdropResponse
+import kinetic_api_client
+from kinetic_api_client.model.request_airdrop_response import RequestAirdropResponse
 
 
 class TestRequestAirdropResponse(unittest.TestCase):

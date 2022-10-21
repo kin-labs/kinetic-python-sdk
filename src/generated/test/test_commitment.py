@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.commitment import Commitment
+import kinetic_api_client
+from kinetic_api_client.model.commitment import Commitment
 
 
 class TestCommitment(unittest.TestCase):

@@ -11,12 +11,12 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.transaction_error import TransactionError
-from openapi_client.model.transaction_status import TransactionStatus
+import kinetic_api_client
+from kinetic_api_client.model.transaction_error import TransactionError
+from kinetic_api_client.model.transaction_status import TransactionStatus
 globals()['TransactionError'] = TransactionError
 globals()['TransactionStatus'] = TransactionStatus
-from openapi_client.model.transaction import Transaction
+from kinetic_api_client.model.transaction import Transaction
 
 
 class TestTransaction(unittest.TestCase):

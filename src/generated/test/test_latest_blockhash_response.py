@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.latest_blockhash_response import LatestBlockhashResponse
+import kinetic_api_client
+from kinetic_api_client.model.latest_blockhash_response import LatestBlockhashResponse
 
 
 class TestLatestBlockhashResponse(unittest.TestCase):

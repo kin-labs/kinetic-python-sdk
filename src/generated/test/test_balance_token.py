@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.balance_token import BalanceToken
+import kinetic_api_client
+from kinetic_api_client.model.balance_token import BalanceToken
 
 
 class TestBalanceToken(unittest.TestCase):

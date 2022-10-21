@@ -1,13 +1,13 @@
-from openapi_client.api.account_api import AccountApi
-from openapi_client.api.airdrop_api import AirdropApi
-from openapi_client.api.app_api import AppApi
-from openapi_client.api.transaction_api import TransactionApi
-from openapi_client.model.create_account_request import CreateAccountRequest
-from openapi_client.model.make_transfer_request import MakeTransferRequest
-from openapi_client.model.request_airdrop_request import RequestAirdropRequest
-from openapi_client.model.commitment import Commitment
-from openapi_client import ApiClient
-from openapi_client import Configuration
+from kinetic_api_client.api.account_api import AccountApi
+from kinetic_api_client.api.airdrop_api import AirdropApi
+from kinetic_api_client.api.app_api import AppApi
+from kinetic_api_client.api.transaction_api import TransactionApi
+from kinetic_api_client.model.create_account_request import CreateAccountRequest
+from kinetic_api_client.model.make_transfer_request import MakeTransferRequest
+from kinetic_api_client.model.request_airdrop_request import RequestAirdropRequest
+from kinetic_api_client.model.commitment import Commitment
+from kinetic_api_client import ApiClient
+from kinetic_api_client import Configuration
 
 from solana.keypair import Keypair
 

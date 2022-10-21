@@ -11,12 +11,12 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.confirmed_transaction_meta import ConfirmedTransactionMeta
-from openapi_client.model.transaction_data import TransactionData
+import kinetic_api_client
+from kinetic_api_client.model.confirmed_transaction_meta import ConfirmedTransactionMeta
+from kinetic_api_client.model.transaction_data import TransactionData
 globals()['ConfirmedTransactionMeta'] = ConfirmedTransactionMeta
 globals()['TransactionData'] = TransactionData
-from openapi_client.model.transaction_response import TransactionResponse
+from kinetic_api_client.model.transaction_response import TransactionResponse
 
 
 class TestTransactionResponse(unittest.TestCase):

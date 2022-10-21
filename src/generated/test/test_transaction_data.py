@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.transaction_data import TransactionData
+import kinetic_api_client
+from kinetic_api_client.model.transaction_data import TransactionData
 
 
 class TestTransactionData(unittest.TestCase):

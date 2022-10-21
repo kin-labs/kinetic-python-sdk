@@ -10,8 +10,8 @@
 
 import unittest
 
-import openapi_client
-from openapi_client.api.airdrop_api import AirdropApi  # noqa: E501
+import kinetic_api_client
+from kinetic_api_client.api.airdrop_api import AirdropApi  # noqa: E501
 
 
 class TestAirdropApi(unittest.TestCase):

@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.confirmed_transaction_meta import ConfirmedTransactionMeta
+import kinetic_api_client
+from kinetic_api_client.model.confirmed_transaction_meta import ConfirmedTransactionMeta
 
 
 class TestConfirmedTransactionMeta(unittest.TestCase):

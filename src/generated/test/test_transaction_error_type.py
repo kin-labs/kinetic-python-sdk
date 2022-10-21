@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.transaction_error_type import TransactionErrorType
+import kinetic_api_client
+from kinetic_api_client.model.transaction_error_type import TransactionErrorType
 
 
 class TestTransactionErrorType(unittest.TestCase):

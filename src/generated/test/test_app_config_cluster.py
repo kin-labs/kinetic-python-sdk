@@ -11,10 +11,10 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.cluster_type import ClusterType
+import kinetic_api_client
+from kinetic_api_client.model.cluster_type import ClusterType
 globals()['ClusterType'] = ClusterType
-from openapi_client.model.app_config_cluster import AppConfigCluster
+from kinetic_api_client.model.app_config_cluster import AppConfigCluster
 
 
 class TestAppConfigCluster(unittest.TestCase):

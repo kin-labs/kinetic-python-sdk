@@ -6,10 +6,11 @@ authors = ["Kin Foundation <dev@kin.org>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-openapi-client = {path = "src/generated/openapi-client"}
 solana = "^0.27.2"
 pybase64 = "^1.2.2"
 solders = "0.9.3"
+kinetic-api-client = "^1.0.0-rc.1" 
+# kinetic-api-client = {path = "src/generated/kinetic-api-client"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.app_health import AppHealth
+import kinetic_api_client
+from kinetic_api_client.model.app_health import AppHealth
 
 
 class TestAppHealth(unittest.TestCase):

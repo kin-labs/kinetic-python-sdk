@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.cluster_type import ClusterType
+import kinetic_api_client
+from kinetic_api_client.model.cluster_type import ClusterType
 
 
 class TestClusterType(unittest.TestCase):

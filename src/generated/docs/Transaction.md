@@ -28,6 +28,7 @@ Name | Type | Description | Notes
 **source** | **str, none_type** |  | [optional] 
 **status** | [**TransactionStatus**](TransactionStatus.md) |  | [optional] 
 **total_duration** | **float, none_type** |  | [optional] 
+**tx** | **str, none_type** |  | [optional] 
 **ua** | **str, none_type** |  | [optional] 
 **webhook_event_start** | **datetime, none_type** |  | [optional] 
 **webhook_event_end** | **datetime, none_type** |  | [optional] 

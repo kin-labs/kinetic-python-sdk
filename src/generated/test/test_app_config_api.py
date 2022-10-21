@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.app_config_api import AppConfigApi
+import kinetic_api_client
+from kinetic_api_client.model.app_config_api import AppConfigApi
 
 
 class TestAppConfigApi(unittest.TestCase):

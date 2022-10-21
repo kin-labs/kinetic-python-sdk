@@ -1,4 +1,4 @@
-# openapi_client.AppApi
+# kinetic_api_client.AppApi
 
 All URIs are relative to *http://localhost:3000*
 
@@ -18,19 +18,19 @@ Method | HTTP request | Description
 
 ```python
 import time
-import openapi_client
-from openapi_client.api import app_api
-from openapi_client.model.app_config import AppConfig
+import kinetic_api_client
+from kinetic_api_client.api import app_api
+from kinetic_api_client.model.app_config import AppConfig
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = kinetic_api_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient() as api_client:
+with kinetic_api_client.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = app_api.AppApi(api_client)
     environment = "environment_example" # str | 
@@ -41,7 +41,7 @@ with openapi_client.ApiClient() as api_client:
         # 
         api_response = api_instance.get_app_config(environment, index)
         pprint(api_response)
-    except openapi_client.ApiException as e:
+    except kinetic_api_client.ApiException as e:
         print("Exception when calling AppApi->get_app_config: %s\n" % e)
 ```
 
@@ -85,19 +85,19 @@ No authorization required
 
 ```python
 import time
-import openapi_client
-from openapi_client.api import app_api
-from openapi_client.model.app_health import AppHealth
+import kinetic_api_client
+from kinetic_api_client.api import app_api
+from kinetic_api_client.model.app_health import AppHealth
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = kinetic_api_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient() as api_client:
+with kinetic_api_client.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = app_api.AppApi(api_client)
     environment = "environment_example" # str | 
@@ -108,7 +108,7 @@ with openapi_client.ApiClient() as api_client:
         # 
         api_response = api_instance.get_app_health(environment, index)
         pprint(api_response)
-    except openapi_client.ApiException as e:
+    except kinetic_api_client.ApiException as e:
         print("Exception when calling AppApi->get_app_health: %s\n" % e)
 ```
 

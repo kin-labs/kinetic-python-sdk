@@ -11,10 +11,10 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.confirmed_signature_info import ConfirmedSignatureInfo
+import kinetic_api_client
+from kinetic_api_client.model.confirmed_signature_info import ConfirmedSignatureInfo
 globals()['ConfirmedSignatureInfo'] = ConfirmedSignatureInfo
-from openapi_client.model.history_response import HistoryResponse
+from kinetic_api_client.model.history_response import HistoryResponse
 
 
 class TestHistoryResponse(unittest.TestCase):

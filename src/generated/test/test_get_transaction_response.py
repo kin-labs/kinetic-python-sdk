@@ -11,12 +11,12 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.signature_status import SignatureStatus
-from openapi_client.model.transaction_response import TransactionResponse
+import kinetic_api_client
+from kinetic_api_client.model.signature_status import SignatureStatus
+from kinetic_api_client.model.transaction_response import TransactionResponse
 globals()['SignatureStatus'] = SignatureStatus
 globals()['TransactionResponse'] = TransactionResponse
-from openapi_client.model.get_transaction_response import GetTransactionResponse
+from kinetic_api_client.model.get_transaction_response import GetTransactionResponse
 
 
 class TestGetTransactionResponse(unittest.TestCase):

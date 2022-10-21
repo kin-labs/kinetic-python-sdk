@@ -11,8 +11,8 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.signature_status import SignatureStatus
+import kinetic_api_client
+from kinetic_api_client.model.signature_status import SignatureStatus
 
 
 class TestSignatureStatus(unittest.TestCase):

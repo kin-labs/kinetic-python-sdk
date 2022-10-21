@@ -11,10 +11,10 @@
 import sys
 import unittest
 
-import openapi_client
-from openapi_client.model.app_config_cluster import AppConfigCluster
+import kinetic_api_client
+from kinetic_api_client.model.app_config_cluster import AppConfigCluster
 globals()['AppConfigCluster'] = AppConfigCluster
-from openapi_client.model.app_config_environment import AppConfigEnvironment
+from kinetic_api_client.model.app_config_environment import AppConfigEnvironment
 
 
 class TestAppConfigEnvironment(unittest.TestCase):

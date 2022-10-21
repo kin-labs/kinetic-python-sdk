@@ -1,4 +1,4 @@
-from openapi_client.model.balance_response import BalanceResponse
+from kinetic_api_client.model.balance_response import BalanceResponse
 from solana.keypair import Keypair
 from kinetic_sdk import KineticSdk
 
