@@ -2,8 +2,8 @@ from kinetic_sdk.kinetic_sdk_internal import KineticSdkInternal
 
 from solana.keypair import Keypair
 
-from models.transaction_type import TransactionType
-from models.public_key_string import PublicKeyString
+from kinetic_sdk.models.transaction_type import TransactionType
+from kinetic_sdk.models.public_key_string import PublicKeyString
 
 
 class KineticSdk(object):

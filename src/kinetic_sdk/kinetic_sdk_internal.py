@@ -11,11 +11,11 @@ from kinetic_sdk_generated import Configuration
 
 from solana.keypair import Keypair
 
-from helpers.generate_create_account_transaction import generate_create_account_transaction
-from helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
+from kinetic_sdk.helpers.generate_create_account_transaction import generate_create_account_transaction
+from kinetic_sdk.helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
 
-from models.public_key_string import PublicKeyString
-from models.transaction_type import TransactionType
+from kinetic_sdk.models.public_key_string import PublicKeyString
+from kinetic_sdk.models.transaction_type import TransactionType
 
 import pybase64
 

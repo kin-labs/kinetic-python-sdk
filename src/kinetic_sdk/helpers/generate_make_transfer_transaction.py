@@ -7,11 +7,11 @@ from solders.pubkey import Pubkey
 from spl.token._layouts import INSTRUCTIONS_LAYOUT, InstructionType
 from spl.token.instructions import get_associated_token_address
 
-from helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
-from models.public_key_string import PublicKeyString
-from models.transaction_type import TransactionType
+from kinetic_sdk.helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
+from kinetic_sdk.models.public_key_string import PublicKeyString
+from kinetic_sdk.models.transaction_type import TransactionType
 
-from models.constants import TOKEN_PROGRAM_ID
+from kinetic_sdk.models.constants import TOKEN_PROGRAM_ID
 
 
 def create_make_transfer_instruction(
