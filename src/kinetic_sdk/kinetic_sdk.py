@@ -1,4 +1,4 @@
-from kinetic_sdk_internal import KineticSdkInternal
+from kinetic_sdk.kinetic_sdk_internal import KineticSdkInternal
 
 from solana.keypair import Keypair
 

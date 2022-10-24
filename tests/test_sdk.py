@@ -1,6 +1,6 @@
 from kinetic_sdk_generated.model.balance_response import BalanceResponse
 from solana.keypair import Keypair
-from kinetic_sdk import KineticSdk
+from kinetic_sdk.kinetic_sdk import KineticSdk
 
 from models.transaction_type import TransactionType
 
