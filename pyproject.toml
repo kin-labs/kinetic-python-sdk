@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kinetic-sdk"
-version = "1.0.0-rc.1"
+version = "1.0.0-rc.2"
 description = ""
 authors = ["Kin Foundation <dev@kin.org>"]
 license = "MIT"
@@ -22,8 +22,8 @@ python = "^3.8"
 solana = "^0.27.2"
 pybase64 = "^1.2.2"
 solders = "0.9.3"
-# kinetic-sdk-generated = "^1.0.0-rc.1" 
-kinetic-sdk-generated = {path = "src/generated/kinetic-sdk-generated"}
+kinetic-sdk-generated = "^1.0.0-rc.1" 
+# kinetic-sdk-generated = {path = "src/generated/kinetic-sdk-generated"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
