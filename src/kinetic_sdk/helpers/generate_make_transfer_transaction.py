@@ -43,7 +43,7 @@ def create_make_transfer_instruction(
 def generate_make_transfer_transaction(
     add_memo: bool,
     app_index: int,
-    amount: int,
+    amount: str,
     destination: PublicKeyString,
     decimals: int,
     mint_fee_payer: str,
@@ -60,7 +60,7 @@ def generate_make_transfer_transaction(
         source_token_account=source_token_account.to_solders(),
         destination_token_account=destination_token_account.to_solders(),
         mint=PublicKey(mint_public_key).to_solders(),
-        amount=amount,
+        amount=int(amount),
         decimals=decimals
     )
 

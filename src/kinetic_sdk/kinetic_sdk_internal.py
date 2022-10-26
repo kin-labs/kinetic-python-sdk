@@ -33,8 +33,9 @@ class KineticSdkInternal(object):
         self.index = config['index']
         self.app_config = self.app_api.get_app_config(self.environment, self.index)
 
-    def create_account(self, owner: Keypair, mint: str):
+    def create_account(self, owner: Keypair, mint: str, commitment):
         blockhash = self._prepare_transaction(self.environment, self.index)
+        mint = self._get_app_mint(self.app_config, mint)
 
         tx = generate_create_account_transaction(
             add_memo=False,
@@ -46,7 +47,7 @@ class KineticSdkInternal(object):
         )
 
         create_account_request = CreateAccountRequest(
-            commitment=Commitment("Confirmed"),
+            commitment=commitment,
             environment=self.environment,
             index=self.index,
             last_valid_block_height=blockhash['last_valid_block_height'],
@@ -66,16 +67,27 @@ class KineticSdkInternal(object):
         return self.app_config['environment']['explorer'].replace('{path}', path)
 
     def get_history(self, account: PublicKeyString, mint: PublicKeyString):
+        mint = self._get_app_mint(self.app_config, mint)
         return self.account_api.get_history(self.environment, self.index, account, mint)
 
     def get_token_accounts(self, account: PublicKeyString, mint: PublicKeyString):
+        mint = self._get_app_mint(self.app_config, mint)
         return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
 
     def get_transaction(self, signature: str):
         return self.transaction_api.get_transaction(self.environment, self.index, signature)
 
-    def make_transfer(self, owner: Keypair, destination: PublicKeyString, amount, mint, tx_type: TransactionType):
+    def make_transfer(
+        self,
+        owner: Keypair,
+        destination: PublicKeyString,
+        amount: str,
+        mint: PublicKeyString,
+        tx_type: TransactionType,
+        commitment: Commitment
+    ):
         blockhash = self._prepare_transaction(self.environment, self.index)
+        mint = self._get_app_mint(self.app_config, mint)
 
         tx = generate_make_transfer_transaction(
             amount=amount,
@@ -90,7 +102,7 @@ class KineticSdkInternal(object):
         )
 
         make_transfer_request = MakeTransferRequest(
-            commitment=Commitment("Confirmed"),
+            commitment=commitment,
             environment=self.environment,
             index=self.index,
             last_valid_block_height=blockhash['last_valid_block_height'],
@@ -102,10 +114,11 @@ class KineticSdkInternal(object):
 
         return self.transaction_api.make_transfer(make_transfer_request)
 
-    def request_airdrop(self, account: PublicKeyString, amount: str, mint: str, commitment='Confirmed'):
+    def request_airdrop(self, account: PublicKeyString, amount: str, mint: str, commitment: Commitment):
+        mint = self._get_app_mint(self.app_config, mint)
         request_airdrop_request = RequestAirdropRequest(
             account=account,
-            commitment=Commitment("Finalized"),
+            commitment=commitment,
             environment=self.environment,
             index=self.index,
             mint=mint,
@@ -115,3 +128,15 @@ class KineticSdkInternal(object):
 
     def _prepare_transaction(self, environment, index):
         return self.transaction_api.get_latest_blockhash(environment, index)
+
+
+    def _get_app_mint(self, app_config, mint: PublicKeyString):
+        if mint == None:
+            mint = app_config.mint.public_key
+
+        mint_found = list(filter(lambda item: item.get("public_key") == mint, app_config['mints']))
+
+        if len(mint_found) == 0:
+            raise "Mint not found"
+
+        return mint

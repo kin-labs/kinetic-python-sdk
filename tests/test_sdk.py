@@ -3,6 +3,7 @@ from solana.keypair import Keypair
 from kinetic_sdk.kinetic_sdk import KineticSdk
 
 from kinetic_sdk.models.transaction_type import TransactionType
+from kinetic_sdk_generated.model.commitment import Commitment
 
 import logging as log
 
@@ -13,13 +14,13 @@ sdk = KineticSdk.setup(
 )
 
 mint = sdk.config.get('mint')
-account_id = 'ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA'
+account = 'ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA'
 owner = Keypair()
 
 
 def test_get_balance():
     """ Test getting balance of an account """
-    balance = sdk.get_balance(account_id)
+    balance = sdk.get_balance(account)
     assert type(balance) == BalanceResponse
     assert int(balance['mints'][mint]) > 0
 
@@ -32,31 +33,31 @@ def test_get_config():
 
 def test_get_explorer_url():
     """ Test getting explorer url """
-    url = sdk.get_explorer_url('/address/' + account_id)
+    url = sdk.get_explorer_url('/address/' + account)
     print(url)
 
 
 def test_get_history():
     """ Test getting history of an account """
-    history = sdk.get_history(account_id, mint)
+    history = sdk.get_history(account)
     # print(history)
 
 
 def test_get_token_accounts():
     """ Test getting token accounts of an account """
-    token_accounts = sdk.get_token_accounts(account_id, mint)
+    token_accounts = sdk.get_token_accounts(account)
     print(token_accounts)
 
 
 def test_request_airdrop():
     """ Test requesting airdrop for an account """
-    airdrop = sdk.request_airdrop(account_id, '100', mint)
+    airdrop = sdk.request_airdrop(account, "100")
     print(airdrop)
 
 
 def test_create_account():
     """ Test creating an account """
-    account = sdk.create_account(owner, mint)
+    account = sdk.create_account(owner)
     print(account)
 
 
@@ -70,8 +71,6 @@ def test_make_transfer():
         owner=alice,
         destination='BobQoPqWy5cpFioy1dMTYqNH9WpC39mkAEDJWXECoJ9y',
         amount=17,
-        mint=mint,
-        tx_type=TransactionType.NONE
     )
     print(transfer)
 
