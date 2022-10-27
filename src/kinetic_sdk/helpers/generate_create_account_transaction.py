@@ -1,4 +1,3 @@
-from solana.keypair import Keypair
 from solana.publickey import PublicKey
 
 from solders.instruction import AccountMeta, Instruction
@@ -8,12 +7,14 @@ from solders.pubkey import Pubkey
 from spl.token.instructions import get_associated_token_address
 
 from kinetic_sdk.helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
+
 from kinetic_sdk.models.constants import ASSOCIATED_TOKEN_PROGRAM_ID
 from kinetic_sdk.models.constants import SYSTEM_PROGRAM_PROGRAM_ID
 from kinetic_sdk.models.constants import SYSVAR_RENT_PUBKEY
 from kinetic_sdk.models.constants import TOKEN_PROGRAM_ID
 
 from kinetic_sdk.models.public_key_string import PublicKeyString
+from kinetic_sdk.models.keypair import Keypair
 
 
 def create_associated_token_account_instruction(

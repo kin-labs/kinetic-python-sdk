@@ -9,14 +9,14 @@ from kinetic_sdk_generated.model.commitment import Commitment
 from kinetic_sdk_generated import ApiClient
 from kinetic_sdk_generated import Configuration
 
-from solana.keypair import Keypair
-
 from kinetic_sdk.helpers.generate_create_account_transaction import generate_create_account_transaction
 from kinetic_sdk.helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
 from kinetic_sdk.helpers.get_public_key import get_public_key
 
 from kinetic_sdk.models.public_key_string import PublicKeyString
 from kinetic_sdk.models.transaction_type import TransactionType
+from kinetic_sdk.models.keypair import Keypair
+
 
 import pybase64
 
