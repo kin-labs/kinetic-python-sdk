@@ -1,9 +1,11 @@
-from kinetic_sdk_generated.model.balance_response import BalanceResponse
-from solana.keypair import Keypair
 from kinetic_sdk.kinetic_sdk import KineticSdk
-
 from kinetic_sdk.models.transaction_type import TransactionType
+
+from kinetic_sdk_generated.model.balance_response import BalanceResponse
 from kinetic_sdk_generated.model.commitment import Commitment
+
+from solana.keypair import Keypair
+from solana.publickey import PublicKey
 
 import logging as log
 
@@ -20,7 +22,7 @@ owner = Keypair()
 
 def test_get_balance():
     """ Test getting balance of an account """
-    balance = sdk.get_balance(account)
+    balance = sdk.get_balance(PublicKey(account))
     assert type(balance) == BalanceResponse
     assert int(balance['mints'][mint]) > 0
 

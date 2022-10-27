@@ -13,6 +13,7 @@ from solana.keypair import Keypair
 
 from kinetic_sdk.helpers.generate_create_account_transaction import generate_create_account_transaction
 from kinetic_sdk.helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
+from kinetic_sdk.helpers.get_public_key import get_public_key
 
 from kinetic_sdk.models.public_key_string import PublicKeyString
 from kinetic_sdk.models.transaction_type import TransactionType
@@ -61,6 +62,7 @@ class KineticSdkInternal(object):
         return self.app_api.get_app_config(environment, index)
 
     def get_balance(self, account: PublicKeyString):
+        account = get_public_key(account)
         return self.account_api.get_balance(self.environment, self.index, account)
 
     def get_explorer_url(self, path: str):
@@ -68,10 +70,12 @@ class KineticSdkInternal(object):
 
     def get_history(self, account: PublicKeyString, mint: PublicKeyString):
         mint = self._get_app_mint(self.app_config, mint)
+        account = get_public_key(account)
         return self.account_api.get_history(self.environment, self.index, account, mint)
 
     def get_token_accounts(self, account: PublicKeyString, mint: PublicKeyString):
         mint = self._get_app_mint(self.app_config, mint)
+        account = get_public_key(account)
         return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
 
     def get_transaction(self, signature: str):
@@ -88,6 +92,7 @@ class KineticSdkInternal(object):
     ):
         blockhash = self._prepare_transaction(self.environment, self.index)
         mint = self._get_app_mint(self.app_config, mint)
+        destination = get_public_key(destination)
 
         tx = generate_make_transfer_transaction(
             amount=amount,
@@ -116,6 +121,7 @@ class KineticSdkInternal(object):
 
     def request_airdrop(self, account: PublicKeyString, amount: str, mint: str, commitment: Commitment):
         mint = self._get_app_mint(self.app_config, mint)
+        account = get_public_key(account)
         request_airdrop_request = RequestAirdropRequest(
             account=account,
             commitment=commitment,
@@ -134,6 +140,7 @@ class KineticSdkInternal(object):
         if mint == None:
             mint = app_config.mint.public_key
 
+        mint = get_public_key(mint)
         mint_found = list(filter(lambda item: item.get("public_key") == mint, app_config['mints']))
 
         if len(mint_found) == 0:
