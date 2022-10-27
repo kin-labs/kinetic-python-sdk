@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kinetic-sdk"
-version = "1.0.0-rc.5"
+version = "1.0.0-rc.6"
 description = ""
 authors = ["Kin Foundation <dev@kin.org>"]
 license = "MIT"
