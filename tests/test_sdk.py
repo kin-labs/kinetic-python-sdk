@@ -1,4 +1,4 @@
-from kinetic_sdk.kinetic_sdk import KineticSdk
+from kinetic_sdk import KineticSdk
 from kinetic_sdk.models.transaction_type import TransactionType
 
 from kinetic_sdk_generated.model.balance_response import BalanceResponse
@@ -11,7 +11,7 @@ import logging as log
 
 sdk = KineticSdk.setup(
     endpoint='http://localhost:3000',
-    environment='devnet',
+    environment='local',
     index=1
 )
 

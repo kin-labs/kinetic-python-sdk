@@ -11,6 +11,7 @@ class KineticSdk(object):
 
     def __init__(self, endpoint, environment, index):
         self.config = {'endpoint': endpoint, 'environment': environment, 'index': index}
+        print(self.config)
         self.internal = KineticSdkInternal(self.config)
 
     def create_account(self, owner: Keypair, mint: PublicKeyString = None, commitment=Commitment("Confirmed")):
@@ -65,3 +66,4 @@ class KineticSdk(object):
         sdk = KineticSdk(endpoint, environment, index)
         sdk.init()
         return sdk
+
