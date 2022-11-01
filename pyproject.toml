@@ -24,6 +24,7 @@ pybase64 = "^1.2.2"
 solders = "0.9.3"
 kinetic-sdk-generated = "^1.0.0-rc.1" 
 # kinetic-sdk-generated = {path = "src/kinetic_sdk/generated/kinetic-sdk-generated"}
+pybip39 = "^0.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

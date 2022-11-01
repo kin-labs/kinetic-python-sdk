@@ -1,6 +1,8 @@
 from solana.keypair import Keypair as SolanaKeypair
 from solders.keypair import Keypair as SoldersKeypair
+from pybip39 import Mnemonic, Seed, Language
 
+        
 
 class Keypair(object):
 
@@ -14,7 +16,11 @@ class Keypair(object):
 
     @staticmethod
     def from_mnemonic(mnemonic: str):
-        pass
+        mnemonic = Mnemonic.from_phrase(mnemonic, Language.English)
+        passphrase = ""
+        seed = Seed(mnemonic, passphrase)
+        keypair = SoldersKeypair.from_seed_phrase_and_passphrase(mnemonic.phrase, passphrase)
+        return keypair
 
 
     @staticmethod

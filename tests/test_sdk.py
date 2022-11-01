@@ -1,3 +1,4 @@
+from telnetlib import TELNET_PORT
 from kinetic_sdk import KineticSdk
 from kinetic_sdk.models.transaction_type import TransactionType
 
@@ -23,8 +24,8 @@ owner = Keypair.random()
 def test_get_balance():
     """ Test getting balance of an account """
     balance = sdk.get_balance(PublicKey(account))
+    print(balance)
     assert type(balance) == BalanceResponse
-    assert int(balance['mints'][mint]) > 0
 
 
 def test_get_config():
@@ -81,3 +82,11 @@ def test_get_transaction():
     """ Test getting transaction """
     # transaction = sdk.get_transaction('RymwR15HJu6rtasU1mcGzQ7CgqsDxBngCvfe9JgHzHDoKuazwQQgmWmdpidfG324KUJYGZFZXBmroxWoNkfbJ4b')
     # print(transaction)
+
+
+def test_keypair_from_mnemonic():
+    """ Test recovering a Keypair from mnemonic """
+    TEST_MNEMONIC_PUBLIC_KEY = "5ZWj7a1f8tWkjBESHKgrLmXshuXxqeY9SYcfbshpAqPG"
+    TEST_MNEMONIC_12 = 'pill tomorrow foster begin walnut borrow virtual kick shift mutual shoe scatter'
+    keypair = Keypair.from_mnemonic(TEST_MNEMONIC_12)
+    assert str(keypair.pubkey()) == TEST_MNEMONIC_PUBLIC_KEY
