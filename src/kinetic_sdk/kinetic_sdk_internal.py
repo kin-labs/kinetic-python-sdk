@@ -1,3 +1,4 @@
+from kinetic_sdk.helpers.generate_make_batch_transfer_transaction import generate_make_batch_transfer_transaction
 from kinetic_sdk_generated.api.account_api import AccountApi
 from kinetic_sdk_generated.api.airdrop_api import AirdropApi
 from kinetic_sdk_generated.api.app_api import AppApi
@@ -17,6 +18,7 @@ from kinetic_sdk.models.public_key_string import PublicKeyString
 from kinetic_sdk.models.transaction_type import TransactionType
 from kinetic_sdk.models.keypair import Keypair
 
+from typing import List, Dict
 
 import pybase64
 
@@ -118,6 +120,42 @@ class KineticSdkInternal(object):
         )
 
         return self.transaction_api.make_transfer(make_transfer_request)
+
+    def make_batch_transfer(
+        self,
+        owner,
+        destinations,
+        mint,
+        tx_type,
+        commitment: Commitment
+    ):
+        blockhash = self._prepare_transaction(self.environment, self.index)
+        mint = self._get_app_mint(self.app_config, mint)
+
+        tx = generate_make_batch_transfer_transaction(
+            add_memo=False,
+            app_index=self.index,
+            recent_blockhash=blockhash['blockhash'],
+            destinations=destinations,
+            decimals=self.app_config['mint']['decimals'],
+            mint_fee_payer=self.app_config['mint']['fee_payer'],
+            mint_public_key=mint,
+            source=owner,
+        )
+
+        make_batch_transfer_request = MakeTransferRequest(
+            commitment=commitment,
+            environment=self.environment,
+            index=self.index,
+            last_valid_block_height=blockhash['last_valid_block_height'],
+            mint=mint,
+            reference_id=None,
+            reference_type=None,
+            tx=pybase64.b64encode_as_string(tx),
+        )
+
+        return self.transaction_api.make_transfer(make_batch_transfer_request)
+
 
     def request_airdrop(self, account: PublicKeyString, amount: str, mint: str, commitment: Commitment):
         mint = self._get_app_mint(self.app_config, mint)

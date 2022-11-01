@@ -1,3 +1,4 @@
+from typing import List, Dict
 from kinetic_sdk.kinetic_sdk_internal import KineticSdkInternal
 
 from kinetic_sdk.models.transaction_type import TransactionType
@@ -43,8 +44,25 @@ class KineticSdk(object):
     ):
         return self.internal.make_transfer(owner, destination, amount, mint, tx_type, commitment)
 
-    def make_transfer_batch(self):
-        # Check TS one
+    def make_batch_transfer(
+        self,
+        owner: Keypair,
+        destinations: List[Dict[PublicKeyString, str]],
+        tx_type: TransactionType = TransactionType.NONE,
+        mint: PublicKeyString = None,
+        commitment=Commitment("Confirmed")
+    ):
+        return self.internal.make_batch_transfer(owner, destinations, mint, tx_type, commitment)
+
+    def make_transfer_batch(
+        self,
+        owner: Keypair,
+        destination: PublicKeyString,
+        amount: str,
+        tx_type: TransactionType = TransactionType.NONE,
+        mint: PublicKeyString = None,
+        commitment=Commitment("Confirmed"),
+    ):
         pass
 
     def request_airdrop(

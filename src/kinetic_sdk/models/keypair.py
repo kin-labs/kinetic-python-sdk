@@ -6,13 +6,18 @@ from pybip39 import Mnemonic, Seed, Language
 
 class Keypair(object):
 
-    keypair: SolanaKeypair = None
+    keypair: SolanaKeypair
+    mnemonic: Mnemonic
 
 
     def __init__(self):
         self.keypair = SolanaKeypair()
-        return self.keypair        
+        self.mnemonic = Keypair.generate_mnemonic()
+        self.keypair = SolanaKeypair.from_solders(Keypair.from_mnemonic(str(self.mnemonic)))
 
+    @staticmethod
+    def generate_mnemonic():
+        return Mnemonic()
 
     @staticmethod
     def from_mnemonic(mnemonic: str):
