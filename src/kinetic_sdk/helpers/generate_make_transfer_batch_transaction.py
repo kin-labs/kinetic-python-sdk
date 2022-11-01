@@ -41,7 +41,7 @@ def create_make_transfer_instruction(
     )
 
 
-def generate_make_batch_transfer_transaction(
+def generate_make_transfer_batch_transaction(
     add_memo: bool,
     app_index: int,
     destinations: List[Dict[PublicKeyString, str]],

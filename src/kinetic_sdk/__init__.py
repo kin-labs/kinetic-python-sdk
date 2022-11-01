@@ -15,8 +15,8 @@ class KineticSdk(object):
         print(self.config)
         self.internal = KineticSdkInternal(self.config)
 
-    def create_account(self, owner: Keypair, mint: PublicKeyString = None, commitment=Commitment("Confirmed")):
-        return self.internal.create_account(owner, mint, commitment)
+    def create_account(self, owner: Keypair, mint: PublicKeyString = None, commitment=Commitment("Confirmed"), reference_id: str = None, reference_type: str = None):
+        return self.internal.create_account(owner, mint, commitment, reference_id, reference_type)
 
     def get_balance(self, account: PublicKeyString):
         return self.internal.get_balance(account)
@@ -40,30 +40,23 @@ class KineticSdk(object):
         amount: str,
         tx_type: TransactionType = TransactionType.NONE,
         mint: PublicKeyString = None,
-        commitment=Commitment("Confirmed")
+        commitment=Commitment("Confirmed"),
+        reference_id: str = None,
+        reference_type: str = None
     ):
-        return self.internal.make_transfer(owner, destination, amount, mint, tx_type, commitment)
+        return self.internal.make_transfer(owner, destination, amount, mint, tx_type, commitment, reference_id, reference_type)
 
-    def make_batch_transfer(
+    def make_transfer_batch(
         self,
         owner: Keypair,
         destinations: List[Dict[PublicKeyString, str]],
         tx_type: TransactionType = TransactionType.NONE,
         mint: PublicKeyString = None,
-        commitment=Commitment("Confirmed")
-    ):
-        return self.internal.make_batch_transfer(owner, destinations, mint, tx_type, commitment)
-
-    def make_transfer_batch(
-        self,
-        owner: Keypair,
-        destination: PublicKeyString,
-        amount: str,
-        tx_type: TransactionType = TransactionType.NONE,
-        mint: PublicKeyString = None,
         commitment=Commitment("Confirmed"),
+        reference_id: str = None,
+        reference_type: str = None
     ):
-        pass
+        return self.internal.make_transfer_batch(owner, destinations, mint, tx_type, commitment, reference_id, reference_type)
 
     def request_airdrop(
         self,

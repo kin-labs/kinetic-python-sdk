@@ -1,4 +1,4 @@
-from kinetic_sdk.helpers.generate_make_batch_transfer_transaction import generate_make_batch_transfer_transaction
+from kinetic_sdk.helpers.generate_make_transfer_batch_transaction import generate_make_transfer_batch_transaction
 from kinetic_sdk_generated.api.account_api import AccountApi
 from kinetic_sdk_generated.api.airdrop_api import AirdropApi
 from kinetic_sdk_generated.api.app_api import AppApi
@@ -36,7 +36,7 @@ class KineticSdkInternal(object):
         self.index = config['index']
         self.app_config = self.app_api.get_app_config(self.environment, self.index)
 
-    def create_account(self, owner: Keypair, mint: str, commitment):
+    def create_account(self, owner: Keypair, mint: str, commitment, reference_id: str, reference_type: str):
         blockhash = self._prepare_transaction(self.environment, self.index)
         mint = self._get_app_mint(self.app_config, mint)
 
@@ -55,6 +55,8 @@ class KineticSdkInternal(object):
             index=self.index,
             last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
+            reference_id=reference_id,
+            reference_type=reference_type,
             tx=pybase64.b64encode_as_string(tx),
         )
 
@@ -90,7 +92,9 @@ class KineticSdkInternal(object):
         amount: str,
         mint: PublicKeyString,
         tx_type: TransactionType,
-        commitment: Commitment
+        commitment: Commitment,
+        reference_id: str,
+        reference_type: str
     ):
         blockhash = self._prepare_transaction(self.environment, self.index)
         mint = self._get_app_mint(self.app_config, mint)
@@ -114,25 +118,27 @@ class KineticSdkInternal(object):
             index=self.index,
             last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
-            reference_id=None,
-            reference_type=None,
+            reference_id=reference_id,
+            reference_type=reference_type,
             tx=pybase64.b64encode_as_string(tx),
         )
 
         return self.transaction_api.make_transfer(make_transfer_request)
 
-    def make_batch_transfer(
+    def make_transfer_batch(
         self,
         owner,
         destinations,
         mint,
         tx_type,
-        commitment: Commitment
+        commitment: Commitment,
+        reference_id: str,
+        reference_type: str
     ):
         blockhash = self._prepare_transaction(self.environment, self.index)
         mint = self._get_app_mint(self.app_config, mint)
 
-        tx = generate_make_batch_transfer_transaction(
+        tx = generate_make_transfer_batch_transaction(
             add_memo=False,
             app_index=self.index,
             recent_blockhash=blockhash['blockhash'],
@@ -143,18 +149,18 @@ class KineticSdkInternal(object):
             source=owner,
         )
 
-        make_batch_transfer_request = MakeTransferRequest(
+        make_transfer_batch_request = MakeTransferRequest(
             commitment=commitment,
             environment=self.environment,
             index=self.index,
             last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
-            reference_id=None,
-            reference_type=None,
+            reference_id=reference_id,
+            reference_type=reference_type,
             tx=pybase64.b64encode_as_string(tx),
         )
 
-        return self.transaction_api.make_transfer(make_batch_transfer_request)
+        return self.transaction_api.make_transfer(make_transfer_batch_request)
 
 
     def request_airdrop(self, account: PublicKeyString, amount: str, mint: str, commitment: Commitment):
