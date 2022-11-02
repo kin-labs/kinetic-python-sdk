@@ -1,4 +1,3 @@
-from telnetlib import TELNET_PORT
 from kinetic_sdk import KineticSdk
 from kinetic_sdk.models.transaction_type import TransactionType
 
@@ -116,3 +115,4 @@ def test_get_keypair_mnemonic():
     """ Test generating a mnemonic """
     keypair = Keypair()
     print(keypair.mnemonic)
+
