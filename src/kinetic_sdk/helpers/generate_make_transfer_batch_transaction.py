@@ -53,18 +53,23 @@ def generate_make_transfer_batch_transaction(
     source,
     tx_type: TransactionType = TransactionType.NONE
 ):
-    source_token_account = get_associated_token_address(source.public_key, PublicKey(mint_public_key))
-    destination_token_account = get_associated_token_address(PublicKey(destinations[0]['destination']), PublicKey(mint_public_key))
+    instructions: List[Instruction] = []
 
-    instruction = create_make_transfer_instruction(
-        source=source.public_key.to_solders(),
-        source_token_account=source_token_account.to_solders(),
-        destination_token_account=destination_token_account.to_solders(),
-        mint=PublicKey(mint_public_key).to_solders(),
-        amount=int(destinations[0]['amount']),
-        decimals=decimals
-    )
+    for destination in destinations:
+        source_token_account = get_associated_token_address(source.public_key, PublicKey(mint_public_key))
+        destination_token_account = get_associated_token_address(PublicKey(destination['destination']), PublicKey(mint_public_key))
 
-    message = SoldersMessage([instruction], source.to_solders().pubkey())
+        instruction = create_make_transfer_instruction(
+            source=source.public_key.to_solders(),
+            source_token_account=source_token_account.to_solders(),
+            destination_token_account=destination_token_account.to_solders(),
+            mint=PublicKey(mint_public_key).to_solders(),
+            amount=int(destination['amount']),
+            decimals=decimals
+        )
+
+        instructions.append(instruction)
+
+    message = SoldersMessage(instructions, source.to_solders().pubkey())
 
     return sign_and_serialize_transaction(message, mint_fee_payer, source, recent_blockhash)
