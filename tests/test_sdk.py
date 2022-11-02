@@ -95,7 +95,7 @@ def test_make_transfer_batch():
 
 def test_get_transaction():
     """ Test getting transaction """
-    # transaction = sdk.get_transaction('RymwR15HJu6rtasU1mcGzQ7CgqsDxBngCvfe9JgHzHDoKuazwQQgmWmdpidfG324KUJYGZFZXBmroxWoNkfbJ4b')
+    # transaction = sdk.get_transaction('4xQNnPHFwHvGcZwvwmcwJfXdwn758i9bYvk7htieBkFPUYQnMTB2eexMFuk2JsdrUSxuxeDU7yBcuBXYsmFUkYRT')
     # print(transaction)
 
 
