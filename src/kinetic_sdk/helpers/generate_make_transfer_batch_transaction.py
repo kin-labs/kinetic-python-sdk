@@ -30,6 +30,7 @@ def create_make_transfer_instruction(
         AccountMeta(source, True, False),
     ]
 
+    amount = amount * 10 ** decimals
     data = INSTRUCTIONS_LAYOUT.build(
         dict(instruction_type=InstructionType.TRANSFER2, args=dict(amount=amount, decimals=decimals))
     )
