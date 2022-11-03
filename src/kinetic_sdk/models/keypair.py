@@ -24,7 +24,7 @@ class Keypair(object):
     def from_mnemonic(mnemonic_phrase: Union[str, Mnemonic]):
         mnemonic = Mnemonic.from_phrase(str(mnemonic_phrase), Language.English)
         keypair = SoldersKeypair.from_seed_phrase_and_passphrase(mnemonic.phrase, "")
-        return keypair
+        return SolanaKeypair.from_solders(keypair)
 
 
     @staticmethod
