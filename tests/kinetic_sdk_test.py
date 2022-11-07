@@ -1,10 +1,10 @@
-from kinetic_sdk_generated.model.balance_response import BalanceResponse
-from kinetic_sdk_generated.model.balance_token import BalanceToken
-from kinetic_sdk_generated.model.commitment import Commitment
-from kinetic_sdk_generated.model.history_response import HistoryResponse
-from kinetic_sdk_generated.model.request_airdrop_response import RequestAirdropResponse
-from kinetic_sdk_generated.model.transaction import Transaction
-from kinetic_sdk_generated.model.transaction_status import TransactionStatus
+from kinetic_sdk.generated.client.model.balance_response import BalanceResponse
+from kinetic_sdk.generated.client.model.balance_token import BalanceToken
+from kinetic_sdk.generated.client.model.commitment import Commitment
+from kinetic_sdk.generated.client.model.history_response import HistoryResponse
+from kinetic_sdk.generated.client.model.request_airdrop_response import RequestAirdropResponse
+from kinetic_sdk.generated.client.model.transaction import Transaction
+from kinetic_sdk.generated.client.model.transaction_status import TransactionStatus
 from solana.publickey import PublicKey
 
 from kinetic_sdk import KineticSdk

@@ -5,7 +5,7 @@ from kinetic_sdk.models.transaction_type import TransactionType
 from kinetic_sdk.models.public_key_string import PublicKeyString
 from kinetic_sdk.models.keypair import Keypair
 
-from kinetic_sdk_generated.model.commitment import Commitment
+from kinetic_sdk.generated.client.model.commitment import Commitment
 
 
 class KineticSdk(object):

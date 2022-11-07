@@ -1,4 +1,4 @@
-# kinetic_sdk_generated.AppApi
+# client.AppApi
 
 All URIs are relative to *http://localhost:3000*
 
@@ -18,19 +18,19 @@ Method | HTTP request | Description
 
 ```python
 import time
-import kinetic_sdk_generated
-from kinetic_sdk_generated.api import app_api
-from kinetic_sdk_generated.model.app_config import AppConfig
+import client
+from client.api import app_api
+from client.model.app_config import AppConfig
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_sdk_generated.Configuration(
+configuration = client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_sdk_generated.ApiClient() as api_client:
+with client.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = app_api.AppApi(api_client)
     environment = "environment_example" # str | 
@@ -41,7 +41,7 @@ with kinetic_sdk_generated.ApiClient() as api_client:
         # 
         api_response = api_instance.get_app_config(environment, index)
         pprint(api_response)
-    except kinetic_sdk_generated.ApiException as e:
+    except client.ApiException as e:
         print("Exception when calling AppApi->get_app_config: %s\n" % e)
 ```
 
@@ -85,19 +85,19 @@ No authorization required
 
 ```python
 import time
-import kinetic_sdk_generated
-from kinetic_sdk_generated.api import app_api
-from kinetic_sdk_generated.model.app_health import AppHealth
+import client
+from client.api import app_api
+from client.model.app_health import AppHealth
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_sdk_generated.Configuration(
+configuration = client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_sdk_generated.ApiClient() as api_client:
+with client.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = app_api.AppApi(api_client)
     environment = "environment_example" # str | 
@@ -108,7 +108,7 @@ with kinetic_sdk_generated.ApiClient() as api_client:
         # 
         api_response = api_instance.get_app_health(environment, index)
         pprint(api_response)
-    except kinetic_sdk_generated.ApiException as e:
+    except client.ApiException as e:
         print("Exception when calling AppApi->get_app_health: %s\n" % e)
 ```
 
