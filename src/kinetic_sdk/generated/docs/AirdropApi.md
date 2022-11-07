@@ -1,4 +1,4 @@
-# kinetic_sdk_generated.AirdropApi
+# client.AirdropApi
 
 All URIs are relative to *http://localhost:3000*
 
@@ -17,20 +17,20 @@ Method | HTTP request | Description
 
 ```python
 import time
-import kinetic_sdk_generated
-from kinetic_sdk_generated.api import airdrop_api
-from kinetic_sdk_generated.model.request_airdrop_request import RequestAirdropRequest
-from kinetic_sdk_generated.model.request_airdrop_response import RequestAirdropResponse
+import client
+from client.api import airdrop_api
+from client.model.request_airdrop_request import RequestAirdropRequest
+from client.model.request_airdrop_response import RequestAirdropResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kinetic_sdk_generated.Configuration(
+configuration = client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with kinetic_sdk_generated.ApiClient() as api_client:
+with client.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = airdrop_api.AirdropApi(api_client)
     request_airdrop_request = RequestAirdropRequest(
@@ -47,7 +47,7 @@ with kinetic_sdk_generated.ApiClient() as api_client:
         # 
         api_response = api_instance.request_airdrop(request_airdrop_request)
         pprint(api_response)
-    except kinetic_sdk_generated.ApiException as e:
+    except client.ApiException as e:
         print("Exception when calling AirdropApi->request_airdrop: %s\n" % e)
 ```
 
