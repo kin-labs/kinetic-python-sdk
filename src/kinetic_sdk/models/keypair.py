@@ -1,6 +1,6 @@
 from solana.keypair import Keypair as SolanaKeypair
 from solders.keypair import Keypair as SoldersKeypair
-from pybip39 import Mnemonic, Seed, Language
+from pybip39 import Mnemonic, MnemonicType, Language
 from typing import Union
 
         
@@ -17,8 +17,11 @@ class Keypair(object):
         self.keypair = SolanaKeypair.from_solders(Keypair.from_mnemonic(str(self.mnemonic)))
 
     @staticmethod
-    def generate_mnemonic():
-        return Mnemonic()
+    def generate_mnemonic(strength: int = 128):
+        if strength == 128:
+            return Mnemonic()
+        elif strength == 256:
+            return Mnemonic(MnemonicType.Words24)
 
     @staticmethod
     def from_mnemonic(mnemonic_phrase: Union[str, Mnemonic]):

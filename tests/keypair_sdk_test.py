@@ -1,4 +1,14 @@
+from kinetic_sdk.generated.client.model.commitment import Commitment
 from kinetic_sdk.models.keypair import Keypair
+
+from kinetic_sdk import KineticSdk
+from kinetic_sdk.models.keypair import Keypair
+
+sdk = KineticSdk.setup(
+    endpoint='http://localhost:3000',
+    environment='local',
+    index=1
+)
 
 
 def test_keypair_from_mnemonic():
@@ -12,28 +22,26 @@ def test_keypair_from_mnemonic():
 def test_keypair_generate_mnemonic():
     """ Test generating a mnemonic """
     mnemonic = Keypair.generate_mnemonic()
-    print(mnemonic)
+    # print('12-words', mnemonic)
+
+
+def test_keypair_generate_mnemonic_24_words():
+    """ Test generating a 24-word mnemonic """
+    mnemonic = Keypair.generate_mnemonic(strength=256)
+    # print('24-words', mnemonic)
 
 
 def test_get_keypair_mnemonic():
     """ Test generating a mnemonic """
     keypair = Keypair()
-    print(keypair.mnemonic)
+    # print(keypair.mnemonic)
 
 
 def test_keypair_creation():
     """ Test creating a Keypair """
     keypair = Keypair()
     mnemonic = Keypair.generate_mnemonic()
-    print('mnemonic: ', mnemonic)
-
     keypair = Keypair.from_mnemonic(mnemonic)
-    print('keypair: ', keypair)
-
-    commitment = Commitment('Finalized')
-    print('commitment: ', commitment)
-
-    account = sdk.create_account(
-        owner=keypair, commitment=commitment)
-    print('account: ', account)
+    account = sdk.create_account(owner=keypair)
+    # print('account: ', account)
 
