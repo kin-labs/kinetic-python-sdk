@@ -1,4 +1,3 @@
-from kinetic_sdk.generated.client.model.commitment import Commitment
 from kinetic_sdk.models.keypair import Keypair
 
 from kinetic_sdk import KineticSdk

@@ -27,7 +27,7 @@ import pybase64
 class KineticSdkInternal(object):
 
     def __init__(self, config):
-        configuration = Configuration(host=config['endpoint'])
+        configuration = Configuration(host=config['endpoint'], discard_unknown_keys=True)
         api_client = ApiClient(configuration)
         self.account_api = AccountApi(api_client)
         self.airdrop_api = AirdropApi(api_client)
