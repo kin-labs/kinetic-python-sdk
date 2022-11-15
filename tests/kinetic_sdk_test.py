@@ -134,15 +134,13 @@ def test_make_transfer_batch():
     assert transferBatch['source'] == 'ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA'
 
 
-# FIXME: testing this gives errors. We should revise this after the generated openapi code has been updated.
-# def test_get_transaction():
-#     """ Test getting transaction """
-#     newTransfer = sdk.make_transfer(
-#         owner=alice,
-#         destination='BobQoPqWy5cpFioy1dMTYqNH9WpC39mkAEDJWXECoJ9y',
-#         amount=1,
-#         commitment=Commitment('Finalized')
-#     )
-#     # print(newTransfer)
-#     # print(newTransfer['signature'])
-#     tx = sdk.get_transaction(signature=newTransfer['signature'])
+def test_get_transaction():
+    """ Test getting transaction """
+    newTransfer = sdk.make_transfer(
+        owner=alice,
+        destination='BobQoPqWy5cpFioy1dMTYqNH9WpC39mkAEDJWXECoJ9y',
+        amount=1,
+        commitment=Commitment('Finalized')
+    )
+    tx = sdk.get_transaction(signature=newTransfer['signature'])
+    # print(tx)
