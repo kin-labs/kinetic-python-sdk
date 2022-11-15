@@ -1,5 +1,6 @@
 from kinetic_sdk.generated.client.model.balance_response import BalanceResponse
 from kinetic_sdk.generated.client.model.balance_token import BalanceToken
+from kinetic_sdk.generated.client.model.commitment import Commitment
 from kinetic_sdk.generated.client.model.history_response import HistoryResponse
 from kinetic_sdk.generated.client.model.request_airdrop_response import RequestAirdropResponse
 from kinetic_sdk.generated.client.model.transaction import Transaction
