@@ -17,6 +17,7 @@ from kinetic_sdk.helpers.get_public_key import get_public_key
 from kinetic_sdk.models.public_key_string import PublicKeyString
 from kinetic_sdk.models.transaction_type import TransactionType
 from kinetic_sdk.models.keypair import Keypair
+from kinetic_sdk.models.version import NAME, VERSION
 
 from typing import List, Dict
 import sys
@@ -28,7 +29,7 @@ class KineticSdkInternal(object):
 
     def __init__(self, config):
         configuration = Configuration(host=config['endpoint'], discard_unknown_keys=True)
-        api_client = ApiClient(configuration)
+        api_client = self._api_base_options(configuration, config)
         self.account_api = AccountApi(api_client)
         self.airdrop_api = AirdropApi(api_client)
         self.app_api = AppApi(api_client)
@@ -192,3 +193,16 @@ class KineticSdkInternal(object):
             raise "Mint not found"
 
         return mint
+
+
+    def _api_base_options(self, configuration: Configuration, config):
+        api_client = ApiClient(configuration)
+        if config.get('headers') is not None:
+            for header in config['headers']:
+                for key, value in header.items():
+                    api_client.set_default_header(key, value)
+
+        api_client.set_default_header('kinetic-environment', config['environment'])
+        api_client.set_default_header('kinetic-index', config['index'])
+        api_client.set_default_header('kinetic-user-agent', f'{NAME}@{VERSION}')
+        return api_client

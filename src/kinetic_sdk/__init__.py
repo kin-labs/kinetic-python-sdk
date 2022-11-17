@@ -10,8 +10,8 @@ from kinetic_sdk.generated.client.model.commitment import Commitment
 
 class KineticSdk(object):
 
-    def __init__(self, endpoint, environment, index):
-        self.config = {'endpoint': endpoint, 'environment': environment, 'index': index}
+    def __init__(self, endpoint, environment, index, headers):
+        self.config = { 'endpoint': endpoint, 'environment': environment, 'index': index, 'headers': headers }
         print(self.config)
         self.internal = KineticSdkInternal(self.config)
 
@@ -73,8 +73,8 @@ class KineticSdk(object):
         self.config['mint'] = config['mint']['public_key']
 
     @staticmethod
-    def setup(endpoint, environment, index):
-        sdk = KineticSdk(endpoint, environment, index)
+    def setup(endpoint, environment, index, headers = None):
+        sdk = KineticSdk(endpoint, environment, index, headers)
         sdk.init()
         return sdk
 
