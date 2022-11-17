@@ -14,7 +14,7 @@ sdk = KineticSdk.setup(
     endpoint='http://localhost:3000',
     environment='local',
     index=1,
-    headers=[{ 'Extra-Header': 4 }]
+    headers=[{ 'kinetic-extra-header': 4 }]
 )
 
 alice = Keypair.from_byte_array(
