@@ -13,7 +13,8 @@ from kinetic_sdk.models.keypair import Keypair
 sdk = KineticSdk.setup(
     endpoint='http://localhost:3000',
     environment='local',
-    index=1
+    index=1,
+    headers=[{ 'Extra-Header': 4 }]
 )
 
 alice = Keypair.from_byte_array(
