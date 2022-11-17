@@ -17,6 +17,7 @@ from kinetic_sdk.helpers.get_public_key import get_public_key
 from kinetic_sdk.models.public_key_string import PublicKeyString
 from kinetic_sdk.models.transaction_type import TransactionType
 from kinetic_sdk.models.keypair import Keypair
+from kinetic_sdk.models.version import NAME, VERSION
 
 from typing import List, Dict
 import sys
@@ -203,5 +204,5 @@ class KineticSdkInternal(object):
 
         api_client.set_default_header('kinetic-environment', config['environment'])
         api_client.set_default_header('kinetic-index', config['index'])
-        api_client.set_default_header('kinetic-user-agent', 'python-1.0.0-rc-9')
+        api_client.set_default_header('kinetic-user-agent', f'{NAME}@{VERSION}')
         return api_client
