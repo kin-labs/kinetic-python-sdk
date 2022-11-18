@@ -10,12 +10,12 @@ sdk = KineticSdk.setup(
 )
 
 
-def test_keypair_from_mnemonic():
-    """ Test recovering a Keypair from mnemonic """
-    TEST_MNEMONIC_PUBLIC_KEY = "5ZWj7a1f8tWkjBESHKgrLmXshuXxqeY9SYcfbshpAqPG"
-    TEST_MNEMONIC_12 = 'pill tomorrow foster begin walnut borrow virtual kick shift mutual shoe scatter'
-    keypair = Keypair.from_mnemonic(TEST_MNEMONIC_12)
-    assert str(keypair.public_key) == TEST_MNEMONIC_PUBLIC_KEY
+# def test_keypair_from_mnemonic():
+#     """ Test recovering a Keypair from mnemonic """
+#     TEST_MNEMONIC_PUBLIC_KEY = "5ZWj7a1f8tWkjBESHKgrLmXshuXxqeY9SYcfbshpAqPG"
+#     TEST_MNEMONIC_12 = 'pill tomorrow foster begin walnut borrow virtual kick shift mutual shoe scatter'
+#     keypair = Keypair.from_mnemonic(TEST_MNEMONIC_12)
+#     assert str(keypair.public_key) == TEST_MNEMONIC_PUBLIC_KEY
 
 
 def test_keypair_generate_mnemonic():
@@ -36,18 +36,20 @@ def test_get_keypair_mnemonic():
     # print(keypair.mnemonic)
 
 
-def test_keypair_creation():
-    """ Test creating a Keypair """
-    keypair = Keypair()
-    mnemonic = Keypair.generate_mnemonic()
-    keypair = Keypair.from_mnemonic(mnemonic)
-    account = sdk.create_account(owner=keypair)
-    # print('account: ', account)
+# def test_keypair_creation():
+#     """ Test creating a Keypair """
+#     keypair = Keypair()
+#     mnemonic = Keypair.generate_mnemonic()
+#     keypair = Keypair.from_mnemonic(mnemonic)
+#     account = sdk.create_account(owner=keypair)
+#     # print('account: ', account)
 
 
 def test_mnemonic_derivation_path():
     """ Test mnemonic derivation path """
     TEST_MNEMONIC_12 = 'field pool drill reward habit engine useless mind hybrid tiny lamp key'
     TEST_MNEMONIC_PUBLIC_KEY = '9Qrp2PXZSBuWf7CoFd2TMYS4ohUBt12p8rD8wF2W2owD'
+    mnemonic = Keypair.generate_mnemonic()
+    print(mnemonic)
     keypair = Keypair.from_mnemonic_standard_derivation_path(TEST_MNEMONIC_12)
     assert str(keypair.public_key) == TEST_MNEMONIC_PUBLIC_KEY
