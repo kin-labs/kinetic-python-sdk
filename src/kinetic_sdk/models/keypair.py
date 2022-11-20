@@ -1,7 +1,7 @@
 from solana.keypair import Keypair as SolanaKeypair
 from solders.keypair import Keypair as SoldersKeypair
-from kinetic_bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, Bip39Languages, Bip44, Bip44Coins, Bip44Changes
-from kinetic_bip_utils.utils.mnemonic import Mnemonic
+from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, Bip39Languages, Bip44, Bip44Coins, Bip44Changes
+from bip_utils.utils.mnemonic import Mnemonic
 from typing import Union
 
 class Keypair(object):
