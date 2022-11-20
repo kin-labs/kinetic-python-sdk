@@ -1,7 +1,7 @@
 from solana.keypair import Keypair as SolanaKeypair
 from solders.keypair import Keypair as SoldersKeypair
-from pybip39 import Mnemonic, MnemonicType
-from kinetic_bip_utils import Bip39SeedGenerator, Bip44, Bip44Coins, Bip44Changes, Bip39Languages
+from kinetic_bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, Bip39Languages, Bip44, Bip44Coins, Bip44Changes
+from kinetic_bip_utils.utils.mnemonic import Mnemonic
 from typing import Union
 
 class Keypair(object):
@@ -15,16 +15,19 @@ class Keypair(object):
         self.mnemonic = Keypair.generate_mnemonic()
         self.keypair = SolanaKeypair.from_solders(Keypair.from_mnemonic(str(self.mnemonic)))
 
+
     @staticmethod
     def generate_mnemonic(strength: int = 128):
         if strength == 128:
-            return Mnemonic()
+            return Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
         elif strength == 256:
-            return Mnemonic(MnemonicType.Words24)
+            return Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+
 
     @staticmethod
     def from_mnemonic(mnemonic_phrase: Union[str, Mnemonic]):
         return Keypair.from_mnemonic_set(str(mnemonic_phrase))[0]
+
 
     @staticmethod
     def from_mnemonic_set(mnemonic_phrase: Union[str, Mnemonic], fr = 0, to = 2):
@@ -36,6 +39,7 @@ class Keypair(object):
             keypairs[i] = SolanaKeypair.from_solders(soldersKeypair)
 
         return keypairs
+
 
     @staticmethod
     def from_byte_array(key):
@@ -60,3 +64,4 @@ class Keypair(object):
     @staticmethod
     def to_solders(self):
         return self.keypair.to_solders()
+
