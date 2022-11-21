@@ -50,3 +50,14 @@ def test_mnemonic_derivation_path():
     TEST_MNEMONIC_PUBLIC_KEY = '9Qrp2PXZSBuWf7CoFd2TMYS4ohUBt12p8rD8wF2W2owD'
     keypair = Keypair.from_mnemonic(TEST_MNEMONIC_12)
     assert str(keypair.public_key) == TEST_MNEMONIC_PUBLIC_KEY
+
+
+def test_keypair_from_secret():
+    """ Test recovering a Keypair from secret """
+    solanaKeypair = Keypair()
+    kp1 = solanaKeypair.keypair._solders
+
+    from_byte_array = Keypair.from_secret(f"{kp1.to_solders().to_bytes_array()}")
+    assert from_byte_array.secret_key == kp1.secret_key
+    assert from_byte_array.public_key == kp1.public_key
+

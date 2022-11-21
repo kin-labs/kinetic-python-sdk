@@ -11,7 +11,6 @@ class Keypair(object):
 
 
     def __init__(self):
-        self.keypair = SolanaKeypair()
         self.mnemonic = Keypair.generate_mnemonic()
         self.keypair = SolanaKeypair.from_solders(Keypair.from_mnemonic(str(self.mnemonic)))
 
@@ -43,7 +42,9 @@ class Keypair(object):
 
     @staticmethod
     def from_byte_array(key):
-        return SolanaKeypair.from_secret_key(key)
+        if (type(key) is str):
+            return SolanaKeypair.from_secret_key(Keypair.to_bytes_array(key))
+        SolanaKeypair.from_secret_key(key)
 
 
     @staticmethod
@@ -88,3 +89,6 @@ class Keypair(object):
     def to_solders(self):
         return self.keypair.to_solders()
 
+    def to_bytes_array(secret):
+        secret = secret.replace("[", "").replace("]", "").split(", ")
+        return [eval(i) for i in secret]
