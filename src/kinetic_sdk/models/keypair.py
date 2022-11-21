@@ -54,14 +54,37 @@ class Keypair(object):
     @staticmethod
     def random():
         return SolanaKeypair()
-    
+
+    @staticmethod
+    def from_secret(secret):
+        keypair: SolanaKeypair = None
+        if(Keypair.is_mnemonic(secret)):
+            keypair = Keypair.from_mnemonic(secret)
+        elif(Keypair.is_byte_array(secret)):
+            keypair = Keypair.from_byte_array(secret)
+        else:
+            keypair = SolanaKeypair.from_secret_key(secret)
+
+        if(keypair is None):
+            raise Exception("Invalid secret")
+
+        return keypair
+
+    @staticmethod
+    def is_mnemonic(secret):
+        return len(secret.split(" ")) in [12, 24]
+
+
+    @staticmethod
+    def is_byte_array(secret):
+        return secret.startswith("[") and secret.endswith("]")
+
 
     @staticmethod
     def from_solders(keypair: SoldersKeypair):
         return SolanaKeypair.from_solders(keypair)
 
 
-    @staticmethod
     def to_solders(self):
         return self.keypair.to_solders()
 
