@@ -61,3 +61,10 @@ def test_keypair_from_secret():
     assert from_byte_array.secret_key == kp1.secret_key
     assert from_byte_array.public_key == kp1.public_key
 
+    from_mnemonic = Keypair.from_secret(solanaKeypair.mnemonic)
+    assert from_mnemonic.secret_key == kp1.secret_key
+    assert from_mnemonic.public_key == kp1.public_key
+
+    from_secret_key = Keypair.from_secret(kp1.secret_key)
+    assert from_secret_key.secret_key == kp1.secret_key
+    assert from_secret_key.public_key == kp1.public_key

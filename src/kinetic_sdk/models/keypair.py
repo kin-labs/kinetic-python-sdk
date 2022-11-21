@@ -44,7 +44,7 @@ class Keypair(object):
     def from_byte_array(key):
         if (type(key) is str):
             return SolanaKeypair.from_secret_key(Keypair.to_bytes_array(key))
-        SolanaKeypair.from_secret_key(key)
+        return SolanaKeypair.from_secret_key(key)
 
 
     @staticmethod
@@ -73,12 +73,12 @@ class Keypair(object):
 
     @staticmethod
     def is_mnemonic(secret):
-        return len(secret.split(" ")) in [12, 24]
+        return len(str(secret).split(" ")) in [12, 24]
 
 
     @staticmethod
     def is_byte_array(secret):
-        return secret.startswith("[") and secret.endswith("]")
+        return str(secret).startswith("[") and secret.endswith("]")
 
 
     @staticmethod
