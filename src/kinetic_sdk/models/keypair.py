@@ -25,7 +25,9 @@ class Keypair(object):
 
     @staticmethod
     def from_mnemonic(mnemonic_phrase: Union[str, Mnemonic]):
-        return Keypair.from_mnemonic_set(str(mnemonic_phrase))[0]
+        keypair = Keypair.from_mnemonic_set(str(mnemonic_phrase))[0]
+        keypair.mnemonic = mnemonic_phrase
+        return keypair
 
 
     @staticmethod
