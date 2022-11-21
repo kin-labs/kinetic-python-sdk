@@ -1,9 +1,8 @@
 from solana.keypair import Keypair as SolanaKeypair
 from solders.keypair import Keypair as SoldersKeypair
-from pybip39 import Mnemonic, MnemonicType, Language
+from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, Bip39Languages, Bip44, Bip44Coins, Bip44Changes
+from bip_utils.utils.mnemonic import Mnemonic
 from typing import Union
-
-        
 
 class Keypair(object):
 
@@ -16,18 +15,30 @@ class Keypair(object):
         self.mnemonic = Keypair.generate_mnemonic()
         self.keypair = SolanaKeypair.from_solders(Keypair.from_mnemonic(str(self.mnemonic)))
 
+
     @staticmethod
     def generate_mnemonic(strength: int = 128):
         if strength == 128:
-            return Mnemonic()
+            return Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
         elif strength == 256:
-            return Mnemonic(MnemonicType.Words24)
+            return Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+
 
     @staticmethod
     def from_mnemonic(mnemonic_phrase: Union[str, Mnemonic]):
-        mnemonic = Mnemonic.from_phrase(str(mnemonic_phrase), Language.English)
-        keypair = SoldersKeypair.from_seed_phrase_and_passphrase(mnemonic.phrase, "")
-        return SolanaKeypair.from_solders(keypair)
+        return Keypair.from_mnemonic_set(str(mnemonic_phrase))[0]
+
+
+    @staticmethod
+    def from_mnemonic_set(mnemonic_phrase: Union[str, Mnemonic], fr = 0, to = 2):
+        keypairs = [i for i in range(to)]
+        seed_bytes = Bip39SeedGenerator(str(mnemonic_phrase), Bip39Languages.ENGLISH).Generate("")
+        bip44_seeds = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA).Purpose().Coin()
+        for i in range(fr, to):
+            soldersKeypair = SoldersKeypair.from_seed(bip44_seeds.Account(i).Change(Bip44Changes.CHAIN_EXT).PrivateKey().Raw().ToBytes())
+            keypairs[i] = SolanaKeypair.from_solders(soldersKeypair)
+
+        return keypairs
 
 
     @staticmethod
@@ -46,10 +57,11 @@ class Keypair(object):
     
 
     @staticmethod
-    def from_solders(self, keypair: SoldersKeypair):
+    def from_solders(keypair: SoldersKeypair):
         return SolanaKeypair.from_solders(keypair)
 
 
     @staticmethod
     def to_solders(self):
         return self.keypair.to_solders()
+
