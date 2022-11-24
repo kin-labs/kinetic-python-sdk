@@ -92,7 +92,7 @@ In order to use this SDK, please head over to the [Kinetic Pyrhon SDK](https://d
 
 ## Version
 
-This SDK is built to work with `@kinetic/api@v1.0.0-rc.8-2`. Using it with other versions may lead to issues.
+This SDK is built to work with `@kinetic/api@v1.0.0-rc.8`. Using it with other versions may lead to issues.
 
 ## Contributing
 
