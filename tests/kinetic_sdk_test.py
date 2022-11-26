@@ -137,11 +137,24 @@ def test_make_transfer_batch():
 
 def test_get_transaction():
     """ Test getting transaction """
-    newTransfer = sdk.make_transfer(
+    new_transfer = sdk.make_transfer(
         owner=alice,
         destination='BobQoPqWy5cpFioy1dMTYqNH9WpC39mkAEDJWXECoJ9y',
         amount=1,
         commitment=Commitment('Finalized')
     )
-    tx = sdk.get_transaction(signature=newTransfer['signature'])
+    tx = sdk.get_transaction(signature=new_transfer['signature'])
     # print(tx)
+
+
+def test_sender_crete():
+    """ Test sender create """
+    destination = Keypair.random()
+    tx = sdk.make_transfer(
+        owner=alice,
+        destination=destination.public_key,
+        amount=1,
+        commitment=Commitment('Finalized'),
+        sender_create=True
+    )
+    # print(tx['signature'])
