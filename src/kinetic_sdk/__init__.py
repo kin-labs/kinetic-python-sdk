@@ -42,9 +42,10 @@ class KineticSdk(object):
         mint: PublicKeyString = None,
         commitment=Commitment("Confirmed"),
         reference_id: str = None,
-        reference_type: str = None
+        reference_type: str = None,
+        sender_create: bool = False
     ):
-        return self.internal.make_transfer(owner, destination, amount, mint, tx_type, commitment, reference_id, reference_type)
+        return self.internal.make_transfer(owner, destination, amount, mint, tx_type, commitment, reference_id, reference_type, sender_create)
 
     def make_transfer_batch(
         self,

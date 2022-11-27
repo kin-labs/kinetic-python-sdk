@@ -96,7 +96,8 @@ class KineticSdkInternal(object):
         tx_type: TransactionType,
         commitment: Commitment,
         reference_id: str,
-        reference_type: str
+        reference_type: str,
+        sender_create: bool
     ):
         blockhash = self._prepare_transaction(self.environment, self.index)
         mint = self._get_app_mint(self.app_config, mint)
@@ -112,6 +113,8 @@ class KineticSdkInternal(object):
             mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
             source=owner,
+            sender_create = sender_create,
+            tx_type = tx_type
         )
 
         make_transfer_request = MakeTransferRequest(
