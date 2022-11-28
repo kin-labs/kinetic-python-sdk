@@ -19,9 +19,6 @@ from kinetic_sdk.models.transaction_type import TransactionType
 from kinetic_sdk.models.keypair import Keypair
 from kinetic_sdk.models.version import NAME, VERSION
 
-from typing import List, Dict
-import sys
-
 import pybase64
 
 

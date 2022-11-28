@@ -12,7 +12,6 @@ class KineticSdk(object):
 
     def __init__(self, endpoint, environment, index, headers):
         self.config = { 'endpoint': endpoint, 'environment': environment, 'index': index, 'headers': headers }
-        print(self.config)
         self.internal = KineticSdkInternal(self.config)
 
     def create_account(self, owner: Keypair, mint: PublicKeyString = None, commitment=Commitment("Confirmed"), reference_id: str = None, reference_type: str = None):
@@ -71,7 +70,11 @@ class KineticSdk(object):
     def init(self):
         # TODO: Set up Solana instance
         config = self.internal.get_app_config(self.config['environment'], self.config['index'])
-        self.config['mint'] = config['mint']['public_key']
+        self.config['api'] = config['api']
+        self.config['app'] = config['app']
+        self.config['mint'] = config['mint']
+        self.config['mints'] = config['mints']
+
 
     @staticmethod
     def setup(endpoint, environment, index, headers = None):
