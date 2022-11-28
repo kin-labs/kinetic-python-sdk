@@ -22,7 +22,7 @@ alice = Keypair.from_byte_array(
      56, 152, 15, 8, 235, 174, 62, 79, 138, 198, 145, 111, 119, 33, 15, 237, 89, 201, 122, 89, 48, 221, 224, 71, 81,
      128, 45, 97, 191, 105, 37, 228, 243, 238, 130, 151, 53, 221, 172, 125])
 
-mint = sdk.config.get('mint')
+mint = sdk.config.get('mint').get('public_key')
 account = 'ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA'
 fee_payer = 'oWNEYV3aMze3CppdgyFAiEj9xUJXkn85es1KscRHt8m'
 owner = Keypair.random()
