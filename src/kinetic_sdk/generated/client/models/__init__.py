@@ -20,6 +20,9 @@ from kinetic_sdk.generated.client.model.balance_response import BalanceResponse
 from kinetic_sdk.generated.client.model.balance_token import BalanceToken
 from kinetic_sdk.generated.client.model.cluster_type import ClusterType
 from kinetic_sdk.generated.client.model.commitment import Commitment
+from kinetic_sdk.generated.client.model.compiled_inner_instruction import CompiledInnerInstruction
+from kinetic_sdk.generated.client.model.compiled_instruction import CompiledInstruction
+from kinetic_sdk.generated.client.model.confirmation_status import ConfirmationStatus
 from kinetic_sdk.generated.client.model.confirmed_signature_info import ConfirmedSignatureInfo
 from kinetic_sdk.generated.client.model.confirmed_transaction_meta import ConfirmedTransactionMeta
 from kinetic_sdk.generated.client.model.create_account_request import CreateAccountRequest
@@ -31,6 +34,8 @@ from kinetic_sdk.generated.client.model.minimum_rent_exemption_balance_response 
 from kinetic_sdk.generated.client.model.request_airdrop_request import RequestAirdropRequest
 from kinetic_sdk.generated.client.model.request_airdrop_response import RequestAirdropResponse
 from kinetic_sdk.generated.client.model.signature_status import SignatureStatus
+from kinetic_sdk.generated.client.model.token_amount import TokenAmount
+from kinetic_sdk.generated.client.model.token_balance import TokenBalance
 from kinetic_sdk.generated.client.model.transaction import Transaction
 from kinetic_sdk.generated.client.model.transaction_data import TransactionData
 from kinetic_sdk.generated.client.model.transaction_error import TransactionError

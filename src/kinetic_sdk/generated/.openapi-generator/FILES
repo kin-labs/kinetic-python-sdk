@@ -25,6 +25,9 @@ client/model/balance_response.py
 client/model/balance_token.py
 client/model/cluster_type.py
 client/model/commitment.py
+client/model/compiled_inner_instruction.py
+client/model/compiled_instruction.py
+client/model/confirmation_status.py
 client/model/confirmed_signature_info.py
 client/model/confirmed_transaction_meta.py
 client/model/create_account_request.py
@@ -36,6 +39,8 @@ client/model/minimum_rent_exemption_balance_response.py
 client/model/request_airdrop_request.py
 client/model/request_airdrop_response.py
 client/model/signature_status.py
+client/model/token_amount.py
+client/model/token_balance.py
 client/model/transaction.py
 client/model/transaction_data.py
 client/model/transaction_error.py
