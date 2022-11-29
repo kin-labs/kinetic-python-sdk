@@ -204,5 +204,5 @@ class KineticSdkInternal(object):
 
         api_client.set_default_header('kinetic-environment', config['environment'])
         api_client.set_default_header('kinetic-index', config['index'])
-        api_client.set_default_header('kinetic-user-agent', f'{NAME}@{VERSION}')
+        api_client.set_default_header('kinetic-user-agent', f'{NAME}/{VERSION}')
         return api_client
