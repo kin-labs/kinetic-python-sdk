@@ -9,6 +9,7 @@
 # import sys
 # sys.setrecursionlimit(n)
 
+from kinetic_sdk.generated.client.model.account_info import AccountInfo
 from kinetic_sdk.generated.client.model.app_config import AppConfig
 from kinetic_sdk.generated.client.model.app_config_api import AppConfigApi
 from kinetic_sdk.generated.client.model.app_config_app import AppConfigApp
@@ -18,6 +19,7 @@ from kinetic_sdk.generated.client.model.app_config_mint import AppConfigMint
 from kinetic_sdk.generated.client.model.app_health import AppHealth
 from kinetic_sdk.generated.client.model.balance_response import BalanceResponse
 from kinetic_sdk.generated.client.model.balance_token import BalanceToken
+from kinetic_sdk.generated.client.model.close_account_request import CloseAccountRequest
 from kinetic_sdk.generated.client.model.cluster_type import ClusterType
 from kinetic_sdk.generated.client.model.commitment import Commitment
 from kinetic_sdk.generated.client.model.compiled_inner_instruction import CompiledInnerInstruction
@@ -36,6 +38,7 @@ from kinetic_sdk.generated.client.model.request_airdrop_response import RequestA
 from kinetic_sdk.generated.client.model.signature_status import SignatureStatus
 from kinetic_sdk.generated.client.model.token_amount import TokenAmount
 from kinetic_sdk.generated.client.model.token_balance import TokenBalance
+from kinetic_sdk.generated.client.model.token_info import TokenInfo
 from kinetic_sdk.generated.client.model.transaction import Transaction
 from kinetic_sdk.generated.client.model.transaction_data import TransactionData
 from kinetic_sdk.generated.client.model.transaction_error import TransactionError
