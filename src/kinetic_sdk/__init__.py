@@ -17,6 +17,9 @@ class KineticSdk(object):
     def create_account(self, owner: Keypair, mint: PublicKeyString = None, commitment=Commitment("Confirmed"), reference_id: str = None, reference_type: str = None):
         return self.internal.create_account(owner, mint, commitment, reference_id, reference_type)
 
+    def get_account_info(self, account: PublicKeyString):
+        return self.internal.get_account_info(account)
+
     def get_balance(self, account: PublicKeyString):
         return self.internal.get_balance(account)
 
