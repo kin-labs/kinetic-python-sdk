@@ -1,3 +1,4 @@
+from kinetic_sdk.generated.client.model.account_info import AccountInfo
 from kinetic_sdk.generated.client.model.balance_response import BalanceResponse
 from kinetic_sdk.generated.client.model.balance_token import BalanceToken
 from kinetic_sdk.generated.client.model.commitment import Commitment
@@ -162,4 +163,9 @@ def test_sender_crete():
 def test_get_account_info():
     """ Test getting account info """
     account_info = sdk.get_account_info(account)
-    # print('Account Info: ', account_info)
+    # print(account_info)
+    assert type(account_info) == AccountInfo
+    assert type(account_info['is_mint']) == bool
+    assert type(account_info['is_owner']) == bool
+    assert type(account_info['is_token_account']) == bool
+    assert type(account_info['tokens']) == list
