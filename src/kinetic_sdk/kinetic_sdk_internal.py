@@ -61,6 +61,10 @@ class KineticSdkInternal(object):
 
         return self.account_api.create_account(create_account_request)
 
+    def get_account_info(self, account: PublicKeyString):
+        account = get_public_key(account)
+        return self.account_api.get_account_info(self.environment, self.index, account)
+
     def get_app_config(self, environment, index):
         return self.app_api.get_app_config(environment, index)
 

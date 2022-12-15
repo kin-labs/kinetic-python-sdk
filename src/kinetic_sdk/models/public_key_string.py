@@ -1,3 +1,3 @@
 class PublicKeyString:
-    def __init__(self, public_key: str):
-        pass
+    def __init__(self, key = None):
+        self.key = key

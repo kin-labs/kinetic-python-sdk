@@ -43,7 +43,7 @@ def test_get_balance():
 def test_get_config():
     """ Test getting config of an account """
     config = sdk.config
-    print(config)
+    # print(config)
     assert type(config) == dict
     assert type(config.get('endpoint')) == str
     assert type(config.get('environment')) == str
@@ -158,3 +158,8 @@ def test_sender_crete():
         sender_create=True
     )
     # print(tx['signature'])
+
+def test_get_account_info():
+    """ Test getting account info """
+    account_info = sdk.get_account_info(account)
+    # print('Account Info: ', account_info)
