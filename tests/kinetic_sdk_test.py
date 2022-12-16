@@ -169,3 +169,13 @@ def test_get_account_info():
     assert type(account_info['is_owner']) == bool
     assert type(account_info['is_token_account']) == bool
     assert type(account_info['tokens']) == list
+
+def test_close_account():
+    """ Test closing an account """
+    owner = Keypair.random()
+    sdk.create_account(owner, commitment=Commitment('Finalized'))
+    account_closed = sdk.close_account(
+        account=str(owner.public_key),
+        commitment=Commitment('Finalized')
+    )
+    # print(account_closed)
