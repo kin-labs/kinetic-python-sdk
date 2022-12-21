@@ -86,32 +86,32 @@ class KineticSdkInternal(object):
 
         return self.account_api.create_account(create_account_request)
 
-    def get_account_info(self, account: PublicKeyString):
+    def get_account_info(self, account: PublicKeyString, commitment: Commitment = Commitment("Confirmed")):
         account = get_public_key(account)
-        return self.account_api.get_account_info(self.environment, self.index, account)
+        return self.account_api.get_account_info(self.environment, self.index, account, commitment)
 
     def get_app_config(self, environment, index):
         return self.app_api.get_app_config(environment, index)
 
-    def get_balance(self, account: PublicKeyString):
+    def get_balance(self, account: PublicKeyString, commitment: Commitment = Commitment("Confirmed")):
         account = get_public_key(account)
-        return self.account_api.get_balance(self.environment, self.index, account)
+        return self.account_api.get_balance(self.environment, self.index, account, commitment)
 
     def get_explorer_url(self, path: str):
         return self.app_config['environment']['explorer'].replace('{path}', path)
 
-    def get_history(self, account: PublicKeyString, mint: PublicKeyString):
+    def get_history(self, account: PublicKeyString, mint: PublicKeyString, commitment: Commitment = Commitment("Confirmed")):
         mint = self._get_app_mint(self.app_config, mint)
         account = get_public_key(account)
-        return self.account_api.get_history(self.environment, self.index, account, mint)
+        return self.account_api.get_history(self.environment, self.index, account, mint, commitment)
 
-    def get_token_accounts(self, account: PublicKeyString, mint: PublicKeyString):
+    def get_token_accounts(self, account: PublicKeyString, mint: PublicKeyString, commitment: Commitment = Commitment("Confirmed")):
         mint = self._get_app_mint(self.app_config, mint)
         account = get_public_key(account)
-        return self.account_api.get_token_accounts(self.environment, self.index, account, mint)
+        return self.account_api.get_token_accounts(self.environment, self.index, account, mint, commitment)
 
-    def get_transaction(self, signature: str):
-        return self.transaction_api.get_transaction(self.environment, self.index, signature)
+    def get_transaction(self, signature: str, commitment: Commitment = Commitment("Confirmed")):
+        return self.transaction_api.get_transaction(self.environment, self.index, signature, commitment=commitment)
 
     def make_transfer(
         self,
@@ -206,6 +206,9 @@ class KineticSdkInternal(object):
             amount=amount,
         )
         return self.airdrop_api.request_airdrop(request_airdrop_request)
+
+    def _get_commitment(self, commitment: Commitment = Commitment("Confirmed")):
+        return commitment
 
     def _prepare_transaction(self, environment, index):
         return self.transaction_api.get_latest_blockhash(environment, index)
