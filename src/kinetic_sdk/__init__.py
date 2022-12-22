@@ -14,7 +14,30 @@ class KineticSdk(object):
         self.config = { 'endpoint': endpoint, 'environment': environment, 'index': index, 'headers': headers }
         self.internal = KineticSdkInternal(self.config)
 
-    def create_account(self, owner: Keypair, mint: PublicKeyString = None, commitment=Commitment("Confirmed"), reference_id: str = None, reference_type: str = None):
+    def close_account(
+        self,
+        account: PublicKeyString,
+        commitment=Commitment("Confirmed"),
+        mint: PublicKeyString = None,
+        reference_id: str = None,
+        reference_type: str = None
+    ):
+        return self.internal.close_account(
+            account,
+            commitment,
+            mint,
+            reference_id,
+            reference_type
+        )
+
+    def create_account(
+        self,
+        owner: Keypair,
+        mint: PublicKeyString = None,
+        commitment=Commitment("Confirmed"),
+        reference_id: str = None,
+        reference_type: str = None
+    ):
         return self.internal.create_account(owner, mint, commitment, reference_id, reference_type)
 
     def get_account_info(self, account: PublicKeyString):
