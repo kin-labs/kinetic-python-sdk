@@ -38,7 +38,7 @@ class KineticSdk(object):
         reference_id: str = None,
         reference_type: str = None
     ):
-        return self.internal.create_account(owner, mint, commitment, reference_id, reference_type)
+        return self.internal.create_account(owner, mint, reference_id, reference_type, commitment)
 
     def get_account_info(self, account: PublicKeyString):
         return self.internal.get_account_info(account)
@@ -70,7 +70,7 @@ class KineticSdk(object):
         reference_type: str = None,
         sender_create: bool = False
     ):
-        return self.internal.make_transfer(owner, destination, amount, mint, tx_type, commitment, reference_id, reference_type, sender_create)
+        return self.internal.make_transfer(owner, destination, amount, mint, tx_type, reference_id, reference_type, sender_create, commitment)
 
     def make_transfer_batch(
         self,
@@ -82,7 +82,7 @@ class KineticSdk(object):
         reference_id: str = None,
         reference_type: str = None
     ):
-        return self.internal.make_transfer_batch(owner, destinations, mint, tx_type, commitment, reference_id, reference_type)
+        return self.internal.make_transfer_batch(owner, destinations, mint, tx_type, reference_id, reference_type, commitment)
 
     def request_airdrop(
         self,
