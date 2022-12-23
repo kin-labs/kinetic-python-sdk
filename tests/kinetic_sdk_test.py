@@ -1,3 +1,4 @@
+from kinetic_sdk.generated.client.model.account_info import AccountInfo
 from kinetic_sdk.generated.client.model.balance_response import BalanceResponse
 from kinetic_sdk.generated.client.model.balance_token import BalanceToken
 from kinetic_sdk.generated.client.model.commitment import Commitment
@@ -43,7 +44,7 @@ def test_get_balance():
 def test_get_config():
     """ Test getting config of an account """
     config = sdk.config
-    print(config)
+    # print(config)
     assert type(config) == dict
     assert type(config.get('endpoint')) == str
     assert type(config.get('environment')) == str
@@ -158,3 +159,23 @@ def test_sender_crete():
         sender_create=True
     )
     # print(tx['signature'])
+
+def test_get_account_info():
+    """ Test getting account info """
+    account_info = sdk.get_account_info(account)
+    # print(account_info)
+    assert type(account_info) == AccountInfo
+    assert type(account_info['is_mint']) == bool
+    assert type(account_info['is_owner']) == bool
+    assert type(account_info['is_token_account']) == bool
+    assert type(account_info['tokens']) == list
+
+def test_close_account():
+    """ Test closing an account """
+    owner = Keypair.random()
+    sdk.create_account(owner, commitment=Commitment('Finalized'))
+    account_closed = sdk.close_account(
+        account=str(owner.public_key),
+        commitment=Commitment('Finalized')
+    )
+    # print(account_closed)
