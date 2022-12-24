@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring,import-error
 from solders.instruction import AccountMeta, Instruction
 from solders.pubkey import Pubkey
 

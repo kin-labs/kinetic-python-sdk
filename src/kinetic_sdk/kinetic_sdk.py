@@ -1,3 +1,5 @@
+# pylint: disable=missing-function-docstring,missing-class-docstring,too-many-arguments,fixme
+"""Kinetic Sdk"""
 from typing import Dict, List, Optional
 
 from kinetic_sdk.generated.client.model.commitment import Commitment
@@ -8,7 +10,7 @@ from kinetic_sdk.models.public_key_string import PublicKeyString
 from kinetic_sdk.models.transaction_type import TransactionType
 
 
-class KineticSdk(object):
+class KineticSdk:
     def __init__(self, sdk_config):
         self.sdk_config = sdk_config
         self.internal = KineticSdkInternal(self.sdk_config)
@@ -100,13 +102,13 @@ class KineticSdk(object):
         return self.internal.request_airdrop(
             account,
             amount,
-            mint,
             commitment,
+            mint,
         )
 
     def init(self):
         # TODO: Add logging like in the other SDKs
-        config = self.internal.get_app_config(self.sdk_config["environment"], self.sdk_config["index"])
+        self.internal.get_app_config(self.sdk_config["environment"], self.sdk_config["index"])
         # TODO: Set up Solana instance
 
     @staticmethod

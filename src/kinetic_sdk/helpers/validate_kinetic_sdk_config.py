@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring
 from kinetic_sdk.generated.client.model.commitment import Commitment
 
 
@@ -13,8 +14,8 @@ def validate_kinetic_sdk_config(config):
         raise Exception("validate_kinetic_sdk_config: no index configured.")
     try:
         int(config["index"])
-    except ValueError:
-        raise Exception("validate_kinetic_sdk_config: index should be an integer.")
+    except ValueError as exc:
+        raise Exception("validate_kinetic_sdk_config: index should be an integer.") from exc
 
     if "commitment" not in config:
         config["commitment"] = Commitment("Confirmed")

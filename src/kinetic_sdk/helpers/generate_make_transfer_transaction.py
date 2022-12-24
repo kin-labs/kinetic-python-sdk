@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring,import-error,too-many-arguments,too-many-locals
 from solana.publickey import PublicKey
 from solders.message import Message as SoldersMessage
 from spl.token.instructions import get_associated_token_address

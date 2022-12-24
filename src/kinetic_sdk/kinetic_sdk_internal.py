@@ -1,3 +1,5 @@
+# pylint: disable=missing-function-docstring,missing-class-docstring,too-many-arguments
+"""Kinetic SDK Internal"""
 from typing import Optional
 
 import pybase64
@@ -22,7 +24,7 @@ from kinetic_sdk.models.transaction_type import TransactionType
 from kinetic_sdk.models.version import NAME, VERSION
 
 
-class KineticSdkInternal(object):
+class KineticSdkInternal:
     def __init__(self, config):
         self.app_config = None
         self.sdk_config = config
@@ -99,8 +101,8 @@ class KineticSdkInternal(object):
     def get_account_info(
         self,
         account: PublicKeyString,
-        mint: Optional[PublicKeyString] = None,
         commitment: Optional[Commitment] = None,
+        mint: Optional[PublicKeyString] = None,
     ):
         app_config = self._ensure_app_config()
         commitment = self._get_commitment(commitment)
@@ -226,6 +228,7 @@ class KineticSdkInternal(object):
             mint_public_key=mint,
             recent_blockhash=blockhash["blockhash"],
             source=owner,
+            tx_type=tx_type,
         )
 
         request = MakeTransferRequest(
@@ -262,12 +265,11 @@ class KineticSdkInternal(object):
         return self.airdrop_api.request_airdrop(request)
 
     def _get_commitment(self, commitment: Optional[Commitment] = None) -> Commitment:
-        if commitment != None:
+        if commitment is not None:
             return commitment
-        elif self.sdk_config["commitment"] is not None:
+        if self.sdk_config["commitment"] is not None:
             return self.sdk_config["commitment"]
-        else:
-            return Commitment("Confirmed")
+        return Commitment("Confirmed")
 
     def _prepare_transaction(self, environment: str, index: int):
         return self.transaction_api.get_latest_blockhash(environment, index)

@@ -10,9 +10,9 @@ format:
 
 lint:
 	poetry run black --check --diff --line-length=120 src tests
-	poetry run pydocstyle src tests
+	#poetry run pydocstyle src tests
 	poetry run flake8 src tests
-	poetry run mypy src
+	#poetry run mypy src
 	poetry run pylint --rcfile=.pylintrc src tests
 
 generate:

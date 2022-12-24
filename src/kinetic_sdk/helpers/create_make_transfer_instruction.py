@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring,import-error,too-many-arguments,too-many-locals
 from solders.instruction import AccountMeta, Instruction
 from solders.pubkey import Pubkey
 from spl.token._layouts import INSTRUCTIONS_LAYOUT, InstructionType

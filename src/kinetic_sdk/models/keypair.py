@@ -1,3 +1,5 @@
+# pylint: disable=missing-function-docstring,import-error
+"""Kinetic Keypair"""
 from typing import Union
 
 from bip_utils import (
@@ -14,7 +16,8 @@ from solana.keypair import Keypair as SolanaKeypair
 from solders.keypair import Keypair as SoldersKeypair
 
 
-class Keypair(object):
+class Keypair:
+    """Keypair class."""
 
     keypair: SolanaKeypair
     mnemonic: Mnemonic
@@ -24,10 +27,11 @@ class Keypair(object):
         self.keypair = SolanaKeypair.from_solders(Keypair.from_mnemonic(str(self.mnemonic)))
 
     @staticmethod
+    # pylint: disable=inconsistent-return-statements
     def generate_mnemonic(strength: int = 128):
         if strength == 128:
             return Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
-        elif strength == 256:
+        if strength == 256:
             return Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
 
     @staticmethod
@@ -37,11 +41,11 @@ class Keypair(object):
         return keypair
 
     @staticmethod
-    def from_mnemonic_set(mnemonic_phrase: Union[str, Mnemonic], fr=0, to=2):
-        keypairs = [i for i in range(to)]
+    def from_mnemonic_set(mnemonic_phrase: Union[str, Mnemonic], from_index=0, to_index=2):
+        keypairs = list(range(from_index, to_index))
         seed_bytes = Bip39SeedGenerator(str(mnemonic_phrase), Bip39Languages.ENGLISH).Generate("")
         bip44_seeds = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA).Purpose().Coin()
-        for i in range(fr, to):
+        for i in range(from_index, to_index):
             solders_keypair = SoldersKeypair.from_seed(
                 bip44_seeds.Account(i).Change(Bip44Changes.CHAIN_EXT).PrivateKey().Raw().ToBytes()
             )
@@ -51,7 +55,7 @@ class Keypair(object):
 
     @staticmethod
     def from_byte_array(key):
-        if type(key) is str:
+        if isinstance(key, str):
             return SolanaKeypair.from_secret_key(Keypair.to_bytes_array(key))
         return SolanaKeypair.from_secret_key(key)
 
@@ -92,6 +96,9 @@ class Keypair(object):
     def to_solders(self):
         return self.keypair.to_solders()
 
+    # pylint: disable=no-self-argument
     def to_bytes_array(secret):
-        secret = secret.replace("[", "").replace("]", "").split(", ")
-        return [eval(i) for i in secret]
+        # pylint: disable=no-member
+        parsed = secret.replace("[", "").replace("]", "").split(", ")
+        # pylint: disable=eval-used
+        return [eval(i) for i in parsed]

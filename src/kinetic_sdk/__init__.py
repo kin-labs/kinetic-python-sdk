@@ -1,3 +1,5 @@
+"""Kinetic Python SDK"""
+# flake8: noqa: F401
 import sys
 
 from .generated.client.model.account_info import AccountInfo

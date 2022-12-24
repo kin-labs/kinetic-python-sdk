@@ -1,9 +1,9 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring
 def get_solana_rpc_endpoint(endpoint: str):
     if endpoint == "devnet":
         return "devnet"
-    elif endpoint == "mainnet" or endpoint == "mainnet-beta":
+    if endpoint in ("mainnet", "mainnet-beta"):
         return "mainnet-beta"
-    elif endpoint.startswith("http"):
+    if endpoint.startswith("http"):
         return endpoint
-    else:
-        raise "Unknown http or https endpoint"
+    raise ValueError("Unknown http or https endpoint")

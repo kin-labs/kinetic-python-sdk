@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring,import-error,too-many-arguments,too-many-locals
 from typing import Dict, List
 
 from solana.publickey import PublicKey

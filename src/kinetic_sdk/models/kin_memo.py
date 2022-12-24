@@ -1,3 +1,6 @@
+# pylint: disable=missing-module-docstring,invalid-name
+from typing import Optional
+
 from kinetic_sdk.models.transaction_type import TransactionType
 
 MAGIC_BYTE = 0x1
@@ -27,7 +30,9 @@ class KinMemo:
         return f"{self.__class__.__name__}(" f"val={self.val})"
 
     @classmethod
-    def new(cls, version: int, tx_type: TransactionType, app_index: int, foreign_key: bytes) -> "KinMemo":
+    def new(
+        cls, version: int, tx_type: TransactionType, app_index: int, foreign_key: Optional[bytes] = None
+    ) -> "KinMemo":
         """Returns a Kinetic memo containing the provided properties.
         :param version: The memo encoding version
         :param tx_type: The :class:`TransactionType <Kinetic.model.transaction_type.TransactionType>` of the transaction

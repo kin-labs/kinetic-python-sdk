@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring,import-error
 from solana.publickey import PublicKey
 from solana.transaction import Transaction
 from solders.hash import Hash

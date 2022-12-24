@@ -1,12 +1,14 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring,import-error
 from solana.publickey import PublicKey
 
 from kinetic_sdk.models.public_key_string import PublicKeyString
 
 
 def get_public_key(account: PublicKeyString) -> str:
-    if type(account) is str:
+    """Get the string representation of a PublicKey."""
+    if isinstance(account, str):
         return account
-    if type(account) is PublicKey:
+    if isinstance(account, PublicKey):
         return account.to_base58().decode()
-    else:
-        raise "PublicKeyString must be a PublicKey or a str"
+
+    raise TypeError("PublicKeyString must be a PublicKey or a str")
