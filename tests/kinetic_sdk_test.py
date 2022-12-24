@@ -1,19 +1,7 @@
-from kinetic_sdk.generated.client.model.app_config import AppConfig
-from kinetic_sdk.generated.client.model.account_info import AccountInfo
-from kinetic_sdk.generated.client.model.balance_response import BalanceResponse
-from kinetic_sdk.generated.client.model.balance_token import BalanceToken
-from kinetic_sdk.generated.client.model.cluster_type import ClusterType
-from kinetic_sdk.generated.client.model.commitment import Commitment
-from kinetic_sdk.generated.client.model.history_response import HistoryResponse
-from kinetic_sdk.generated.client.model.request_airdrop_response import RequestAirdropResponse
-from kinetic_sdk.generated.client.model.transaction import Transaction
-from kinetic_sdk.generated.client.model.transaction_status import TransactionStatus
 from solana.publickey import PublicKey
 
-from kinetic_sdk import KineticSdk
-from kinetic_sdk.models.keypair import Keypair
-
-
+from kinetic_sdk import AccountInfo, AppConfig, BalanceResponse, BalanceToken, ClusterType, Commitment, HistoryResponse, \
+    Keypair, KineticSdk, RequestAirdropResponse, Transaction, TransactionStatus
 
 sdk = KineticSdk.setup(
     endpoint='http://localhost:3000',

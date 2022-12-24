@@ -1,7 +1,4 @@
-from kinetic_sdk import KineticSdk
-from kinetic_sdk.models.keypair import Keypair
-import base64
-
+from kinetic_sdk import Keypair, KineticSdk
 
 sdk = KineticSdk.setup(
     endpoint='http://localhost:3000',
