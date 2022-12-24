@@ -1,6 +1,4 @@
-import base64
-
-from models.transaction_type import TransactionType
+from kinetic_sdk.models.transaction_type import TransactionType
 
 MAGIC_BYTE = 0x1
 
