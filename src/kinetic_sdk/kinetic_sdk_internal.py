@@ -90,10 +90,16 @@ class KineticSdkInternal(object):
 
         return self.account_api.create_account(create_account_request)
 
-    def get_account_info(self, account: PublicKeyString, commitment: Optional[Commitment] = None):
+    def get_account_info(
+            self,
+            account: PublicKeyString,
+            mint: Optional[PublicKeyString] = None,
+            commitment: Optional[Commitment] = None,
+    ):
         account = get_public_key(account)
         commitment = self._get_commitment(commitment)
-        return self.account_api.get_account_info(self.environment, self.index, account, commitment)
+        mint = self._get_app_mint(self.app_config, mint)
+        return self.account_api.get_account_info(self.environment, self.index, account, mint, commitment)
 
     def get_app_config(self, environment, index):
         return self.app_api.get_app_config(environment, index)
