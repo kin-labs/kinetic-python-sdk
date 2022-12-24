@@ -1,5 +1,3 @@
-from enum import IntEnum
-from typing import List
 from solana.publickey import PublicKey
 
 from solders.instruction import AccountMeta, Instruction
@@ -18,7 +16,6 @@ from kinetic_sdk.models.constants import SYSTEM_PROGRAM_PROGRAM_ID
 from kinetic_sdk.models.constants import SYSVAR_RENT_PUBKEY
 from kinetic_sdk.models.constants import TOKEN_PROGRAM_ID
 
-from kinetic_sdk.models.public_key_string import PublicKeyString
 from kinetic_sdk.models.keypair import Keypair
 
 
@@ -49,8 +46,8 @@ def generate_create_account_transaction(
     add_memo: bool,
     app_index: int,
     recent_blockhash: str,
-    mint_fee_payer: PublicKeyString,
-    mint_public_key: PublicKeyString,
+    mint_fee_payer: str,
+    mint_public_key: str,
     owner: Keypair,
 ):
     associated_token_account = get_associated_token_address(

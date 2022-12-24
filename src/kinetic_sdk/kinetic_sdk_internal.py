@@ -1,4 +1,3 @@
-from tempfile import NamedTemporaryFile
 from typing import Optional
 from kinetic_sdk.helpers.generate_make_transfer_batch_transaction import generate_make_transfer_batch_transaction
 from kinetic_sdk.generated.client.api.account_api import AccountApi
@@ -28,59 +27,69 @@ import pybase64
 class KineticSdkInternal(object):
 
     def __init__(self, config):
-        configuration = Configuration(host=config['endpoint'], discard_unknown_keys=True)
+        self.app_config = None
+        self.sdk_config = config
+
+        # Create the API configuration
+        configuration = Configuration(host=self.sdk_config['endpoint'], discard_unknown_keys=True)
         api_client = self._api_base_options(configuration, config)
+
+        # Create the API instances
         self.account_api = AccountApi(api_client)
         self.airdrop_api = AirdropApi(api_client)
         self.app_api = AppApi(api_client)
         self.transaction_api = TransactionApi(api_client)
-        self.environment = config['environment']
-        self.index = config['index']
-        self.commitment = None
-        self.app_config = self.app_api.get_app_config(self.environment, self.index)
-
 
     def close_account(
-        self,
-        account: PublicKeyString,
-        commitment: Commitment,
-        mint: PublicKeyString,
-        reference_id: str,
-        reference_type: str
+            self,
+            account: PublicKeyString,
+            commitment: Commitment,
+            mint: PublicKeyString,
+            reference_id: str,
+            reference_type: str
     ):
         app_config = self._ensure_app_config()
+        commitment = self._get_commitment(commitment)
         mint = self._get_app_mint(app_config, mint)
-        close_account_request = CloseAccountRequest(
-            account=account,
+
+        request = CloseAccountRequest(
+            account=get_public_key(account),
             commitment=commitment,
-            environment=self.environment,
-            index=self.index,
+            environment=self.sdk_config['environment'],
+            index=self.sdk_config['index'],
             mint=mint,
             reference_id=reference_id,
             reference_type=reference_type,
         )
 
-        return self.account_api.close_account(close_account_request)
+        return self.account_api.close_account(request)
 
-    def create_account(self, owner: Keypair, mint: str, reference_id: str, reference_type: str, commitment: Optional[Commitment] = None):
+    def create_account(
+            self,
+            owner: Keypair,
+            commitment: Optional[Commitment] = None,
+            mint: Optional[PublicKeyString] = None,
+            reference_id: Optional[str] = None,
+            reference_type: Optional[str] = None
+    ):
         app_config = self._ensure_app_config()
         commitment = self._get_commitment(commitment)
         mint = self._get_app_mint(app_config, mint)
 
-        blockhash = self._prepare_transaction(self.environment, self.index)
+        blockhash = self._prepare_transaction(self.sdk_config['environment'], self.sdk_config['index'])
         tx = generate_create_account_transaction(
             add_memo=False,
-            app_index=self.index,
+            app_index=self.sdk_config['index'],
             recent_blockhash=blockhash['blockhash'],
             mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
             owner=owner,
         )
 
-        create_account_request = CreateAccountRequest(
+        request = CreateAccountRequest(
             commitment=commitment,
-            environment=self.environment,
-            index=self.index,
+            environment=self.sdk_config['environment'],
+            index=self.sdk_config['index'],
             last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
             reference_id=reference_id,
@@ -88,7 +97,7 @@ class KineticSdkInternal(object):
             tx=pybase64.b64encode_as_string(tx),
         )
 
-        return self.account_api.create_account(create_account_request)
+        return self.account_api.create_account(request)
 
     def get_account_info(
             self,
@@ -96,51 +105,71 @@ class KineticSdkInternal(object):
             mint: Optional[PublicKeyString] = None,
             commitment: Optional[Commitment] = None,
     ):
-        account = get_public_key(account)
+        app_config = self._ensure_app_config()
         commitment = self._get_commitment(commitment)
-        mint = self._get_app_mint(self.app_config, mint)
-        return self.account_api.get_account_info(self.environment, self.index, account, mint, commitment)
+        mint = self._get_app_mint(app_config, mint)
+
+        return self.account_api.get_account_info(
+            self.sdk_config['environment'],
+            self.sdk_config['index'],
+            get_public_key(account),
+            mint,
+            commitment,
+    )
 
     def get_app_config(self, environment, index):
-        return self.app_api.get_app_config(environment, index)
+        self.app_config = self.app_api.get_app_config(environment, index)
+
+        return self.app_config
 
     def get_balance(self, account: PublicKeyString, commitment: Optional[Commitment] = None):
-        account = get_public_key(account)
         commitment = self._get_commitment(commitment)
-        return self.account_api.get_balance(self.environment, self.index, account, commitment)
+
+        return self.account_api.get_balance(self.sdk_config['environment'], self.sdk_config['index'], get_public_key(account), commitment)
 
     def get_explorer_url(self, path: str):
         return self.app_config['environment']['explorer'].replace('{path}', path)
 
-    def get_history(self, account: PublicKeyString, mint: PublicKeyString, commitment: Optional[Commitment] = None):
+    def get_history(
+            self,
+            account: PublicKeyString,
+            mint: PublicKeyString,
+            commitment: Optional[Commitment] = None,
+    ):
         mint = self._get_app_mint(self.app_config, mint)
-        account = get_public_key(account)
         commitment = self._get_commitment(commitment)
-        return self.account_api.get_history(self.environment, self.index, account, mint, commitment)
 
-    def get_token_accounts(self, account: PublicKeyString, mint: PublicKeyString, commitment: Optional[Commitment] = None):
+        return self.account_api.get_history(self.sdk_config['environment'], self.sdk_config['index'], get_public_key(account), mint, commitment)
+
+    def get_token_accounts(
+            self,
+            account: PublicKeyString,
+            mint: PublicKeyString,
+            commitment: Optional[Commitment] = None
+    ):
         mint = self._get_app_mint(self.app_config, mint)
-        account = get_public_key(account)
         commitment = self._get_commitment(commitment)
-        return self.account_api.get_token_accounts(self.environment, self.index, account, mint, commitment)
+
+        return self.account_api.get_token_accounts(self.sdk_config['environment'], self.sdk_config['index'], get_public_key(account), mint, commitment)
 
     def get_transaction(self, signature: str, commitment: Optional[Commitment] = None):
         commitment = self._get_commitment(commitment)
-        return self.transaction_api.get_transaction(self.environment, self.index, signature, commitment=commitment)
+
+        return self.transaction_api.get_transaction(self.sdk_config['environment'], self.sdk_config['index'], signature, commitment=commitment)
 
     def make_transfer(
-        self,
-        owner: Keypair,
-        destination: PublicKeyString,
-        amount: str,
-        mint: PublicKeyString,
-        tx_type: TransactionType,
-        reference_id: str,
-        reference_type: str,
-        sender_create: bool,
-        commitment: Optional[Commitment] = None
+            self,
+            owner: Keypair,
+            destination: PublicKeyString,
+            amount: str,
+            mint: PublicKeyString,
+            tx_type: TransactionType,
+            reference_id: str,
+            reference_type: str,
+            sender_create: bool,
+            commitment: Optional[Commitment] = None
     ):
-        blockhash = self._prepare_transaction(self.environment, self.index)
+        blockhash = self._prepare_transaction(self.sdk_config['environment'], self.sdk_config['index'])
         commitment = self._get_commitment(commitment)
         mint = self._get_app_mint(self.app_config, mint)
         destination = get_public_key(destination)
@@ -148,21 +177,21 @@ class KineticSdkInternal(object):
         tx = generate_make_transfer_transaction(
             amount=amount,
             add_memo=False,
-            app_index=self.index,
+            app_index=self.sdk_config['index'],
             recent_blockhash=blockhash['blockhash'],
             destination=destination,
             decimals=self.app_config['mint']['decimals'],
             mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
             source=owner,
-            sender_create = sender_create,
-            tx_type = tx_type
+            sender_create=sender_create,
+            tx_type=tx_type
         )
 
-        make_transfer_request = MakeTransferRequest(
+        request = MakeTransferRequest(
             commitment=commitment,
-            environment=self.environment,
-            index=self.index,
+            environment=self.sdk_config['environment'],
+            index=self.sdk_config['index'],
             last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
             reference_id=reference_id,
@@ -170,25 +199,25 @@ class KineticSdkInternal(object):
             tx=pybase64.b64encode_as_string(tx),
         )
 
-        return self.transaction_api.make_transfer(make_transfer_request)
+        return self.transaction_api.make_transfer(request)
 
     def make_transfer_batch(
-        self,
-        owner,
-        destinations,
-        mint,
-        tx_type,
-        reference_id: str,
-        reference_type: str,
-        commitment: Optional[Commitment] = None
+            self,
+            owner,
+            destinations,
+            mint,
+            tx_type,
+            reference_id: str,
+            reference_type: str,
+            commitment: Optional[Commitment] = None
     ):
-        blockhash = self._prepare_transaction(self.environment, self.index)
+        blockhash = self._prepare_transaction(self.sdk_config['environment'], self.sdk_config['index'])
         commitment = self._get_commitment(commitment)
         mint = self._get_app_mint(self.app_config, mint)
 
         tx = generate_make_transfer_batch_transaction(
             add_memo=False,
-            app_index=self.index,
+            app_index=self.sdk_config['index'],
             recent_blockhash=blockhash['blockhash'],
             destinations=destinations,
             decimals=self.app_config['mint']['decimals'],
@@ -197,10 +226,10 @@ class KineticSdkInternal(object):
             source=owner,
         )
 
-        make_transfer_batch_request = MakeTransferRequest(
+        request = MakeTransferRequest(
             commitment=commitment,
-            environment=self.environment,
-            index=self.index,
+            environment=self.sdk_config['environment'],
+            index=self.sdk_config['index'],
             last_valid_block_height=blockhash['last_valid_block_height'],
             mint=mint,
             reference_id=reference_id,
@@ -208,32 +237,37 @@ class KineticSdkInternal(object):
             tx=pybase64.b64encode_as_string(tx),
         )
 
-        return self.transaction_api.make_transfer(make_transfer_batch_request)
+        return self.transaction_api.make_transfer(request)
 
-
-    def request_airdrop(self, account: PublicKeyString, amount: str, mint: str, commitment: Optional[Commitment] = None):
+    def request_airdrop(
+            self,
+            account: PublicKeyString,
+            amount: str,
+            commitment: Optional[Commitment] = None,
+            mint: Optional[PublicKeyString] = None,
+    ):
         mint = self._get_app_mint(self.app_config, mint)
-        account = get_public_key(account)
         commitment = self._get_commitment(commitment)
-        request_airdrop_request = RequestAirdropRequest(
-            account=account,
+
+        request = RequestAirdropRequest(
+            account=get_public_key(account),
             commitment=commitment,
-            environment=self.environment,
-            index=self.index,
+            environment=self.sdk_config['environment'],
+            index=self.sdk_config['index'],
             mint=mint,
             amount=amount,
         )
-        return self.airdrop_api.request_airdrop(request_airdrop_request)
+        return self.airdrop_api.request_airdrop(request)
 
     def _get_commitment(self, commitment: Optional[Commitment] = None) -> Commitment:
         if commitment != None:
             return commitment
-        elif self.commitment != None:
-            return self.commitment
+        elif self.sdk_config['commitment'] is not None:
+            return self.sdk_config['commitment']
         else:
             return Commitment("Confirmed")
 
-    def _prepare_transaction(self, environment, index):
+    def _prepare_transaction(self, environment: str, index: int):
         return self.transaction_api.get_latest_blockhash(environment, index)
 
     def _ensure_app_config(self):
@@ -241,8 +275,8 @@ class KineticSdkInternal(object):
             raise Exception("App config not initialized")
         return self.app_config
 
-    def _get_app_mint(self, app_config, mint: PublicKeyString):
-        if mint == None:
+    def _get_app_mint(self, app_config, mint: Optional[PublicKeyString] = None):
+        if mint is None:
             mint = app_config.mint.public_key
 
         mint = get_public_key(mint)
@@ -252,7 +286,6 @@ class KineticSdkInternal(object):
             raise Exception("Mint not found")
 
         return mint
-
 
     def _api_base_options(self, configuration: Configuration, config):
         api_client = ApiClient(configuration)

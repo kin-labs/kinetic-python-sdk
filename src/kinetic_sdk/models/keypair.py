@@ -36,15 +36,15 @@ class Keypair(object):
         seed_bytes = Bip39SeedGenerator(str(mnemonic_phrase), Bip39Languages.ENGLISH).Generate("")
         bip44_seeds = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA).Purpose().Coin()
         for i in range(fr, to):
-            soldersKeypair = SoldersKeypair.from_seed(bip44_seeds.Account(i).Change(Bip44Changes.CHAIN_EXT).PrivateKey().Raw().ToBytes())
-            keypairs[i] = SolanaKeypair.from_solders(soldersKeypair)
+            solders_keypair = SoldersKeypair.from_seed(bip44_seeds.Account(i).Change(Bip44Changes.CHAIN_EXT).PrivateKey().Raw().ToBytes())
+            keypairs[i] = SolanaKeypair.from_solders(solders_keypair)
 
         return keypairs
 
 
     @staticmethod
     def from_byte_array(key):
-        if (type(key) is str):
+        if type(key) is str:
             return SolanaKeypair.from_secret_key(Keypair.to_bytes_array(key))
         return SolanaKeypair.from_secret_key(key)
 
@@ -60,15 +60,14 @@ class Keypair(object):
 
     @staticmethod
     def from_secret(secret):
-        keypair: SolanaKeypair = None
-        if(Keypair.is_mnemonic(secret)):
+        if Keypair.is_mnemonic(secret):
             keypair = Keypair.from_mnemonic(secret)
-        elif(Keypair.is_byte_array(secret)):
+        elif Keypair.is_byte_array(secret):
             keypair = Keypair.from_byte_array(secret)
         else:
             keypair = SolanaKeypair.from_secret_key(secret)
 
-        if(keypair is None):
+        if keypair is None:
             raise Exception("Invalid secret")
 
         return keypair
