@@ -79,7 +79,7 @@ class KineticSdkInternal(object):
         blockhash = self._prepare_transaction(self.sdk_config['environment'], self.sdk_config['index'])
         tx = generate_create_account_transaction(
             add_memo=False,
-            app_index=self.sdk_config['index'],
+            index=self.sdk_config['index'],
             recent_blockhash=blockhash['blockhash'],
             mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
@@ -175,16 +175,16 @@ class KineticSdkInternal(object):
         destination = get_public_key(destination)
 
         tx = generate_make_transfer_transaction(
-            amount=amount,
             add_memo=False,
-            app_index=self.sdk_config['index'],
-            recent_blockhash=blockhash['blockhash'],
-            destination=destination,
+            amount=amount,
             decimals=self.app_config['mint']['decimals'],
+            destination=destination,
+            index=self.sdk_config['index'],
             mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
-            source=owner,
+            recent_blockhash=blockhash['blockhash'],
             sender_create=sender_create,
+            source=owner,
             tx_type=tx_type
         )
 
@@ -217,12 +217,12 @@ class KineticSdkInternal(object):
 
         tx = generate_make_transfer_batch_transaction(
             add_memo=False,
-            app_index=self.sdk_config['index'],
-            recent_blockhash=blockhash['blockhash'],
-            destinations=destinations,
             decimals=self.app_config['mint']['decimals'],
+            destinations=destinations,
+            index=self.sdk_config['index'],
             mint_fee_payer=self.app_config['mint']['fee_payer'],
             mint_public_key=mint,
+            recent_blockhash=blockhash['blockhash'],
             source=owner,
         )
 
