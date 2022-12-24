@@ -19,9 +19,11 @@ from kinetic_sdk.generated.client.api_client import ApiClient
 from kinetic_sdk.generated.client.configuration import Configuration
 
 # import exceptions
-from kinetic_sdk.generated.client.exceptions import OpenApiException
-from kinetic_sdk.generated.client.exceptions import ApiAttributeError
-from kinetic_sdk.generated.client.exceptions import ApiTypeError
-from kinetic_sdk.generated.client.exceptions import ApiValueError
-from kinetic_sdk.generated.client.exceptions import ApiKeyError
-from kinetic_sdk.generated.client.exceptions import ApiException
+from kinetic_sdk.generated.client.exceptions import (
+    ApiAttributeError,
+    ApiException,
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    OpenApiException,
+)

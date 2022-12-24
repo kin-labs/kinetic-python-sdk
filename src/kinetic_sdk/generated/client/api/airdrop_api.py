@@ -11,7 +11,10 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from kinetic_sdk.generated.client.api_client import ApiClient, Endpoint as _Endpoint
+from kinetic_sdk.generated.client.api_client import ApiClient
+from kinetic_sdk.generated.client.api_client import Endpoint as _Endpoint
+from kinetic_sdk.generated.client.model.request_airdrop_request import RequestAirdropRequest
+from kinetic_sdk.generated.client.model.request_airdrop_response import RequestAirdropResponse
 from kinetic_sdk.generated.client.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -19,10 +22,8 @@ from kinetic_sdk.generated.client.model_utils import (  # noqa: F401
     datetime,
     file_type,
     none_type,
-    validate_and_convert_types
+    validate_and_convert_types,
 )
-from kinetic_sdk.generated.client.model.request_airdrop_request import RequestAirdropRequest
-from kinetic_sdk.generated.client.model.request_airdrop_response import RequestAirdropResponse
 
 
 class AirdropApi(object):
@@ -38,61 +39,42 @@ class AirdropApi(object):
         self.api_client = api_client
         self.request_airdrop_endpoint = _Endpoint(
             settings={
-                'response_type': (RequestAirdropResponse,),
-                'auth': [],
-                'endpoint_path': '/api/airdrop',
-                'operation_id': 'request_airdrop',
-                'http_method': 'POST',
-                'servers': None,
+                "response_type": (RequestAirdropResponse,),
+                "auth": [],
+                "endpoint_path": "/api/airdrop",
+                "operation_id": "request_airdrop",
+                "http_method": "POST",
+                "servers": None,
             },
             params_map={
-                'all': [
-                    'request_airdrop_request',
+                "all": [
+                    "request_airdrop_request",
                 ],
-                'required': [
-                    'request_airdrop_request',
+                "required": [
+                    "request_airdrop_request",
                 ],
-                'nullable': [
-                ],
-                'enum': [
-                ],
-                'validation': [
-                ]
+                "nullable": [],
+                "enum": [],
+                "validation": [],
             },
             root_map={
-                'validations': {
+                "validations": {},
+                "allowed_values": {},
+                "openapi_types": {
+                    "request_airdrop_request": (RequestAirdropRequest,),
                 },
-                'allowed_values': {
+                "attribute_map": {},
+                "location_map": {
+                    "request_airdrop_request": "body",
                 },
-                'openapi_types': {
-                    'request_airdrop_request':
-                        (RequestAirdropRequest,),
-                },
-                'attribute_map': {
-                },
-                'location_map': {
-                    'request_airdrop_request': 'body',
-                },
-                'collection_format_map': {
-                }
+                "collection_format_map": {},
             },
-            headers_map={
-                'accept': [
-                    'application/json'
-                ],
-                'content_type': [
-                    'application/json'
-                ]
-            },
-            api_client=api_client
+            headers_map={"accept": ["application/json"], "content_type": ["application/json"]},
+            api_client=api_client,
         )
 
-    def request_airdrop(
-        self,
-        request_airdrop_request,
-        **kwargs
-    ):
-        """  # noqa: E501
+    def request_airdrop(self, request_airdrop_request, **kwargs):
+        """# noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -140,32 +122,15 @@ class AirdropApi(object):
                 If the method is called asynchronously, returns the request
                 thread.
         """
-        kwargs['async_req'] = kwargs.get(
-            'async_req', False
-        )
-        kwargs['_return_http_data_only'] = kwargs.get(
-            '_return_http_data_only', True
-        )
-        kwargs['_preload_content'] = kwargs.get(
-            '_preload_content', True
-        )
-        kwargs['_request_timeout'] = kwargs.get(
-            '_request_timeout', None
-        )
-        kwargs['_check_input_type'] = kwargs.get(
-            '_check_input_type', True
-        )
-        kwargs['_check_return_type'] = kwargs.get(
-            '_check_return_type', True
-        )
-        kwargs['_spec_property_naming'] = kwargs.get(
-            '_spec_property_naming', False
-        )
-        kwargs['_content_type'] = kwargs.get(
-            '_content_type')
-        kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
-        kwargs['request_airdrop_request'] = \
-            request_airdrop_request
+        kwargs["async_req"] = kwargs.get("async_req", False)
+        kwargs["_return_http_data_only"] = kwargs.get("_return_http_data_only", True)
+        kwargs["_preload_content"] = kwargs.get("_preload_content", True)
+        kwargs["_request_timeout"] = kwargs.get("_request_timeout", None)
+        kwargs["_check_input_type"] = kwargs.get("_check_input_type", True)
+        kwargs["_check_return_type"] = kwargs.get("_check_return_type", True)
+        kwargs["_spec_property_naming"] = kwargs.get("_spec_property_naming", False)
+        kwargs["_content_type"] = kwargs.get("_content_type")
+        kwargs["_host_index"] = kwargs.get("_host_index")
+        kwargs["_request_auths"] = kwargs.get("_request_auths", None)
+        kwargs["request_airdrop_request"] = request_airdrop_request
         return self.request_airdrop_endpoint.call_with_http_info(**kwargs)
-

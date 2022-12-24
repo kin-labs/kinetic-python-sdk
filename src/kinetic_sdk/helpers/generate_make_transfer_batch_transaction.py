@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Dict, List
 
 from solana.publickey import PublicKey
 from solders.instruction import Instruction
@@ -21,7 +21,7 @@ def generate_make_transfer_batch_transaction(
     mint_public_key: str,
     recent_blockhash: str,
     source,
-    tx_type: TransactionType = TransactionType.NONE
+    tx_type: TransactionType = TransactionType.NONE,
 ):
     instructions: List[Instruction] = []
 
@@ -30,15 +30,17 @@ def generate_make_transfer_batch_transaction(
 
     for destination in destinations:
         source_token_account = get_associated_token_address(source.public_key, PublicKey(mint_public_key))
-        destination_token_account = get_associated_token_address(PublicKey(destination['destination']), PublicKey(mint_public_key))
+        destination_token_account = get_associated_token_address(
+            PublicKey(destination["destination"]), PublicKey(mint_public_key)
+        )
 
         instruction = create_make_transfer_instruction(
             source=source.public_key.to_solders(),
             source_token_account=source_token_account.to_solders(),
             destination_token_account=destination_token_account.to_solders(),
             mint=PublicKey(mint_public_key).to_solders(),
-            amount=int(destination['amount']),
-            decimals=decimals
+            amount=int(destination["amount"]),
+            decimals=decimals,
         )
 
         instructions.append(instruction)
