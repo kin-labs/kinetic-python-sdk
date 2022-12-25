@@ -1,8 +1,8 @@
-from solders.transaction import Transaction as SoldersTransaction
-from solders.hash import Hash
-
+# pylint: disable=missing-function-docstring,missing-module-docstring,import-error
 from solana.publickey import PublicKey
 from solana.transaction import Transaction
+from solders.hash import Hash
+from solders.transaction import Transaction as SoldersTransaction
 
 
 def sign_and_serialize_transaction(message, mint_fee_payer, owner, recent_blockhash):

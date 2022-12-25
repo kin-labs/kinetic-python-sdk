@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring,import-error,too-many-arguments,too-many-locals
 from solana.publickey import PublicKey
 from solders.message import Message as SoldersMessage
 from spl.token.instructions import get_associated_token_address
@@ -20,7 +21,7 @@ def generate_make_transfer_transaction(
     recent_blockhash: str,
     sender_create,
     source,
-    tx_type: TransactionType = TransactionType.NONE
+    tx_type: TransactionType = TransactionType.NONE,
 ):
     source_token_account = get_associated_token_address(source.public_key, PublicKey(mint_public_key))
     destination_token_account = get_associated_token_address(PublicKey(destination), PublicKey(mint_public_key))
@@ -38,7 +39,7 @@ def generate_make_transfer_transaction(
             payer=PublicKey(mint_fee_payer).to_solders(),
             associated_token=destination_token_account.to_solders(),
             owner=PublicKey(destination).to_solders(),
-            mint=PublicKey(mint_public_key).to_solders()
+            mint=PublicKey(mint_public_key).to_solders(),
         )
         instructions.append(create_instruction)
 
@@ -49,7 +50,7 @@ def generate_make_transfer_transaction(
         destination_token_account=destination_token_account.to_solders(),
         mint=PublicKey(mint_public_key).to_solders(),
         amount=int(amount),
-        decimals=decimals
+        decimals=decimals,
     )
     instructions.append(instruction)
 

@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring,missing-module-docstring,import-error,too-many-arguments,too-many-locals
 from solders.instruction import AccountMeta, Instruction
 from solders.pubkey import Pubkey
 from spl.token._layouts import INSTRUCTIONS_LAYOUT, InstructionType
@@ -20,13 +21,9 @@ def create_make_transfer_instruction(
         AccountMeta(source, True, False),
     ]
 
-    amount = amount * 10 ** decimals
+    amount = amount * 10**decimals
     data = INSTRUCTIONS_LAYOUT.build(
         dict(instruction_type=InstructionType.TRANSFER2, args=dict(amount=amount, decimals=decimals))
     )
 
-    return Instruction(
-        program_id=TOKEN_PROGRAM_ID,
-        data=data,
-        accounts=account_metas
-    )
+    return Instruction(program_id=TOKEN_PROGRAM_ID, data=data, accounts=account_metas)
