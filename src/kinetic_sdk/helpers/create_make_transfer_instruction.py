@@ -7,18 +7,18 @@ from kinetic_sdk.models.constants import TOKEN_PROGRAM_ID
 
 
 def create_make_transfer_instruction(
-    source: Pubkey,
-    source_token_account: Pubkey,
+    owner: Pubkey,
+    owner_token_account: Pubkey,
     destination_token_account: Pubkey,
     mint: Pubkey,
     amount: int,
     decimals: int,
 ):
     account_metas = [
-        AccountMeta(source_token_account, False, True),
+        AccountMeta(owner_token_account, False, True),
         AccountMeta(mint, False, False),
         AccountMeta(destination_token_account, False, True),
-        AccountMeta(source, True, False),
+        AccountMeta(owner, True, False),
     ]
 
     amount = amount * 10**decimals

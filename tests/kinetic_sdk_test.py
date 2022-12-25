@@ -10,12 +10,12 @@ from kinetic_sdk import (
     ClusterType,
     Commitment,
     HistoryResponse,
-    Keypair,
     KineticSdk,
     RequestAirdropResponse,
     Transaction,
     TransactionStatus,
 )
+from kinetic_sdk.keypair import Keypair
 from tests.fixtures import (
     ALICE_ACCOUNT,
     ALICE_KEYPAIR,

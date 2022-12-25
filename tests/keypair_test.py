@@ -1,6 +1,7 @@
 # flake8: noqa: E501
 # pylint: disable=missing-function-docstring,missing-module-docstring,line-too-long,fixme
-from kinetic_sdk import Keypair, KineticSdk
+from kinetic_sdk import KineticSdk
+from kinetic_sdk.keypair import Keypair
 from tests.fixtures import (
     TEST_MNEMONIC_12,
     TEST_MNEMONIC_12_KEYPAIR,

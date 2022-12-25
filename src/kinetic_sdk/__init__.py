@@ -13,7 +13,6 @@ from .generated.client.model.request_airdrop_response import RequestAirdropRespo
 from .generated.client.model.transaction import Transaction
 from .generated.client.model.transaction_status import TransactionStatus
 from .kinetic_sdk import KineticSdk
-from .models.keypair import Keypair
 
 if sys.version_info < (3, 7):
     raise EnvironmentError("Python 3.7 or above is required.")

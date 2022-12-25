@@ -6,8 +6,8 @@ from spl.token.instructions import AuthorityType, SetAuthorityParams, get_associ
 from kinetic_sdk.helpers.create_associated_token_account_instruction import create_associated_token_account_instruction
 from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
 from kinetic_sdk.helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
+from kinetic_sdk.keypair import Keypair
 from kinetic_sdk.models.constants import TOKEN_PROGRAM_ID
-from kinetic_sdk.models.keypair import Keypair
 
 
 def generate_create_account_transaction(

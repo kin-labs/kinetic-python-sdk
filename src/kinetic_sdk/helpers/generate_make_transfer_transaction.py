@@ -7,6 +7,7 @@ from kinetic_sdk.helpers.create_make_transfer_instruction import create_make_tra
 from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
 from kinetic_sdk.helpers.generate_create_account_transaction import create_associated_token_account_instruction
 from kinetic_sdk.helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
+from kinetic_sdk.keypair import Keypair
 from kinetic_sdk.models.transaction_type import TransactionType
 
 
@@ -20,10 +21,10 @@ def generate_make_transfer_transaction(
     mint_public_key: str,
     recent_blockhash: str,
     sender_create,
-    source,
+    owner: Keypair,
     tx_type: TransactionType = TransactionType.NONE,
 ):
-    source_token_account = get_associated_token_address(source.public_key, PublicKey(mint_public_key))
+    owner_token_account = get_associated_token_address(owner.public_key, PublicKey(mint_public_key))
     destination_token_account = get_associated_token_address(PublicKey(destination), PublicKey(mint_public_key))
 
     # Create Instructions
@@ -45,8 +46,8 @@ def generate_make_transfer_transaction(
 
     # Create the Token Transfer Instruction
     instruction = create_make_transfer_instruction(
-        source=source.public_key.to_solders(),
-        source_token_account=source_token_account.to_solders(),
+        owner=owner.public_key.to_solders(),
+        owner_token_account=owner_token_account.to_solders(),
         destination_token_account=destination_token_account.to_solders(),
         mint=PublicKey(mint_public_key).to_solders(),
         amount=int(amount),
@@ -55,7 +56,7 @@ def generate_make_transfer_transaction(
     instructions.append(instruction)
 
     # Create transaction
-    message = SoldersMessage(instructions, source.to_solders().pubkey())
+    message = SoldersMessage(instructions, owner.to_solders().pubkey())
 
     # Partially sign the transaction
-    return sign_and_serialize_transaction(message, mint_fee_payer, source, recent_blockhash)
+    return sign_and_serialize_transaction(message, mint_fee_payer, owner, recent_blockhash)

@@ -18,7 +18,7 @@ from kinetic_sdk.helpers.generate_create_account_transaction import generate_cre
 from kinetic_sdk.helpers.generate_make_transfer_batch_transaction import generate_make_transfer_batch_transaction
 from kinetic_sdk.helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
 from kinetic_sdk.helpers.get_public_key import get_public_key
-from kinetic_sdk.models.keypair import Keypair
+from kinetic_sdk.keypair import Keypair
 from kinetic_sdk.models.public_key_string import PublicKeyString
 from kinetic_sdk.models.transaction_type import TransactionType
 from kinetic_sdk.models.version import NAME, VERSION
@@ -186,9 +186,9 @@ class KineticSdkInternal:
             index=self.sdk_config["index"],
             mint_fee_payer=self.app_config["mint"]["fee_payer"],
             mint_public_key=mint,
+            owner=owner,
             recent_blockhash=blockhash["blockhash"],
             sender_create=sender_create,
-            source=owner,
             tx_type=tx_type,
         )
 
@@ -226,8 +226,8 @@ class KineticSdkInternal:
             index=self.sdk_config["index"],
             mint_fee_payer=self.app_config["mint"]["fee_payer"],
             mint_public_key=mint,
+            owner=owner,
             recent_blockhash=blockhash["blockhash"],
-            source=owner,
             tx_type=tx_type,
         )
 
