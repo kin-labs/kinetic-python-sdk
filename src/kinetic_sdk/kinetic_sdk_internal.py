@@ -11,7 +11,6 @@ from kinetic_sdk.generated.client.api.account_api import AccountApi
 from kinetic_sdk.generated.client.api.airdrop_api import AirdropApi
 from kinetic_sdk.generated.client.api.app_api import AppApi
 from kinetic_sdk.generated.client.api.transaction_api import TransactionApi
-from kinetic_sdk.generated.client.model.app_config_mint import AppConfigMint
 from kinetic_sdk.generated.client.model.close_account_request import CloseAccountRequest
 from kinetic_sdk.generated.client.model.commitment import Commitment
 from kinetic_sdk.generated.client.model.create_account_request import CreateAccountRequest
@@ -20,6 +19,7 @@ from kinetic_sdk.generated.client.model.request_airdrop_request import RequestAi
 from kinetic_sdk.helpers.generate_create_account_transaction import generate_create_account_transaction
 from kinetic_sdk.helpers.generate_make_transfer_batch_transaction import generate_make_transfer_batch_transaction
 from kinetic_sdk.helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
+from kinetic_sdk.helpers.get_app_mint import get_app_mint
 from kinetic_sdk.helpers.get_public_key import get_public_key
 from kinetic_sdk.keypair import Keypair
 from kinetic_sdk.models.public_key_string import PublicKeyString
@@ -51,15 +51,15 @@ class KineticSdkInternal:
         reference_type: str,
     ):
         app_config = self._ensure_app_config()
+        app_mint = get_app_mint(app_config, mint)
         commitment = self._get_commitment(commitment)
-        mint = self._get_app_mint(app_config, mint)
 
         request = CloseAccountRequest(
             account=get_public_key(account),
             commitment=commitment,
             environment=self.sdk_config["environment"],
             index=self.sdk_config["index"],
-            mint=mint.public_key,
+            mint=app_mint.public_key,
             reference_id=reference_id,
             reference_type=reference_type,
         )
@@ -75,17 +75,17 @@ class KineticSdkInternal:
         reference_type: Optional[str] = None,
     ):
         app_config = self._ensure_app_config()
+        app_mint = get_app_mint(app_config, mint)
         commitment = self._get_commitment(commitment)
-        mint = self._get_app_mint(app_config, mint)
 
-        blockhash = self._get_block_hash_height(self.sdk_config["environment"], self.sdk_config["index"])
+        blockhash = self._get_blockhash_and_height(self.sdk_config["environment"], self.sdk_config["index"])
 
         tx = generate_create_account_transaction(
-            add_memo=mint.add_memo,
+            add_memo=app_mint.add_memo,
             blockhash=blockhash["blockhash"],
             index=self.sdk_config["index"],
             mint_fee_payer=self.app_config["mint"]["fee_payer"],
-            mint_public_key=mint.public_key,
+            mint_public_key=app_mint.public_key,
             owner=owner,
         )
 
@@ -94,7 +94,7 @@ class KineticSdkInternal:
             environment=self.sdk_config["environment"],
             index=self.sdk_config["index"],
             last_valid_block_height=blockhash["last_valid_block_height"],
-            mint=mint.public_key,
+            mint=app_mint.public_key,
             reference_id=reference_id,
             reference_type=reference_type,
             tx=pybase64.b64encode_as_string(tx),
@@ -109,14 +109,14 @@ class KineticSdkInternal:
         mint: Optional[PublicKeyString] = None,
     ):
         app_config = self._ensure_app_config()
+        app_mint = get_app_mint(app_config, mint)
         commitment = self._get_commitment(commitment)
-        mint = self._get_app_mint(app_config, mint)
 
         return self.account_api.get_account_info(
             self.sdk_config["environment"],
             self.sdk_config["index"],
             get_public_key(account),
-            mint.public_key,
+            app_mint.public_key,
             commitment,
         )
 
@@ -142,14 +142,14 @@ class KineticSdkInternal:
         commitment: Optional[Commitment] = None,
     ):
         app_config = self._ensure_app_config()
+        app_mint = get_app_mint(app_config, mint)
         commitment = self._get_commitment(commitment)
-        mint = self._get_app_mint(app_config, mint)
 
         return self.account_api.get_history(
             self.sdk_config["environment"],
             self.sdk_config["index"],
             get_public_key(account),
-            mint.public_key,
+            app_mint.public_key,
             commitment,
         )
 
@@ -157,14 +157,14 @@ class KineticSdkInternal:
         self, account: PublicKeyString, mint: PublicKeyString, commitment: Optional[Commitment] = None
     ):
         app_config = self._ensure_app_config()
+        app_mint = get_app_mint(app_config, mint)
         commitment = self._get_commitment(commitment)
-        mint = self._get_app_mint(app_config, mint)
 
         return self.account_api.get_token_accounts(
             self.sdk_config["environment"],
             self.sdk_config["index"],
             get_public_key(account),
-            mint.public_key,
+            app_mint.public_key,
             commitment,
         )
 
@@ -188,29 +188,29 @@ class KineticSdkInternal:
         commitment: Optional[Commitment] = None,
     ):
         app_config = self._ensure_app_config()
+        app_mint = get_app_mint(app_config, mint)
         commitment = self._get_commitment(commitment)
-        mint = self._get_app_mint(app_config, mint)
 
         destination = get_public_key(destination)
         sender_create = sender_create if sender_create is not None else False
 
         # FIXME: Use get_account_info to make behavior consistent with TypeScript SDK
-        owner_token_account = get_associated_token_address(owner.public_key, PublicKey(mint.public_key))
+        owner_token_account = get_associated_token_address(owner.public_key, PublicKey(app_mint.public_key))
         # We get the token account for the owner
         # The operation fails if the owner doesn't have a token account for this mint
 
         # FIXME: Use get_account_info to make behavior consistent with TypeScript SDK
         # We get the account info for the destination
-        destination_token_account = get_associated_token_address(PublicKey(destination), PublicKey(mint.public_key))
+        destination_token_account = get_associated_token_address(PublicKey(destination), PublicKey(app_mint.public_key))
         # The operation fails if the destination doesn't have a token account for this mint and senderCreate is not set
         # Derive the associated token address if the destination doesn't have a token account for this mint
         # and senderCreate is set
         # The operation fails if there is still no destination token account
 
-        blockhash = self._get_block_hash_height(self.sdk_config["environment"], self.sdk_config["index"])
+        blockhash = self._get_blockhash_and_height(self.sdk_config["environment"], self.sdk_config["index"])
 
         tx = generate_make_transfer_transaction(
-            add_memo=mint.add_memo,
+            add_memo=app_mint.add_memo,
             amount=amount,
             blockhash=blockhash["blockhash"],
             destination=destination,
@@ -218,7 +218,7 @@ class KineticSdkInternal:
             index=self.sdk_config["index"],
             mint_decimals=self.app_config["mint"]["decimals"],
             mint_fee_payer=self.app_config["mint"]["fee_payer"],
-            mint_public_key=mint.public_key,
+            mint_public_key=app_mint.public_key,
             owner=owner,
             owner_token_account=owner_token_account,
             sender_create=sender_create,
@@ -230,7 +230,7 @@ class KineticSdkInternal:
             environment=self.sdk_config["environment"],
             index=self.sdk_config["index"],
             last_valid_block_height=blockhash["last_valid_block_height"],
-            mint=mint.public_key,
+            mint=app_mint.public_key,
             reference_id=reference_id,
             reference_type=reference_type,
             tx=pybase64.b64encode_as_string(tx),
@@ -249,8 +249,8 @@ class KineticSdkInternal:
         commitment: Optional[Commitment] = None,
     ):
         app_config = self._ensure_app_config()
+        app_mint = get_app_mint(app_config, mint)
         commitment = self._get_commitment(commitment)
-        mint = self._get_app_mint(app_config, mint)
 
         # throw error if destinations is less than 1
         if len(destinations) < 1:
@@ -260,7 +260,7 @@ class KineticSdkInternal:
             raise Exception("Maximum number of destinations exceeded")
 
         # FIXME: Use get_account_info to make behavior consistent with TypeScript SDK
-        owner_token_account = get_associated_token_address(owner.public_key, PublicKey(mint.public_key))
+        owner_token_account = get_associated_token_address(owner.public_key, PublicKey(app_mint.public_key))
         # We get the token account for the owner
         # The operation fails if the owner doesn't have a token account for this mint
 
@@ -269,16 +269,16 @@ class KineticSdkInternal:
 
         # The operation fails if any of the destinations doesn't have a token account for this mint
 
-        blockhash = self._get_block_hash_height(self.sdk_config["environment"], self.sdk_config["index"])
+        blockhash = self._get_blockhash_and_height(self.sdk_config["environment"], self.sdk_config["index"])
 
         tx = generate_make_transfer_batch_transaction(
-            add_memo=mint.add_memo,
+            add_memo=app_mint.add_memo,
             blockhash=blockhash["blockhash"],
             destinations=destinations,
             index=self.sdk_config["index"],
             mint_decimals=self.app_config["mint"]["decimals"],
             mint_fee_payer=self.app_config["mint"]["fee_payer"],
-            mint_public_key=mint.public_key,
+            mint_public_key=app_mint.public_key,
             owner=owner,
             owner_token_account=owner_token_account,
             tx_type=tx_type,
@@ -289,7 +289,7 @@ class KineticSdkInternal:
             environment=self.sdk_config["environment"],
             index=self.sdk_config["index"],
             last_valid_block_height=blockhash["last_valid_block_height"],
-            mint=mint.public_key,
+            mint=app_mint.public_key,
             reference_id=reference_id,
             reference_type=reference_type,
             tx=pybase64.b64encode_as_string(tx),
@@ -305,8 +305,8 @@ class KineticSdkInternal:
         mint: Optional[PublicKeyString] = None,
     ):
         app_config = self._ensure_app_config()
+        app_mint = get_app_mint(app_config, mint)
         commitment = self._get_commitment(commitment)
-        mint = self._get_app_mint(app_config, mint)
 
         request = RequestAirdropRequest(
             account=get_public_key(account),
@@ -314,7 +314,7 @@ class KineticSdkInternal:
             commitment=commitment,
             environment=self.sdk_config["environment"],
             index=self.sdk_config["index"],
-            mint=mint.public_key,
+            mint=app_mint.public_key,
         )
         return self.airdrop_api.request_airdrop(request)
 
@@ -335,19 +335,7 @@ class KineticSdkInternal:
             raise Exception("App config not initialized")
         return self.app_config
 
-    def _get_app_mint(self, app_config, mint: Optional[PublicKeyString] = None) -> AppConfigMint:
-        if mint is None:
-            mint = app_config.mint.public_key
-
-        mint = get_public_key(mint)
-        mint_found = list(filter(lambda item: item.get("public_key") == mint, app_config["mints"]))
-
-        if len(mint_found) == 0:
-            raise Exception("Mint not found")
-
-        return mint_found[0]
-
-    def _get_block_hash_height(self, environment: str, index: int):
+    def _get_blockhash_and_height(self, environment: str, index: int):
         return self.transaction_api.get_latest_blockhash(environment, index)
 
     def _get_commitment(self, commitment: Optional[Commitment] = None) -> Commitment:
