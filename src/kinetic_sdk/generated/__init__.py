@@ -6,6 +6,7 @@ from kinetic_sdk.generated.client.api.account_api import AccountApi
 from kinetic_sdk.generated.client.api.airdrop_api import AirdropApi
 from kinetic_sdk.generated.client.api.app_api import AppApi
 from kinetic_sdk.generated.client.api.transaction_api import TransactionApi
+from kinetic_sdk.generated.client.model.account_info import AccountInfo
 from kinetic_sdk.generated.client.model.app_config import AppConfig
 from kinetic_sdk.generated.client.model.app_config_mint import AppConfigMint
 from kinetic_sdk.generated.client.model.close_account_request import CloseAccountRequest

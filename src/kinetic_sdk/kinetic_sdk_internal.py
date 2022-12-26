@@ -8,6 +8,7 @@ from spl.token.instructions import get_associated_token_address
 
 from kinetic_sdk.generated import (
     AccountApi,
+    AccountInfo,
     AirdropApi,
     ApiClient,
     AppApi,
@@ -80,6 +81,10 @@ class KineticSdkInternal:
         app_config = self._ensure_app_config()
         app_mint = get_app_mint(app_config, mint)
         commitment = self._get_commitment(commitment)
+
+        existing = self._find_token_account(account=owner.public_key, commitment=commitment, mint=app_mint.public_key)
+        if existing is not None:
+            raise Exception(f"Owner ${owner.public_key} already has a token account for mint ${app_mint.public_key}.")
 
         blockhash = self._get_blockhash_and_height(self.sdk_config["environment"], self.sdk_config["index"])
 
@@ -337,6 +342,21 @@ class KineticSdkInternal:
         if not self.app_config:
             raise Exception("App config not initialized")
         return self.app_config
+
+    def _find_token_account(self, account: PublicKeyString, commitment: Commitment, mint: PublicKeyString):
+        # We get the account info for the account
+        account_info: AccountInfo = self.get_account_info(account, commitment, mint)
+
+        # The operation fails when the account is a mint account
+        if account_info.is_mint:
+            raise Exception("Account is a mint account")
+
+        # Find the token account for this mint
+        # FIXME: we need to support the use case where the account has multiple accounts for this mint
+        for token in account_info.tokens:
+            if token.mint == mint:
+                return token.account
+        return None
 
     def _get_blockhash_and_height(self, environment: str, index: int):
         return self.transaction_api.get_latest_blockhash(environment, index)
