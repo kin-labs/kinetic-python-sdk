@@ -3,7 +3,7 @@ from solders.instruction import AccountMeta, Instruction
 from solders.pubkey import Pubkey
 from spl.token._layouts import INSTRUCTIONS_LAYOUT, InstructionType
 
-from kinetic_sdk.models.constants import TOKEN_PROGRAM_ID
+from kinetic_sdk.models import TOKEN_PROGRAM_ID
 
 
 def create_make_transfer_instruction(

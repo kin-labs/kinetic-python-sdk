@@ -4,8 +4,7 @@ import base64
 from solana.publickey import PublicKey
 from solana.transaction import TransactionInstruction
 
-from kinetic_sdk.models.kin_memo import KinMemo
-from kinetic_sdk.models.transaction_type import TransactionType
+from kinetic_sdk.models import KinMemo, TransactionType
 
 
 def create_memo_instruction(index: int, tx_type: TransactionType) -> TransactionInstruction:

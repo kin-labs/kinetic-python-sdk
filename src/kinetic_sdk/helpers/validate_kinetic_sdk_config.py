@@ -1,5 +1,5 @@
 # pylint: disable=missing-function-docstring,missing-module-docstring
-from kinetic_sdk.generated.client.model.commitment import Commitment
+from kinetic_sdk.generated import Commitment
 
 
 def validate_kinetic_sdk_config(config):

@@ -10,8 +10,7 @@ from kinetic_sdk.helpers.create_make_transfer_instruction import create_make_tra
 from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
 from kinetic_sdk.helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
 from kinetic_sdk.keypair import Keypair
-from kinetic_sdk.models.public_key_string import PublicKeyString
-from kinetic_sdk.models.transaction_type import TransactionType
+from kinetic_sdk.models import PublicKeyString, TransactionType
 
 
 def generate_make_transfer_batch_transaction(

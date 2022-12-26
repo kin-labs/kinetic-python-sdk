@@ -2,7 +2,7 @@
 from solders.instruction import AccountMeta, Instruction
 from solders.pubkey import Pubkey
 
-from kinetic_sdk.models.constants import (
+from kinetic_sdk.models import (
     ASSOCIATED_TOKEN_PROGRAM_ID,
     SYSTEM_PROGRAM_PROGRAM_ID,
     SYSVAR_RENT_PUBKEY,

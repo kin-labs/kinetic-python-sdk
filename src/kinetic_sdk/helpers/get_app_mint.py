@@ -1,10 +1,9 @@
 # pylint: disable=missing-function-docstring,missing-module-docstring
 from typing import Optional
 
-from kinetic_sdk.generated.client.model.app_config import AppConfig
-from kinetic_sdk.generated.client.model.app_config_mint import AppConfigMint
+from kinetic_sdk.generated import AppConfig, AppConfigMint
 from kinetic_sdk.helpers.get_public_key import get_public_key
-from kinetic_sdk.models.public_key_string import PublicKeyString
+from kinetic_sdk.models import PublicKeyString
 
 
 def get_app_mint(app_config: AppConfig, mint: Optional[PublicKeyString] = None) -> AppConfigMint:

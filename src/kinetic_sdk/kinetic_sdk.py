@@ -6,8 +6,7 @@ from kinetic_sdk.generated.client.model.commitment import Commitment
 from kinetic_sdk.helpers.validate_kinetic_sdk_config import validate_kinetic_sdk_config
 from kinetic_sdk.keypair import Keypair
 from kinetic_sdk.kinetic_sdk_internal import KineticSdkInternal
-from kinetic_sdk.models.public_key_string import PublicKeyString
-from kinetic_sdk.models.transaction_type import TransactionType
+from kinetic_sdk.models import PublicKeyString, TransactionType
 
 
 class KineticSdk:

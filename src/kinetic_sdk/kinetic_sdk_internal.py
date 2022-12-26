@@ -6,25 +6,28 @@ import pybase64
 from solana.publickey import PublicKey
 from spl.token.instructions import get_associated_token_address
 
-from kinetic_sdk.generated.client import ApiClient, Configuration
-from kinetic_sdk.generated.client.api.account_api import AccountApi
-from kinetic_sdk.generated.client.api.airdrop_api import AirdropApi
-from kinetic_sdk.generated.client.api.app_api import AppApi
-from kinetic_sdk.generated.client.api.transaction_api import TransactionApi
-from kinetic_sdk.generated.client.model.close_account_request import CloseAccountRequest
-from kinetic_sdk.generated.client.model.commitment import Commitment
-from kinetic_sdk.generated.client.model.create_account_request import CreateAccountRequest
-from kinetic_sdk.generated.client.model.make_transfer_request import MakeTransferRequest
-from kinetic_sdk.generated.client.model.request_airdrop_request import RequestAirdropRequest
-from kinetic_sdk.helpers.generate_create_account_transaction import generate_create_account_transaction
-from kinetic_sdk.helpers.generate_make_transfer_batch_transaction import generate_make_transfer_batch_transaction
-from kinetic_sdk.helpers.generate_make_transfer_transaction import generate_make_transfer_transaction
-from kinetic_sdk.helpers.get_app_mint import get_app_mint
-from kinetic_sdk.helpers.get_public_key import get_public_key
+from kinetic_sdk.generated import (
+    AccountApi,
+    AirdropApi,
+    ApiClient,
+    AppApi,
+    CloseAccountRequest,
+    Commitment,
+    Configuration,
+    CreateAccountRequest,
+    MakeTransferRequest,
+    RequestAirdropRequest,
+    TransactionApi,
+)
+from kinetic_sdk.helpers import (
+    generate_create_account_transaction,
+    generate_make_transfer_batch_transaction,
+    generate_make_transfer_transaction,
+    get_app_mint,
+    get_public_key,
+)
 from kinetic_sdk.keypair import Keypair
-from kinetic_sdk.models.public_key_string import PublicKeyString
-from kinetic_sdk.models.transaction_type import TransactionType
-from kinetic_sdk.models.version import NAME, VERSION
+from kinetic_sdk.models import NAME, VERSION, PublicKeyString, TransactionType
 
 
 class KineticSdkInternal:

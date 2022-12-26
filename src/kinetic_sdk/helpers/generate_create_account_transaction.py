@@ -8,8 +8,7 @@ from kinetic_sdk.helpers.create_associated_token_account_instruction import crea
 from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
 from kinetic_sdk.helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
 from kinetic_sdk.keypair import Keypair
-from kinetic_sdk.models.constants import TOKEN_PROGRAM_ID
-from kinetic_sdk.models.transaction_type import TransactionType
+from kinetic_sdk.models import TOKEN_PROGRAM_ID, TransactionType
 
 
 def generate_create_account_transaction(
