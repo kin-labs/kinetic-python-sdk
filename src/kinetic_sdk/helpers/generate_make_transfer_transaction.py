@@ -2,6 +2,7 @@
 from solana.publickey import PublicKey
 from solders.instruction import Instruction
 from solders.message import Message as SoldersMessage
+from solders.pubkey import Pubkey
 
 from kinetic_sdk.helpers.create_make_transfer_instruction import create_make_transfer_instruction
 from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
@@ -16,13 +17,13 @@ def generate_make_transfer_transaction(
     amount: str,
     blockhash: str,
     destination: str,
-    destination_token_account: PublicKey,
+    destination_token_account: str,
     index: int,
     mint_decimals: int,
     mint_fee_payer: str,
     mint_public_key: str,
     owner: Keypair,
-    owner_token_account: PublicKey,
+    owner_token_account: str,
     sender_create,
     tx_type: TransactionType = TransactionType.NONE,
 ):
@@ -37,7 +38,7 @@ def generate_make_transfer_transaction(
     if sender_create:
         create_instruction = create_associated_token_account_instruction(
             payer=PublicKey(mint_fee_payer).to_solders(),
-            associated_token=destination_token_account.to_solders(),
+            associated_token=Pubkey.from_string(destination_token_account),
             owner=PublicKey(destination).to_solders(),
             mint=PublicKey(mint_public_key).to_solders(),
         )
@@ -46,8 +47,8 @@ def generate_make_transfer_transaction(
     # Create the Token Transfer Instruction
     instruction = create_make_transfer_instruction(
         owner=owner.public_key.to_solders(),
-        owner_token_account=owner_token_account.to_solders(),
-        destination_token_account=destination_token_account.to_solders(),
+        owner_token_account=Pubkey.from_string(owner_token_account),
+        destination_token_account=Pubkey.from_string(destination_token_account),
         mint=PublicKey(mint_public_key).to_solders(),
         amount=int(amount),
         decimals=mint_decimals,

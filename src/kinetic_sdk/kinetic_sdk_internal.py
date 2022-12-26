@@ -26,6 +26,7 @@ from kinetic_sdk.helpers import (
     generate_make_transfer_transaction,
     get_app_mint,
     get_public_key,
+    get_token_address,
 )
 from kinetic_sdk.keypair import Keypair
 from kinetic_sdk.models import NAME, VERSION, PublicKeyString, TransactionType
@@ -202,18 +203,29 @@ class KineticSdkInternal:
         destination = get_public_key(destination)
         sender_create = sender_create if sender_create is not None else False
 
-        # FIXME: Use get_account_info to make behavior consistent with TypeScript SDK
-        owner_token_account = get_associated_token_address(owner.public_key, PublicKey(app_mint.public_key))
         # We get the token account for the owner
+        owner_token_account: Optional[str] = self._find_token_account(
+            account=owner.public_key, commitment=commitment, mint=app_mint.public_key
+        )
         # The operation fails if the owner doesn't have a token account for this mint
+        if owner_token_account is None:
+            raise Exception(f"Owner account doesn't exist for mint ${app_mint.public_key}.")
 
-        # FIXME: Use get_account_info to make behavior consistent with TypeScript SDK
         # We get the account info for the destination
-        destination_token_account = get_associated_token_address(PublicKey(destination), PublicKey(app_mint.public_key))
-        # The operation fails if the destination doesn't have a token account for this mint and senderCreate is not set
+        destination_token_account: Optional[str] = self._find_token_account(
+            account=destination, commitment=commitment, mint=app_mint.public_key
+        )
+        # The operation fails if the destination doesn't have a token account for this mint and sender_create is not set
+        if destination_token_account is None and not sender_create:
+            raise Exception(f"Destination account doesn't exist for mint ${app_mint.public_key}.")
         # Derive the associated token address if the destination doesn't have a token account for this mint
-        # and senderCreate is set
+        # and sender_create is set
+        sender_create_token_account: Optional[str] = None
+        if destination_token_account is None and sender_create:
+            sender_create_token_account = get_token_address(destination, app_mint.public_key)
         # The operation fails if there is still no destination token account
+        if destination_token_account is None and sender_create_token_account is None:
+            raise Exception("Destination token account not found.")
 
         blockhash = self._get_blockhash_and_height(self.sdk_config["environment"], self.sdk_config["index"])
 
@@ -222,14 +234,16 @@ class KineticSdkInternal:
             amount=amount,
             blockhash=blockhash["blockhash"],
             destination=destination,
-            destination_token_account=destination_token_account,
+            destination_token_account=destination_token_account
+            if destination_token_account
+            else sender_create_token_account,
             index=self.sdk_config["index"],
             mint_decimals=self.app_config["mint"]["decimals"],
             mint_fee_payer=self.app_config["mint"]["fee_payer"],
             mint_public_key=app_mint.public_key,
             owner=owner,
             owner_token_account=owner_token_account,
-            sender_create=sender_create,
+            sender_create=sender_create and sender_create_token_account is not None,
             tx_type=tx_type,
         )
 
@@ -343,7 +357,7 @@ class KineticSdkInternal:
             raise Exception("App config not initialized")
         return self.app_config
 
-    def _find_token_account(self, account: PublicKeyString, commitment: Commitment, mint: PublicKeyString):
+    def _find_token_account(self, account: str, commitment: Commitment, mint: str) -> Optional[str]:
         # We get the account info for the account
         account_info: AccountInfo = self.get_account_info(account, commitment, mint)
 
