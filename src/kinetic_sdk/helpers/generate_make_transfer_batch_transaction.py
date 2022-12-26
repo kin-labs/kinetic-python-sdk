@@ -4,25 +4,24 @@ from typing import Dict, List
 from solana.publickey import PublicKey
 from solders.instruction import Instruction
 from solders.message import Message as SoldersMessage
-from spl.token.instructions import get_associated_token_address
 
 from kinetic_sdk.helpers.create_make_transfer_instruction import create_make_transfer_instruction
 from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
 from kinetic_sdk.helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
 from kinetic_sdk.keypair import Keypair
-from kinetic_sdk.models import PublicKeyString, TransactionType
+from kinetic_sdk.models import TransactionType
 
 
 def generate_make_transfer_batch_transaction(
     add_memo: bool,
     blockhash: str,
-    destinations: List[Dict[PublicKeyString, str]],
+    destinations: List[Dict[str, str]],
     index: int,
     mint_decimals: int,
     mint_fee_payer: str,
     mint_public_key: str,
     owner: Keypair,
-    owner_token_account: PublicKey,
+    owner_token_account: str,
     tx_type: TransactionType = TransactionType.NONE,
 ):
     instructions: List[Instruction] = []
@@ -32,14 +31,10 @@ def generate_make_transfer_batch_transaction(
         instructions.append(create_memo_instruction(index=index, tx_type=tx_type).to_solders())
 
     for destination in destinations:
-        destination_token_account = get_associated_token_address(
-            PublicKey(destination["destination"]), PublicKey(mint_public_key)
-        )
-
         instruction = create_make_transfer_instruction(
             owner=owner.public_key.to_solders(),
-            owner_token_account=owner_token_account.to_solders(),
-            destination_token_account=destination_token_account.to_solders(),
+            owner_token_account=PublicKey(owner_token_account).to_solders(),
+            destination_token_account=PublicKey(destination["destination"]).to_solders(),
             mint=PublicKey(mint_public_key).to_solders(),
             amount=int(destination["amount"]),
             decimals=mint_decimals,

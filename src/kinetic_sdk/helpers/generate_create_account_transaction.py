@@ -2,7 +2,7 @@
 from solana.publickey import PublicKey
 from solders.instruction import Instruction
 from solders.message import Message as SoldersMessage
-from spl.token.instructions import AuthorityType, SetAuthorityParams, get_associated_token_address, set_authority
+from spl.token.instructions import AuthorityType, SetAuthorityParams, set_authority
 
 from kinetic_sdk.helpers.create_associated_token_account_instruction import create_associated_token_account_instruction
 from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
@@ -18,9 +18,14 @@ def generate_create_account_transaction(
     mint_fee_payer: str,
     mint_public_key: str,
     owner: Keypair,
+    owner_token_account: str,
 ):
-    associated_token_account = get_associated_token_address(owner.public_key, PublicKey(mint_public_key))
+    mint_key = PublicKey(mint_public_key)
+    fee_payer_key = PublicKey(mint_fee_payer)
+    owner_public_key = owner.public_key
+    owner_token_account_public_key = PublicKey(owner_token_account)
 
+    # Create Instructions
     instructions: list[Instruction] = []
 
     # Create the Memo Instruction
@@ -28,20 +33,20 @@ def generate_create_account_transaction(
         instructions.append(create_memo_instruction(index=index, tx_type=TransactionType.NONE).to_solders())
 
     create_token_account_instruction = create_associated_token_account_instruction(
-        payer=PublicKey(mint_fee_payer).to_solders(),
-        associated_token=associated_token_account.to_solders(),
-        owner=owner.public_key.to_solders(),
-        mint=PublicKey(mint_public_key).to_solders(),
+        payer=fee_payer_key.to_solders(),
+        associated_token=owner_token_account_public_key.to_solders(),
+        owner=owner_public_key.to_solders(),
+        mint=mint_key.to_solders(),
     )
     instructions.append(create_token_account_instruction)
 
     set_authority_instruction = set_authority(
         SetAuthorityParams(
             program_id=PublicKey(TOKEN_PROGRAM_ID),
-            account=associated_token_account,
+            account=owner_token_account_public_key,
             authority=AuthorityType.CLOSE_ACCOUNT,
-            current_authority=owner.public_key,
-            new_authority=PublicKey(mint_fee_payer),
+            current_authority=owner_public_key,
+            new_authority=fee_payer_key,
         )
     )
     instructions.append(set_authority_instruction.to_solders())

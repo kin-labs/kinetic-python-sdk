@@ -3,8 +3,6 @@
 from typing import Optional
 
 import pybase64
-from solana.publickey import PublicKey
-from spl.token.instructions import get_associated_token_address
 
 from kinetic_sdk.generated import (
     AccountApi,
@@ -89,6 +87,8 @@ class KineticSdkInternal:
 
         blockhash = self._get_blockhash_and_height(self.sdk_config["environment"], self.sdk_config["index"])
 
+        owner_token_account = get_token_address(owner.public_key, app_mint.public_key)
+
         tx = generate_create_account_transaction(
             add_memo=app_mint.add_memo,
             blockhash=blockhash["blockhash"],
@@ -96,6 +96,7 @@ class KineticSdkInternal:
             mint_fee_payer=self.app_config["mint"]["fee_payer"],
             mint_public_key=app_mint.public_key,
             owner=owner,
+            owner_token_account=owner_token_account,
         )
 
         request = CreateAccountRequest(
@@ -281,22 +282,44 @@ class KineticSdkInternal:
         if len(destinations) > 15:
             raise Exception("Maximum number of destinations exceeded")
 
-        # FIXME: Use get_account_info to make behavior consistent with TypeScript SDK
-        owner_token_account = get_associated_token_address(owner.public_key, PublicKey(app_mint.public_key))
         # We get the token account for the owner
+        owner_token_account: Optional[str] = self._find_token_account(
+            account=owner.public_key, commitment=commitment, mint=app_mint.public_key
+        )
         # The operation fails if the owner doesn't have a token account for this mint
+        if owner_token_account is None:
+            raise Exception(f"Owner account doesn't exist for mint ${app_mint.public_key}.")
 
         # FIXME: Use get_account_info to make behavior consistent with TypeScript SDK
         # Get TokenAccount from destinations, keep track of missing ones
-
+        non_existing_destinations: list[str] = []
+        destination_info: list[dict[str, str]] = []
+        for item in destinations:
+            destination: Optional[str] = self._find_token_account(
+                account=item["destination"], commitment=commitment, mint=app_mint.public_key
+            )
+            if destination is None:
+                non_existing_destinations.append(item["address"])
+            else:
+                destination_info.append(
+                    {
+                        "amount": item["amount"],
+                        "destination": destination,
+                    }
+                )
         # The operation fails if any of the destinations doesn't have a token account for this mint
+        if len(non_existing_destinations) > 0:
+            raise Exception(
+                f"Destination accounts {non_existing_destinations} "
+                f"have no token account for mint ${app_mint.public_key}."
+            )
 
         blockhash = self._get_blockhash_and_height(self.sdk_config["environment"], self.sdk_config["index"])
 
         tx = generate_make_transfer_batch_transaction(
             add_memo=app_mint.add_memo,
             blockhash=blockhash["blockhash"],
-            destinations=destinations,
+            destinations=destination_info,
             index=self.sdk_config["index"],
             mint_decimals=self.app_config["mint"]["decimals"],
             mint_fee_payer=self.app_config["mint"]["fee_payer"],
