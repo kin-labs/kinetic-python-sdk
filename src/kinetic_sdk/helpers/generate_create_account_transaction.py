@@ -22,8 +22,9 @@ def generate_create_account_transaction(
 
     instructions = []
 
+    # Create the Memo Instruction
     if add_memo:
-        instructions.append(create_memo_instruction(index))
+        instructions.append(create_memo_instruction(index=index))
 
     create_token_account_instruction = create_associated_token_account_instruction(
         payer=PublicKey(mint_fee_payer).to_solders(),

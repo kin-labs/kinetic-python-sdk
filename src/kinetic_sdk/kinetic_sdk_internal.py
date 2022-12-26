@@ -137,21 +137,31 @@ class KineticSdkInternal:
         mint: PublicKeyString,
         commitment: Optional[Commitment] = None,
     ):
-        mint = self._get_app_mint(self.app_config, mint)
+        app_config = self._ensure_app_config()
         commitment = self._get_commitment(commitment)
+        mint = self._get_app_mint(app_config, mint)
 
         return self.account_api.get_history(
-            self.sdk_config["environment"], self.sdk_config["index"], get_public_key(account), mint, commitment
+            self.sdk_config["environment"],
+            self.sdk_config["index"],
+            get_public_key(account),
+            mint.public_key,
+            commitment,
         )
 
     def get_token_accounts(
         self, account: PublicKeyString, mint: PublicKeyString, commitment: Optional[Commitment] = None
     ):
-        mint = self._get_app_mint(self.app_config, mint)
+        app_config = self._ensure_app_config()
         commitment = self._get_commitment(commitment)
+        mint = self._get_app_mint(app_config, mint)
 
         return self.account_api.get_token_accounts(
-            self.sdk_config["environment"], self.sdk_config["index"], get_public_key(account), mint, commitment
+            self.sdk_config["environment"],
+            self.sdk_config["index"],
+            get_public_key(account),
+            mint.public_key,
+            commitment,
         )
 
     def get_transaction(self, signature: str, commitment: Optional[Commitment] = None):

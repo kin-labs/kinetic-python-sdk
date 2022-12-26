@@ -27,8 +27,9 @@ def generate_make_transfer_batch_transaction(
 ):
     instructions: List[Instruction] = []
 
+    # Create the Memo Instruction
     if add_memo:
-        instructions.append(create_memo_instruction(index, tx_type))
+        instructions.append(create_memo_instruction(index=index, tx_type=tx_type))
 
     for destination in destinations:
         owner_token_account = get_associated_token_address(owner.public_key, PublicKey(mint_public_key))

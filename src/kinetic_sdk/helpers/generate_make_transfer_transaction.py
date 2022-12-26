@@ -32,7 +32,7 @@ def generate_make_transfer_transaction(
 
     # Create the Memo Instruction
     if add_memo:
-        instructions.append(create_memo_instruction(index, tx_type))
+        instructions.append(create_memo_instruction(index=index, tx_type=tx_type))
 
     # Create the Token Account if senderCreate is enabled
     if sender_create:

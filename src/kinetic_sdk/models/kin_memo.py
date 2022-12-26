@@ -31,7 +31,7 @@ class KinMemo:
 
     @classmethod
     def new(
-        cls, version: int, tx_type: TransactionType, app_index: int, foreign_key: Optional[bytes] = None
+        cls, version: int, tx_type: TransactionType, app_index: int, foreign_key: Optional[bytes] = b""
     ) -> "KinMemo":
         """Returns a Kinetic memo containing the provided properties.
         :param version: The memo encoding version
