@@ -1,6 +1,6 @@
 # flake8: noqa: E501
 # pylint: disable=missing-function-docstring,missing-module-docstring,line-too-long,fixme
-from kinetic_sdk import KineticSdk
+
 from kinetic_sdk.keypair import Keypair
 from tests.fixtures import (
     TEST_MNEMONIC_12,
@@ -9,8 +9,6 @@ from tests.fixtures import (
     TEST_MNEMONIC_24,
     TEST_MNEMONIC_24_KEYPAIR,
 )
-
-sdk = KineticSdk.setup(endpoint="http://localhost:3000", environment="local", index=1)
 
 
 def test_keypair_from_mnemonic():
@@ -50,9 +48,8 @@ def test_keypair_creation():
     # keypair = Keypair()
     mnemonic = Keypair.generate_mnemonic()
     keypair = Keypair.from_mnemonic(mnemonic)
-    account = sdk.create_account(owner=keypair)
     # FIXME: Implement asserts
-    print("account: ", account)
+    print("keypair: ", keypair)
 
 
 def test_mnemonic_derivation_path():

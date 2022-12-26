@@ -1,5 +1,6 @@
 # pylint: disable=missing-function-docstring,missing-module-docstring,import-error,too-many-arguments
 from solana.publickey import PublicKey
+from solders.instruction import Instruction
 from solders.message import Message as SoldersMessage
 from spl.token.instructions import AuthorityType, SetAuthorityParams, get_associated_token_address, set_authority
 
@@ -8,23 +9,24 @@ from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
 from kinetic_sdk.helpers.sign_and_serialize_transaction import sign_and_serialize_transaction
 from kinetic_sdk.keypair import Keypair
 from kinetic_sdk.models.constants import TOKEN_PROGRAM_ID
+from kinetic_sdk.models.transaction_type import TransactionType
 
 
 def generate_create_account_transaction(
     add_memo: bool,
+    blockhash: str,
     index: int,
     mint_fee_payer: str,
     mint_public_key: str,
     owner: Keypair,
-    recent_blockhash: str,
 ):
     associated_token_account = get_associated_token_address(owner.public_key, PublicKey(mint_public_key))
 
-    instructions = []
+    instructions: list[Instruction] = []
 
     # Create the Memo Instruction
     if add_memo:
-        instructions.append(create_memo_instruction(index=index))
+        instructions.append(create_memo_instruction(index=index, tx_type=TransactionType.NONE).to_solders())
 
     create_token_account_instruction = create_associated_token_account_instruction(
         payer=PublicKey(mint_fee_payer).to_solders(),
@@ -47,4 +49,4 @@ def generate_create_account_transaction(
 
     message = SoldersMessage(instructions, owner.to_solders().pubkey())
 
-    return sign_and_serialize_transaction(message, mint_fee_payer, owner, recent_blockhash)
+    return sign_and_serialize_transaction(message, mint_fee_payer, owner, blockhash)

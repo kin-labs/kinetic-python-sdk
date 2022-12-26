@@ -16,23 +16,23 @@ from kinetic_sdk.models.transaction_type import TransactionType
 
 def generate_make_transfer_batch_transaction(
     add_memo: bool,
+    blockhash: str,
     destinations: List[Dict[PublicKeyString, str]],
-    decimals: int,
     index: int,
+    mint_decimals: int,
     mint_fee_payer: str,
     mint_public_key: str,
-    recent_blockhash: str,
     owner: Keypair,
+    owner_token_account: PublicKey,
     tx_type: TransactionType = TransactionType.NONE,
 ):
     instructions: List[Instruction] = []
 
     # Create the Memo Instruction
     if add_memo:
-        instructions.append(create_memo_instruction(index=index, tx_type=tx_type))
+        instructions.append(create_memo_instruction(index=index, tx_type=tx_type).to_solders())
 
     for destination in destinations:
-        owner_token_account = get_associated_token_address(owner.public_key, PublicKey(mint_public_key))
         destination_token_account = get_associated_token_address(
             PublicKey(destination["destination"]), PublicKey(mint_public_key)
         )
@@ -43,11 +43,11 @@ def generate_make_transfer_batch_transaction(
             destination_token_account=destination_token_account.to_solders(),
             mint=PublicKey(mint_public_key).to_solders(),
             amount=int(destination["amount"]),
-            decimals=decimals,
+            decimals=mint_decimals,
         )
 
         instructions.append(instruction)
 
     message = SoldersMessage(instructions, owner.to_solders().pubkey())
 
-    return sign_and_serialize_transaction(message, mint_fee_payer, owner, recent_blockhash)
+    return sign_and_serialize_transaction(message, mint_fee_payer, owner, blockhash)

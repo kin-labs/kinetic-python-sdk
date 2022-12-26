@@ -1,7 +1,7 @@
 # pylint: disable=missing-function-docstring,missing-module-docstring,import-error,too-many-arguments,too-many-locals
 from solana.publickey import PublicKey
+from solders.instruction import Instruction
 from solders.message import Message as SoldersMessage
-from spl.token.instructions import get_associated_token_address
 
 from kinetic_sdk.helpers.create_make_transfer_instruction import create_make_transfer_instruction
 from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
@@ -14,25 +14,24 @@ from kinetic_sdk.models.transaction_type import TransactionType
 def generate_make_transfer_transaction(
     add_memo: bool,
     amount: str,
-    decimals: int,
+    blockhash: str,
     destination: str,
+    destination_token_account: PublicKey,
     index: int,
+    mint_decimals: int,
     mint_fee_payer: str,
     mint_public_key: str,
-    recent_blockhash: str,
-    sender_create,
     owner: Keypair,
+    owner_token_account: PublicKey,
+    sender_create,
     tx_type: TransactionType = TransactionType.NONE,
 ):
-    owner_token_account = get_associated_token_address(owner.public_key, PublicKey(mint_public_key))
-    destination_token_account = get_associated_token_address(PublicKey(destination), PublicKey(mint_public_key))
-
     # Create Instructions
-    instructions = []
+    instructions: list[Instruction] = []
 
     # Create the Memo Instruction
     if add_memo:
-        instructions.append(create_memo_instruction(index=index, tx_type=tx_type))
+        instructions.append(create_memo_instruction(index=index, tx_type=tx_type).to_solders())
 
     # Create the Token Account if senderCreate is enabled
     if sender_create:
@@ -51,7 +50,7 @@ def generate_make_transfer_transaction(
         destination_token_account=destination_token_account.to_solders(),
         mint=PublicKey(mint_public_key).to_solders(),
         amount=int(amount),
-        decimals=decimals,
+        decimals=mint_decimals,
     )
     instructions.append(instruction)
 
@@ -59,4 +58,4 @@ def generate_make_transfer_transaction(
     message = SoldersMessage(instructions, owner.to_solders().pubkey())
 
     # Partially sign the transaction
-    return sign_and_serialize_transaction(message, mint_fee_payer, owner, recent_blockhash)
+    return sign_and_serialize_transaction(message, mint_fee_payer, owner, blockhash)
