@@ -11,7 +11,10 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from kinetic_sdk.generated.client.api_client import ApiClient, Endpoint as _Endpoint
+from kinetic_sdk.generated.client.api_client import ApiClient
+from kinetic_sdk.generated.client.api_client import Endpoint as _Endpoint
+from kinetic_sdk.generated.client.model.app_config import AppConfig
+from kinetic_sdk.generated.client.model.app_health import AppHealth
 from kinetic_sdk.generated.client.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -19,10 +22,8 @@ from kinetic_sdk.generated.client.model_utils import (  # noqa: F401
     datetime,
     file_type,
     none_type,
-    validate_and_convert_types
+    validate_and_convert_types,
 )
-from kinetic_sdk.generated.client.model.app_config import AppConfig
-from kinetic_sdk.generated.client.model.app_health import AppHealth
 
 
 class AppApi(object):
@@ -38,122 +39,97 @@ class AppApi(object):
         self.api_client = api_client
         self.get_app_config_endpoint = _Endpoint(
             settings={
-                'response_type': (AppConfig,),
-                'auth': [],
-                'endpoint_path': '/api/app/{environment}/{index}/config',
-                'operation_id': 'get_app_config',
-                'http_method': 'GET',
-                'servers': None,
+                "response_type": (AppConfig,),
+                "auth": [],
+                "endpoint_path": "/api/app/{environment}/{index}/config",
+                "operation_id": "get_app_config",
+                "http_method": "GET",
+                "servers": None,
             },
             params_map={
-                'all': [
-                    'environment',
-                    'index',
+                "all": [
+                    "environment",
+                    "index",
                 ],
-                'required': [
-                    'environment',
-                    'index',
+                "required": [
+                    "environment",
+                    "index",
                 ],
-                'nullable': [
-                ],
-                'enum': [
-                ],
-                'validation': [
-                ]
+                "nullable": [],
+                "enum": [],
+                "validation": [],
             },
             root_map={
-                'validations': {
+                "validations": {},
+                "allowed_values": {},
+                "openapi_types": {
+                    "environment": (str,),
+                    "index": (int,),
                 },
-                'allowed_values': {
+                "attribute_map": {
+                    "environment": "environment",
+                    "index": "index",
                 },
-                'openapi_types': {
-                    'environment':
-                        (str,),
-                    'index':
-                        (int,),
+                "location_map": {
+                    "environment": "path",
+                    "index": "path",
                 },
-                'attribute_map': {
-                    'environment': 'environment',
-                    'index': 'index',
-                },
-                'location_map': {
-                    'environment': 'path',
-                    'index': 'path',
-                },
-                'collection_format_map': {
-                }
+                "collection_format_map": {},
             },
             headers_map={
-                'accept': [
-                    'application/json'
-                ],
-                'content_type': [],
+                "accept": ["application/json"],
+                "content_type": [],
             },
-            api_client=api_client
+            api_client=api_client,
         )
         self.get_app_health_endpoint = _Endpoint(
             settings={
-                'response_type': (AppHealth,),
-                'auth': [],
-                'endpoint_path': '/api/app/{environment}/{index}/health',
-                'operation_id': 'get_app_health',
-                'http_method': 'GET',
-                'servers': None,
+                "response_type": (AppHealth,),
+                "auth": [],
+                "endpoint_path": "/api/app/{environment}/{index}/health",
+                "operation_id": "get_app_health",
+                "http_method": "GET",
+                "servers": None,
             },
             params_map={
-                'all': [
-                    'environment',
-                    'index',
+                "all": [
+                    "environment",
+                    "index",
                 ],
-                'required': [
-                    'environment',
-                    'index',
+                "required": [
+                    "environment",
+                    "index",
                 ],
-                'nullable': [
-                ],
-                'enum': [
-                ],
-                'validation': [
-                ]
+                "nullable": [],
+                "enum": [],
+                "validation": [],
             },
             root_map={
-                'validations': {
+                "validations": {},
+                "allowed_values": {},
+                "openapi_types": {
+                    "environment": (str,),
+                    "index": (int,),
                 },
-                'allowed_values': {
+                "attribute_map": {
+                    "environment": "environment",
+                    "index": "index",
                 },
-                'openapi_types': {
-                    'environment':
-                        (str,),
-                    'index':
-                        (int,),
+                "location_map": {
+                    "environment": "path",
+                    "index": "path",
                 },
-                'attribute_map': {
-                    'environment': 'environment',
-                    'index': 'index',
-                },
-                'location_map': {
-                    'environment': 'path',
-                    'index': 'path',
-                },
-                'collection_format_map': {
-                }
+                "collection_format_map": {},
             },
             headers_map={
-                'accept': [
-                    'application/json'
-                ],
-                'content_type': [],
+                "accept": ["application/json"],
+                "content_type": [],
             },
-            api_client=api_client
+            api_client=api_client,
         )
 
-    def get_app_config(
-        self,
-        environment,
-        index,
-        **kwargs
-    ):
-        """  # noqa: E501
+    def get_app_config(self, environment, index, **kwargs):
+        """# noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -202,44 +178,22 @@ class AppApi(object):
                 If the method is called asynchronously, returns the request
                 thread.
         """
-        kwargs['async_req'] = kwargs.get(
-            'async_req', False
-        )
-        kwargs['_return_http_data_only'] = kwargs.get(
-            '_return_http_data_only', True
-        )
-        kwargs['_preload_content'] = kwargs.get(
-            '_preload_content', True
-        )
-        kwargs['_request_timeout'] = kwargs.get(
-            '_request_timeout', None
-        )
-        kwargs['_check_input_type'] = kwargs.get(
-            '_check_input_type', True
-        )
-        kwargs['_check_return_type'] = kwargs.get(
-            '_check_return_type', True
-        )
-        kwargs['_spec_property_naming'] = kwargs.get(
-            '_spec_property_naming', False
-        )
-        kwargs['_content_type'] = kwargs.get(
-            '_content_type')
-        kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
-        kwargs['environment'] = \
-            environment
-        kwargs['index'] = \
-            index
+        kwargs["async_req"] = kwargs.get("async_req", False)
+        kwargs["_return_http_data_only"] = kwargs.get("_return_http_data_only", True)
+        kwargs["_preload_content"] = kwargs.get("_preload_content", True)
+        kwargs["_request_timeout"] = kwargs.get("_request_timeout", None)
+        kwargs["_check_input_type"] = kwargs.get("_check_input_type", True)
+        kwargs["_check_return_type"] = kwargs.get("_check_return_type", True)
+        kwargs["_spec_property_naming"] = kwargs.get("_spec_property_naming", False)
+        kwargs["_content_type"] = kwargs.get("_content_type")
+        kwargs["_host_index"] = kwargs.get("_host_index")
+        kwargs["_request_auths"] = kwargs.get("_request_auths", None)
+        kwargs["environment"] = environment
+        kwargs["index"] = index
         return self.get_app_config_endpoint.call_with_http_info(**kwargs)
 
-    def get_app_health(
-        self,
-        environment,
-        index,
-        **kwargs
-    ):
-        """  # noqa: E501
+    def get_app_health(self, environment, index, **kwargs):
+        """# noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -288,34 +242,16 @@ class AppApi(object):
                 If the method is called asynchronously, returns the request
                 thread.
         """
-        kwargs['async_req'] = kwargs.get(
-            'async_req', False
-        )
-        kwargs['_return_http_data_only'] = kwargs.get(
-            '_return_http_data_only', True
-        )
-        kwargs['_preload_content'] = kwargs.get(
-            '_preload_content', True
-        )
-        kwargs['_request_timeout'] = kwargs.get(
-            '_request_timeout', None
-        )
-        kwargs['_check_input_type'] = kwargs.get(
-            '_check_input_type', True
-        )
-        kwargs['_check_return_type'] = kwargs.get(
-            '_check_return_type', True
-        )
-        kwargs['_spec_property_naming'] = kwargs.get(
-            '_spec_property_naming', False
-        )
-        kwargs['_content_type'] = kwargs.get(
-            '_content_type')
-        kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
-        kwargs['environment'] = \
-            environment
-        kwargs['index'] = \
-            index
+        kwargs["async_req"] = kwargs.get("async_req", False)
+        kwargs["_return_http_data_only"] = kwargs.get("_return_http_data_only", True)
+        kwargs["_preload_content"] = kwargs.get("_preload_content", True)
+        kwargs["_request_timeout"] = kwargs.get("_request_timeout", None)
+        kwargs["_check_input_type"] = kwargs.get("_check_input_type", True)
+        kwargs["_check_return_type"] = kwargs.get("_check_return_type", True)
+        kwargs["_spec_property_naming"] = kwargs.get("_spec_property_naming", False)
+        kwargs["_content_type"] = kwargs.get("_content_type")
+        kwargs["_host_index"] = kwargs.get("_host_index")
+        kwargs["_request_auths"] = kwargs.get("_request_auths", None)
+        kwargs["environment"] = environment
+        kwargs["index"] = index
         return self.get_app_health_endpoint.call_with_http_info(**kwargs)
-

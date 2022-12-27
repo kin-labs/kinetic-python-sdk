@@ -11,11 +11,13 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
+from kinetic_sdk.generated.client.exceptions import ApiAttributeError
 from kinetic_sdk.generated.client.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
     ModelNormal,
     ModelSimple,
+    OpenApiModel,
     cached_property,
     change_keys_js_to_python,
     convert_js_args_to_python_args,
@@ -24,10 +26,7 @@ from kinetic_sdk.generated.client.model_utils import (  # noqa: F401
     file_type,
     none_type,
     validate_get_composed_info,
-    OpenApiModel
 )
-from kinetic_sdk.generated.client.exceptions import ApiAttributeError
-
 
 
 class ConfirmationStatus(ModelSimple):
@@ -51,15 +50,14 @@ class ConfirmationStatus(ModelSimple):
     """
 
     allowed_values = {
-        ('value',): {
-            'PROCESSED': "processed",
-            'CONFIRMED': "confirmed",
-            'FINALIZED': "finalized",
+        ("value",): {
+            "PROCESSED": "processed",
+            "CONFIRMED": "confirmed",
+            "FINALIZED": "finalized",
         },
     }
 
-    validations = {
-    }
+    validations = {}
 
     additional_properties_type = None
 
@@ -76,13 +74,12 @@ class ConfirmationStatus(ModelSimple):
                 and the value is attribute type.
         """
         return {
-            'value': (str,),
+            "value": (str,),
         }
 
     @cached_property
     def discriminator():
         return None
-
 
     attribute_map = {}
 
@@ -90,14 +87,16 @@ class ConfirmationStatus(ModelSimple):
 
     _composed_schemas = None
 
-    required_properties = set([
-        '_data_store',
-        '_check_type',
-        '_spec_property_naming',
-        '_path_to_item',
-        '_configuration',
-        '_visited_composed_classes',
-    ])
+    required_properties = set(
+        [
+            "_data_store",
+            "_check_type",
+            "_spec_property_naming",
+            "_path_to_item",
+            "_configuration",
+            "_visited_composed_classes",
+        ]
+    )
 
     @convert_js_args_to_python_args
     def __init__(self, *args, **kwargs):
@@ -142,10 +141,10 @@ class ConfirmationStatus(ModelSimple):
                                 _visited_composed_classes = (Animal,)
         """
         # required up here when default value is not given
-        _path_to_item = kwargs.pop('_path_to_item', ())
+        _path_to_item = kwargs.pop("_path_to_item", ())
 
-        if 'value' in kwargs:
-            value = kwargs.pop('value')
+        if "value" in kwargs:
+            value = kwargs.pop("value")
         elif args:
             args = list(args)
             value = args.pop(0)
@@ -156,10 +155,10 @@ class ConfirmationStatus(ModelSimple):
                 valid_classes=(self.__class__,),
             )
 
-        _check_type = kwargs.pop('_check_type', True)
-        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
-        _configuration = kwargs.pop('_configuration', None)
-        _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+        _check_type = kwargs.pop("_check_type", True)
+        _spec_property_naming = kwargs.pop("_spec_property_naming", False)
+        _configuration = kwargs.pop("_configuration", None)
+        _visited_composed_classes = kwargs.pop("_visited_composed_classes", ())
 
         if args:
             for arg in args:
@@ -167,7 +166,8 @@ class ConfirmationStatus(ModelSimple):
                     kwargs.update(arg)
                 else:
                     raise ApiTypeError(
-                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments."
+                        % (
                             args,
                             self.__class__.__name__,
                         ),
@@ -184,7 +184,8 @@ class ConfirmationStatus(ModelSimple):
         self.value = value
         if kwargs:
             raise ApiTypeError(
-                "Invalid named arguments=%s passed to %s. Remove those invalid named arguments." % (
+                "Invalid named arguments=%s passed to %s. Remove those invalid named arguments."
+                % (
                     kwargs,
                     self.__class__.__name__,
                 ),
@@ -236,12 +237,12 @@ class ConfirmationStatus(ModelSimple):
                                 _visited_composed_classes = (Animal,)
         """
         # required up here when default value is not given
-        _path_to_item = kwargs.pop('_path_to_item', ())
+        _path_to_item = kwargs.pop("_path_to_item", ())
 
         self = super(OpenApiModel, cls).__new__(cls)
 
-        if 'value' in kwargs:
-            value = kwargs.pop('value')
+        if "value" in kwargs:
+            value = kwargs.pop("value")
         elif args:
             args = list(args)
             value = args.pop(0)
@@ -252,10 +253,10 @@ class ConfirmationStatus(ModelSimple):
                 valid_classes=(self.__class__,),
             )
 
-        _check_type = kwargs.pop('_check_type', True)
-        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
-        _configuration = kwargs.pop('_configuration', None)
-        _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+        _check_type = kwargs.pop("_check_type", True)
+        _spec_property_naming = kwargs.pop("_spec_property_naming", False)
+        _configuration = kwargs.pop("_configuration", None)
+        _visited_composed_classes = kwargs.pop("_visited_composed_classes", ())
 
         if args:
             for arg in args:
@@ -263,7 +264,8 @@ class ConfirmationStatus(ModelSimple):
                     kwargs.update(arg)
                 else:
                     raise ApiTypeError(
-                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments."
+                        % (
                             args,
                             self.__class__.__name__,
                         ),
@@ -280,7 +282,8 @@ class ConfirmationStatus(ModelSimple):
         self.value = value
         if kwargs:
             raise ApiTypeError(
-                "Invalid named arguments=%s passed to %s. Remove those invalid named arguments." % (
+                "Invalid named arguments=%s passed to %s. Remove those invalid named arguments."
+                % (
                     kwargs,
                     self.__class__.__name__,
                 ),

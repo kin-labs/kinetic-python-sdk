@@ -1,181 +1,191 @@
-from kinetic_sdk.generated.client.model.account_info import AccountInfo
-from kinetic_sdk.generated.client.model.balance_response import BalanceResponse
-from kinetic_sdk.generated.client.model.balance_token import BalanceToken
-from kinetic_sdk.generated.client.model.commitment import Commitment
-from kinetic_sdk.generated.client.model.history_response import HistoryResponse
-from kinetic_sdk.generated.client.model.request_airdrop_response import RequestAirdropResponse
-from kinetic_sdk.generated.client.model.transaction import Transaction
-from kinetic_sdk.generated.client.model.transaction_status import TransactionStatus
+# flake8: noqa: F841
+# pylint: disable=missing-module-docstring
 from solana.publickey import PublicKey
 
-from kinetic_sdk import KineticSdk
-from kinetic_sdk.models.keypair import Keypair
-
-sdk = KineticSdk.setup(
-    endpoint='http://localhost:3000',
-    environment='local',
-    index=1,
-    headers=[{ 'kinetic-extra-header': 4 }]
+from kinetic_sdk import (
+    AccountInfo,
+    AppConfig,
+    BalanceResponse,
+    BalanceToken,
+    ClusterType,
+    Commitment,
+    HistoryResponse,
+    KineticSdk,
+    RequestAirdropResponse,
+    Transaction,
+    TransactionStatus,
+)
+from kinetic_sdk.keypair import Keypair
+from tests.fixtures import (
+    ALICE_ACCOUNT,
+    ALICE_KEYPAIR,
+    ALICE_TOKEN_ACCOUNT,
+    BOB_ACCOUNT,
+    BOB_TOKEN_ACCOUNT,
+    CHARLIE_ACCOUNT,
+    DEFAULT_MINT,
+    FEE_PAYER,
 )
 
-alice = Keypair.from_byte_array(
-    [205, 213, 7, 246, 167, 206, 37, 209, 161, 129, 168, 160, 90, 103, 198, 142, 83, 177, 214, 203, 80, 29, 71, 245,
-     56, 152, 15, 8, 235, 174, 62, 79, 138, 198, 145, 111, 119, 33, 15, 237, 89, 201, 122, 89, 48, 221, 224, 71, 81,
-     128, 45, 97, 191, 105, 37, 228, 243, 238, 130, 151, 53, 221, 172, 125])
-
-mint = sdk.config.get('mint').get('public_key')
-account = 'ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA'
-fee_payer = 'oWNEYV3aMze3CppdgyFAiEj9xUJXkn85es1KscRHt8m'
-owner = Keypair.random()
+sdk = KineticSdk.setup(
+    endpoint="http://localhost:3000",
+    environment="local",
+    index=1,
+    headers=[{"kinetic-extra-header": "Test Header Value"}],
+)
 
 
 def test_get_balance():
-    """ Test getting balance of an account """
-    balance = sdk.get_balance(PublicKey(account))
-    # print(balance)
-    assert type(balance) == BalanceResponse
-    assert type(balance.balance) == str
-    assert type(balance.tokens) == list
-    assert type(balance.tokens[0]) == BalanceToken
-    assert type(balance.mints) == dict
-    assert type(balance.mints[mint]) == str
+    """Test getting balance of an account"""
+    balance = sdk.get_balance(PublicKey(ALICE_ACCOUNT))
+    assert isinstance(balance, BalanceResponse)
+    assert isinstance(balance.balance, str)
+    assert isinstance(balance.tokens, list)
+    assert isinstance(balance.tokens[0], BalanceToken)
+    assert isinstance(balance.mints, dict)
+    assert isinstance(balance.mints[DEFAULT_MINT], str)
 
 
-def test_get_config():
-    """ Test getting config of an account """
-    config = sdk.config
-    # print(config)
-    assert type(config) == dict
-    assert type(config.get('endpoint')) == str
-    assert type(config.get('environment')) == str
-    assert type(config.get('index')) == int
+def test_get_app_config():
+    """Test getting the app config"""
+    app_config = sdk.config
+    # print(app_config)
+    assert isinstance(app_config, AppConfig)
+    assert app_config["app"]["index"] == 1
+    assert app_config["app"]["name"] == "App 1"
+    assert app_config["environment"]["name"] == "local"
+    assert app_config["environment"]["cluster"]["id"] == "solana-local"
+    assert app_config["environment"]["cluster"]["name"] == "Solana Local"
+    assert app_config["environment"]["cluster"]["type"] == ClusterType("Custom")
+    assert app_config["mint"]["symbol"] == "KIN"
+    assert app_config["mint"]["public_key"] == DEFAULT_MINT
+    assert len(app_config["mints"]) == 2
+    assert app_config["mints"][0].symbol == "KIN"
+    assert app_config["mints"][0].public_key == DEFAULT_MINT
 
 
 def test_get_explorer_url():
-    """ Test getting explorer url """
-    url = sdk.get_explorer_url('account/' + account)
+    """Test getting explorer url"""
+    path = f"account/{ALICE_ACCOUNT}"
+    url = sdk.get_explorer_url(path)
+    expected = f"https://explorer.solana.com/{path}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899"
     # print(url)
-    assert url == 'https://explorer.solana.com/account/' + account + '?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899'
+    assert url == expected
 
 
 def test_get_history():
-    """ Test getting history of an account """
-    history = sdk.get_history(account)
+    """Test getting history of an account"""
+    history = sdk.get_history(ALICE_ACCOUNT)
     # print(history)
-    assert type(history) == list
-    assert type(history[0]) == HistoryResponse
+    assert isinstance(history, list)
+    assert isinstance(history[0], HistoryResponse)
 
 
 def test_get_token_accounts():
-    """ Test getting token accounts of an account """
-    token_accounts = sdk.get_token_accounts(account)
+    """Test getting token accounts of an account"""
+    token_accounts = sdk.get_token_accounts(ALICE_ACCOUNT)
     # print(token_accounts)
-    assert type(token_accounts) == list
+    assert isinstance(token_accounts, list)
 
 
 def test_request_airdrop():
-    """ Test requesting airdrop for an account """
-    airdrop = sdk.request_airdrop(account, "100")
+    """Test requesting airdrop for an account"""
+    airdrop = sdk.request_airdrop(ALICE_ACCOUNT, "100")
     # print(airdrop)
-    assert type(airdrop) == RequestAirdropResponse
+    assert isinstance(airdrop, RequestAirdropResponse)
 
 
 def test_create_account():
-    """ Test creating an account """
-    created = sdk.create_account(owner)
+    """Test creating an account"""
+    kp = Keypair.random()
+    created = sdk.create_account(kp)
     # print(created)
-    assert type(created) == Transaction
-    assert created['amount'] is None
-    assert str(created['commitment']) == 'Confirmed'
-    assert created['destination'] is None
-    assert created['errors'] == []
-    assert created['fee_payer'] == fee_payer
-    assert created['mint'] == mint
-    assert type(created['status']) == TransactionStatus
-    assert str(created['status']) == 'Committed'
+    assert isinstance(created, Transaction)
+    assert created["errors"] == []
+    assert created["amount"] is None
+    assert str(created["commitment"]) == "Confirmed"
+    assert created["destination"] is None
+    assert created["fee_payer"] == FEE_PAYER
+    assert created["mint"] == DEFAULT_MINT
+    assert isinstance(created["status"], TransactionStatus)
+    assert str(created["status"]) == "Committed"
 
 
 def test_make_transfer():
-    """ Test making a transfer """
+    """Test making a transfer"""
     transfer = sdk.make_transfer(
-        owner=alice,
-        destination='BobQoPqWy5cpFioy1dMTYqNH9WpC39mkAEDJWXECoJ9y',
+        owner=ALICE_KEYPAIR,
+        destination=BOB_ACCOUNT,
         amount=17,
     )
-    assert type(transfer) == Transaction
-    assert transfer['amount'] == '17'
-    assert str(transfer['commitment']) == 'Confirmed'
-    assert transfer['destination'] == '92gcR7aBdZDGvoC1cCSTSzQDediBZecy32B43mJtuUXT'
-    assert transfer['errors'] == []
-    assert transfer['fee_payer'] == fee_payer
-    assert transfer['mint'] == mint
-    assert type(transfer['status']) == TransactionStatus
-    assert str(transfer['status']) == 'Committed'
-    assert transfer['source'] == 'ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA'
+    assert isinstance(transfer, Transaction)
+    assert transfer["errors"] == []
+    assert transfer["amount"] == "17"
+    assert transfer["commitment"] == "Confirmed"
+    assert transfer["destination"] == BOB_TOKEN_ACCOUNT
+    assert transfer["fee_payer"] == FEE_PAYER
+    assert transfer["mint"] == DEFAULT_MINT
+    assert isinstance(transfer["status"], TransactionStatus)
+    assert transfer["status"] == TransactionStatus("Committed")
+    assert transfer["source"] == ALICE_ACCOUNT
 
 
 def test_make_transfer_batch():
-    """ Test making a batch transfer """
-    transferBatch = sdk.make_transfer_batch(
-        owner=alice,
-        destinations=[
-            {'destination': 'BobQoPqWy5cpFioy1dMTYqNH9WpC39mkAEDJWXECoJ9y', 'amount': '12'},
-            {'destination': 'CharYfTvJSiH6LtDpkGUiVVZmeCn5Cenu2TzdJSbDJnG', 'amount': '15'}
-        ]
+    """Test making a batch transfer"""
+    transfer_batch = sdk.make_transfer_batch(
+        owner=ALICE_KEYPAIR,
+        destinations=[{"destination": BOB_ACCOUNT, "amount": "12"}, {"destination": CHARLIE_ACCOUNT, "amount": "15"}],
     )
-    # print(transferBatch)
-    assert type(transferBatch) == Transaction
-    assert transferBatch['amount'] == '12'
-    assert str(transferBatch['commitment']) == 'Confirmed'
-    assert transferBatch['destination'] == '92gcR7aBdZDGvoC1cCSTSzQDediBZecy32B43mJtuUXT'
-    assert transferBatch['errors'] == []
-    assert transferBatch['fee_payer'] == fee_payer
-    assert transferBatch['mint'] == mint
-    assert type(transferBatch['status']) == TransactionStatus
-    assert str(transferBatch['status']) == 'Committed'
-    assert transferBatch['source'] == 'ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA'
+    # print(transfer_batch)
+    assert isinstance(transfer_batch, Transaction)
+    assert transfer_batch["errors"] == []
+    assert transfer_batch["amount"] == "12"
+    assert transfer_batch["commitment"] == "Confirmed"
+    assert transfer_batch["destination"] == BOB_TOKEN_ACCOUNT
+    assert transfer_batch["fee_payer"] == FEE_PAYER
+    assert transfer_batch["mint"] == DEFAULT_MINT
+    assert isinstance(transfer_batch["status"], TransactionStatus)
+    assert transfer_batch["status"] == TransactionStatus("Committed")
+    assert transfer_batch["source"] == ALICE_ACCOUNT
 
 
 def test_get_transaction():
-    """ Test getting transaction """
+    """Test getting transaction"""
     new_transfer = sdk.make_transfer(
-        owner=alice,
-        destination='BobQoPqWy5cpFioy1dMTYqNH9WpC39mkAEDJWXECoJ9y',
-        amount=1,
-        commitment=Commitment('Finalized')
+        owner=ALICE_KEYPAIR, destination=BOB_ACCOUNT, amount=1, commitment=Commitment("Finalized")
     )
-    tx = sdk.get_transaction(signature=new_transfer['signature'])
-    # print(tx)
+    tx = sdk.get_transaction(signature=new_transfer["signature"])
+    print(tx["signature"])
 
 
 def test_sender_crete():
-    """ Test sender create """
+    """Test sender create"""
     destination = Keypair.random()
     tx = sdk.make_transfer(
-        owner=alice,
+        owner=ALICE_KEYPAIR,
         destination=destination.public_key,
         amount=1,
-        commitment=Commitment('Finalized'),
-        sender_create=True
+        commitment=Commitment("Finalized"),
+        sender_create=True,
     )
-    # print(tx['signature'])
+    print(tx["signature"])
+
 
 def test_get_account_info():
-    """ Test getting account info """
-    account_info = sdk.get_account_info(account)
+    """Test getting account info"""
+    account_info = sdk.get_account_info(ALICE_ACCOUNT)
     # print(account_info)
-    assert type(account_info) == AccountInfo
-    assert type(account_info['is_mint']) == bool
-    assert type(account_info['is_owner']) == bool
-    assert type(account_info['is_token_account']) == bool
-    assert type(account_info['tokens']) == list
+    assert isinstance(account_info, AccountInfo)
+    assert isinstance(account_info["is_mint"], bool)
+    assert isinstance(account_info["is_owner"], bool)
+    assert isinstance(account_info["is_token_account"], bool)
+    assert isinstance(account_info["tokens"], list)
+    assert account_info["tokens"][0].account == ALICE_TOKEN_ACCOUNT
+
 
 def test_close_account():
-    """ Test closing an account """
-    owner = Keypair.random()
-    sdk.create_account(owner, commitment=Commitment('Finalized'))
-    account_closed = sdk.close_account(
-        account=str(owner.public_key),
-        commitment=Commitment('Finalized')
-    )
-    # print(account_closed)
+    """Test closing an account"""
+    kp = Keypair.random()
+    sdk.create_account(kp, commitment=Commitment("Finalized"))
+    tx = sdk.close_account(account=str(kp.public_key), commitment=Commitment("Finalized"))
+    print(tx["signature"])

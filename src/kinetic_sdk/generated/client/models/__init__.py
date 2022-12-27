@@ -33,7 +33,9 @@ from kinetic_sdk.generated.client.model.get_transaction_response import GetTrans
 from kinetic_sdk.generated.client.model.history_response import HistoryResponse
 from kinetic_sdk.generated.client.model.latest_blockhash_response import LatestBlockhashResponse
 from kinetic_sdk.generated.client.model.make_transfer_request import MakeTransferRequest
-from kinetic_sdk.generated.client.model.minimum_rent_exemption_balance_response import MinimumRentExemptionBalanceResponse
+from kinetic_sdk.generated.client.model.minimum_rent_exemption_balance_response import (
+    MinimumRentExemptionBalanceResponse,
+)
 from kinetic_sdk.generated.client.model.request_airdrop_request import RequestAirdropRequest
 from kinetic_sdk.generated.client.model.request_airdrop_response import RequestAirdropResponse
 from kinetic_sdk.generated.client.model.rpc_response_and_context import RpcResponseAndContext
