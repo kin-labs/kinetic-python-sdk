@@ -46,7 +46,7 @@ def generate_make_transfer_transaction(
 
     # Create the Token Transfer Instruction
     instruction = create_make_transfer_instruction(
-        owner=owner.public_key.to_solders(),
+        owner=Pubkey.from_string(owner.public_key),
         owner_token_account=Pubkey.from_string(owner_token_account),
         destination_token_account=Pubkey.from_string(destination_token_account),
         mint=PublicKey(mint_public_key).to_solders(),
@@ -56,7 +56,7 @@ def generate_make_transfer_transaction(
     instructions.append(instruction)
 
     # Create transaction
-    message = SoldersMessage(instructions, owner.to_solders().pubkey())
+    message = SoldersMessage(instructions, Pubkey.from_string(owner.public_key))
 
     # Partially sign the transaction
-    return sign_and_serialize_transaction(message, mint_fee_payer, owner, blockhash)
+    return sign_and_serialize_transaction(message, mint_fee_payer, owner.solana, blockhash)

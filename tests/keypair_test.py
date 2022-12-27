@@ -5,77 +5,156 @@ from kinetic_sdk.keypair import Keypair
 from tests.fixtures import (
     TEST_MNEMONIC_12,
     TEST_MNEMONIC_12_KEYPAIR,
-    TEST_MNEMONIC_12_PUBLIC_KEY,
+    TEST_MNEMONIC_12_SET,
     TEST_MNEMONIC_24,
     TEST_MNEMONIC_24_KEYPAIR,
+    TEST_MNEMONIC_24_SET,
+    TEST_PUBLIC_KEY,
+    TEST_SECRET_BYTEARRAY,
+    TEST_SECRET_KEY,
 )
 
 
-def test_keypair_from_mnemonic():
-    """Test recovering a Keypair from mnemonic"""
-    keypair = Keypair.from_mnemonic(TEST_MNEMONIC_12)
-    assert keypair.mnemonic == TEST_MNEMONIC_12
-    assert str(keypair.public_key) == TEST_MNEMONIC_12_KEYPAIR["public_key"]
+def test_should_generate_a_keypair():
+    """should generate a KeyPair"""
+    kp = Keypair.random()
+    assert isinstance(kp, Keypair)
 
-    keypair = Keypair.from_mnemonic(TEST_MNEMONIC_24)
-    assert keypair.mnemonic == TEST_MNEMONIC_24
-    assert str(keypair.public_key) == TEST_MNEMONIC_24_KEYPAIR["public_key"]
+    assert kp.mnemonic is not None
+    assert kp.secret_key is not None
+    assert kp.public_key is not None
 
 
-def test_keypair_generate_mnemonic():
-    """Test generating a mnemonic"""
+def test_should_return_generate_a_keypair_from_mnemonic():
+    """should return generate a KeyPair from mnemonic"""
+    kp = Keypair.random()
+    restored = Keypair.from_mnemonic(kp.mnemonic)
+    assert restored.mnemonic == kp.mnemonic
+    assert restored.secret_key == kp.secret_key
+    assert restored.public_key == kp.public_key
+
+
+def test_should_generate_a_mnemonic_phrase_12_chars():
+    """should generate a Mnemonic phrase (12 chars)"""
     mnemonic = Keypair.generate_mnemonic()
-    # FIXME: Implement asserts
-    print("12-words", mnemonic)
+
+    assert isinstance(mnemonic, str)
+    assert len(mnemonic.split(" ")) == 12
 
 
-def test_keypair_generate_mnemonic_24_words():
-    """Test generating a 24-word mnemonic"""
+def test_should_generate_a_mnemonic_phrase_24_chars():
+    """should generate a Mnemonic phrase (24 chars)"""
     mnemonic = Keypair.generate_mnemonic(strength=256)
-    # FIXME: Implement asserts
-    print("24-words", mnemonic)
+
+    assert isinstance(mnemonic, str)
+    assert len(mnemonic.split(" ")) == 24
 
 
-def test_get_keypair_mnemonic():
-    """Test generating a mnemonic"""
-    keypair = Keypair()
-    # FIXME: Implement asserts
-    print(keypair.mnemonic)
+def test_should_create_and_import_keypair_from_secret_byte_array_mnemonic_secret_key():
+    """should create and import keypair fromSecret (byte array, mnemonic, secret_key)"""
+    pass
 
 
-def test_keypair_creation():
-    """Test creating a Keypair"""
-    # keypair = Keypair()
-    mnemonic = Keypair.generate_mnemonic()
-    keypair = Keypair.from_mnemonic(mnemonic)
-    # FIXME: Implement asserts
-    print("keypair: ", keypair)
+def test_should_create_and_import_keypair():
+    """should create and import keypair"""
+    kp1 = Keypair.random()
+    kp2 = Keypair.from_secret_key(kp1.secret_key)
+    kp_secret = Keypair.from_secret(kp1.secret_key)
+
+    assert kp1.secret_key == kp2.secret_key
+    assert kp1.public_key == kp2.public_key
+    assert kp_secret.public_key == kp2.public_key
 
 
-def test_mnemonic_derivation_path():
-    """Test mnemonic derivation path"""
-    keypair = Keypair.from_mnemonic(TEST_MNEMONIC_12)
-    kp_from_secret = Keypair.from_secret(TEST_MNEMONIC_12)
-    assert str(keypair.public_key) == TEST_MNEMONIC_12_PUBLIC_KEY
-    assert kp_from_secret.secret_key == keypair.secret_key
-    assert kp_from_secret.public_key == keypair.public_key
+def test_should_import_from_a_bytearray():
+    """should import from a bytearray"""
+    kp = Keypair.from_byte_array(byte_array=TEST_SECRET_BYTEARRAY)
+    kp_secret = Keypair.from_secret(secret=str(TEST_SECRET_BYTEARRAY))
+
+    assert isinstance(kp, Keypair)
+    assert isinstance(kp_secret, Keypair)
+    assert isinstance(kp.secret_key, str)
+    assert isinstance(kp.public_key, str)
+    assert kp.public_key == TEST_PUBLIC_KEY
+    assert kp_secret.public_key == TEST_PUBLIC_KEY
+    assert kp.secret_key == TEST_SECRET_KEY
+    assert kp_secret.secret_key == TEST_SECRET_KEY
+    assert kp.mnemonic is None
+    assert kp_secret.mnemonic is None
 
 
-def test_keypair_from_secret():
-    """Test recovering a Keypair from secret"""
-    solana_keypair = Keypair()
-    # pylint: disable=protected-access
-    kp1 = solana_keypair.keypair._solders
+def test_should_import_and_existing_secret():
+    """should import and existing secret"""
+    kp = Keypair.from_secret_key(secret_key=TEST_SECRET_KEY)
 
-    from_byte_array = Keypair.from_secret(f"{kp1.to_solders().to_bytes_array()}")
-    assert from_byte_array.secret_key == kp1.secret_key
-    assert from_byte_array.public_key == kp1.public_key
+    assert isinstance(kp, Keypair)
+    assert isinstance(kp.secret_key, str)
+    assert isinstance(kp.public_key, str)
+    assert kp.public_key == TEST_PUBLIC_KEY
+    assert kp.secret_key == TEST_SECRET_KEY
+    assert kp.mnemonic is None
 
-    from_mnemonic = Keypair.from_secret(solana_keypair.mnemonic)
-    assert from_mnemonic.secret_key == kp1.secret_key
-    assert from_mnemonic.public_key == kp1.public_key
-    assert from_mnemonic.mnemonic == solana_keypair.mnemonic
 
-    from_secret_key = Keypair.from_secret(kp1.secret_key)
-    assert from_secret_key.secret_key == kp1.secret_key
-    assert from_secret_key.public_key == kp1.public_key
+def test_should_import_a_mnemonic_12_chars_and_get_1_keypair():
+    """should import a mnemonic (12 chars) and get 1 keypair"""
+    kp = Keypair.from_mnemonic(mnemonic=TEST_MNEMONIC_12)
+    kp_secret = Keypair.from_secret(secret=TEST_MNEMONIC_12)
+
+    assert isinstance(kp, Keypair)
+    assert isinstance(kp_secret, Keypair)
+
+    assert kp.mnemonic == TEST_MNEMONIC_12_KEYPAIR["mnemonic"]
+    assert kp_secret.mnemonic == TEST_MNEMONIC_12_KEYPAIR["mnemonic"]
+    assert kp.public_key == TEST_MNEMONIC_12_KEYPAIR["public_key"]
+    assert kp_secret.public_key == TEST_MNEMONIC_12_KEYPAIR["public_key"]
+    assert kp.secret_key == TEST_MNEMONIC_12_KEYPAIR["secret_key"]
+    assert kp_secret.secret_key == TEST_MNEMONIC_12_KEYPAIR["secret_key"]
+
+
+def test_should_import_a_mnemonic_24_chars_and_get_1_keypair():
+    """should import a mnemonic (24 chars) and get 1 keypair"""
+    kp = Keypair.from_mnemonic(mnemonic=TEST_MNEMONIC_24)
+    kp_secret = Keypair.from_secret(secret=TEST_MNEMONIC_24)
+
+    assert isinstance(kp, Keypair)
+    assert isinstance(kp_secret, Keypair)
+
+    assert kp.mnemonic == TEST_MNEMONIC_24_KEYPAIR["mnemonic"]
+    assert kp_secret.mnemonic == TEST_MNEMONIC_24_KEYPAIR["mnemonic"]
+    assert kp.public_key == TEST_MNEMONIC_24_KEYPAIR["public_key"]
+    assert kp_secret.public_key == TEST_MNEMONIC_24_KEYPAIR["public_key"]
+    assert kp.secret_key == TEST_MNEMONIC_24_KEYPAIR["secret_key"]
+    assert kp_secret.secret_key == TEST_MNEMONIC_24_KEYPAIR["secret_key"]
+
+
+def test_should_import_multiple_from_a_mnemonic_12_chars():
+    """should import multiple from a mnemonic (12 chars)"""
+    kps: list[Keypair] = Keypair.from_mnemonic_set(mnemonic=TEST_MNEMONIC_12, from_index=0, to_index=10)
+
+    assert isinstance(kps, list)
+    assert len(kps) == 10
+
+    for index, kp in enumerate(kps):
+        current = TEST_MNEMONIC_12_SET[index]
+        assert kp.public_key == current["public_key"]
+        assert kp.secret_key == current["secret_key"]
+        assert kp.mnemonic == current["mnemonic"]
+
+
+def test_should_import_multiple_from_a_mnemonic_24_chars():
+    """should import multiple from a mnemonic (24 chars)"""
+    kps: list[Keypair] = Keypair.from_mnemonic_set(mnemonic=TEST_MNEMONIC_24, from_index=0, to_index=10)
+
+    assert isinstance(kps, list)
+    assert len(kps) == 10
+
+    for index, kp in enumerate(kps):
+        current = TEST_MNEMONIC_24_SET[index]
+        assert kp.public_key == current["public_key"]
+        assert kp.secret_key == current["secret_key"]
+        assert kp.mnemonic == current["mnemonic"]
+
+
+def test_should_throw_an_error_when_we_put_in_unexpected_values():
+    """should throw an error when we put in unexpected values"""
+    pass

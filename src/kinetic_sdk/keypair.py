@@ -1,6 +1,5 @@
-# pylint: disable=missing-function-docstring,import-error
-"""Kinetic Keypair"""
-from typing import Union
+# pylint: disable=missing-class-docstring,missing-function-docstring,missing-module-docstring,import-error
+from typing import Optional
 
 from bip_utils import (
     Bip39Languages,
@@ -11,94 +10,118 @@ from bip_utils import (
     Bip44Changes,
     Bip44Coins,
 )
-from bip_utils.utils.mnemonic import Mnemonic
 from solana.keypair import Keypair as SolanaKeypair
+from solana.publickey import PublicKey
 from solders.keypair import Keypair as SoldersKeypair
+
+from kinetic_sdk.helpers import base58_decode, base58_encode
 
 
 class Keypair:
-    """Keypair class."""
+    _solana_keypair: SolanaKeypair
 
-    keypair: SolanaKeypair
-    mnemonic: Mnemonic
+    mnemonic: Optional[str] = None
+    public_key: str
+    secret_key: str
 
-    def __init__(self):
-        self.mnemonic = Keypair.generate_mnemonic()
-        self.keypair = SolanaKeypair.from_solders(Keypair.from_mnemonic(str(self.mnemonic)))
+    def __init__(self, secret_key: str):
+        self._solana_keypair = SolanaKeypair.from_secret_key(base58_decode(secret_key))
+        self.public_key = str(self._solana_keypair.public_key)
+        self.secret_key = base58_encode(self._solana_keypair.secret_key)
+
+    @property
+    def solana(self) -> SolanaKeypair:
+        return self._solana_keypair
+
+    @property
+    def solana_public_key(self) -> PublicKey:
+        return self._solana_keypair.public_key
+
+    @property
+    def solana_secret_key(self) -> bytes:
+        return self._solana_keypair.secret_key
 
     @staticmethod
-    # pylint: disable=inconsistent-return-statements
-    def generate_mnemonic(strength: int = 128):
-        if strength == 128:
-            return Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
-        if strength == 256:
-            return Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+    def from_byte_array(byte_array: list[int]) -> "Keypair":
+        data = bytes()
+        for item in byte_array:
+            data += bytes([item])
+
+        return Keypair.from_secret_key(secret_key=base58_encode(data))
 
     @staticmethod
-    def from_mnemonic(mnemonic_phrase: Union[str, Mnemonic]):
-        keypair = Keypair.from_mnemonic_set(str(mnemonic_phrase))[0]
-        keypair.mnemonic = mnemonic_phrase
-        return keypair
+    def from_mnemonic(mnemonic: str) -> "Keypair":
+        return Keypair.from_mnemonic_set(mnemonic=mnemonic)[0]
 
     @staticmethod
-    def from_mnemonic_set(mnemonic_phrase: Union[str, Mnemonic], from_index=0, to_index=2):
+    def from_mnemonic_set(mnemonic: str, from_index=0, to_index=1) -> list["Keypair"]:
+        # Always start with zero as minimum
+        from_index = max(from_index, 0)
+        # Always generate at least 1
+        if to_index <= from_index:
+            to_index = from_index + 1
+
         keypairs = list(range(from_index, to_index))
-        seed_bytes = Bip39SeedGenerator(str(mnemonic_phrase), Bip39Languages.ENGLISH).Generate("")
-        bip44_seeds = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA).Purpose().Coin()
+
+        seed = Bip39SeedGenerator(mnemonic, Bip39Languages.ENGLISH).Generate("")
+        bip44_seeds = Bip44.FromSeed(seed, Bip44Coins.SOLANA).Purpose().Coin()
+
         for i in range(from_index, to_index):
             solders_keypair = SoldersKeypair.from_seed(
                 bip44_seeds.Account(i).Change(Bip44Changes.CHAIN_EXT).PrivateKey().Raw().ToBytes()
             )
-            keypairs[i] = SolanaKeypair.from_solders(solders_keypair)
+            kp = Keypair.from_secret_key(secret_key=base58_encode(solders_keypair.secret()))
+            kp.mnemonic = mnemonic
+            keypairs[i] = kp
 
         return keypairs
 
     @staticmethod
-    def from_byte_array(key):
-        if isinstance(key, str):
-            return SolanaKeypair.from_secret_key(Keypair.to_bytes_array(key))
-        return SolanaKeypair.from_secret_key(key)
-
-    @staticmethod
-    def from_secret_key(key):
-        return SolanaKeypair.from_secret_key(key)
-
-    @staticmethod
-    def random():
-        return SolanaKeypair()
-
-    @staticmethod
-    def from_secret(secret):
-        if Keypair.is_mnemonic(secret):
-            keypair = Keypair.from_mnemonic(secret)
-        elif Keypair.is_byte_array(secret):
-            keypair = Keypair.from_byte_array(secret)
+    def from_secret(secret: str) -> "Keypair":
+        # trim spaces and newlines from the secret
+        secret = secret.strip()
+        keypair: Keypair
+        if Keypair._is_mnemonic(secret):
+            keypair = Keypair.from_mnemonic(mnemonic=secret)
+        elif Keypair._is_byte_array(secret):
+            keypair = Keypair._parse_byte_array(secret=secret)
         else:
-            keypair = SolanaKeypair.from_secret_key(secret)
+            keypair = Keypair.from_secret_key(secret_key=secret)
 
         if keypair is None:
-            raise Exception("Invalid secret")
+            raise ValueError("Invalid secret")
 
         return keypair
 
     @staticmethod
-    def is_mnemonic(secret):
-        return len(str(secret).split(" ")) in [12, 24]
+    def from_secret_key(secret_key: str) -> "Keypair":
+        return Keypair(secret_key)
 
     @staticmethod
-    def is_byte_array(secret):
+    def generate_mnemonic(strength: 128 | 256 = 128) -> str:
+        if strength not in [128, 256]:
+            raise ValueError("Strength must be 128 or 256 bits")
+        words = Bip39WordsNum.WORDS_NUM_12 if strength == 128 else Bip39WordsNum.WORDS_NUM_24
+
+        return str(Bip39MnemonicGenerator().FromWordsNumber(words))
+
+    @staticmethod
+    def random() -> "Keypair":
+        mnemonic: str = Keypair.generate_mnemonic()
+        return Keypair.from_mnemonic(mnemonic)
+
+    @staticmethod
+    def _parse_byte_array(secret: str) -> "Keypair":
+        secret = secret.replace("[", "").replace("]", "")
+        byte_array: list[int] = []
+        for item in secret.split(","):
+            byte_array.append(int(item.strip()))
+        return Keypair.from_byte_array(byte_array=byte_array)
+
+    @staticmethod
+    def _is_byte_array(secret: str) -> bool:
         return str(secret).startswith("[") and secret.endswith("]")
 
     @staticmethod
-    def from_solders(keypair: SoldersKeypair):
-        return SolanaKeypair.from_solders(keypair)
-
-    def to_solders(self):
-        return self.keypair.to_solders()
-
-    # pylint: disable=no-self-argument
-    def to_bytes_array(secret):
-        # pylint: disable=no-member
-        parsed = secret.replace("[", "").replace("]", "").split(", ")
-        # pylint: disable=eval-used
-        return [eval(i) for i in parsed]
+    def _is_mnemonic(secret: str) -> bool:
+        return len(str(secret).split(" ")) in [12, 24]

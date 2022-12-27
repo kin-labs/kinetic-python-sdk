@@ -2,6 +2,7 @@
 from solana.publickey import PublicKey
 from solders.instruction import Instruction
 from solders.message import Message as SoldersMessage
+from solders.pubkey import Pubkey
 from spl.token.instructions import AuthorityType, SetAuthorityParams, set_authority
 
 from kinetic_sdk.helpers.create_associated_token_account_instruction import create_associated_token_account_instruction
@@ -35,7 +36,7 @@ def generate_create_account_transaction(
     create_token_account_instruction = create_associated_token_account_instruction(
         payer=fee_payer_key.to_solders(),
         associated_token=owner_token_account_public_key.to_solders(),
-        owner=owner_public_key.to_solders(),
+        owner=Pubkey.from_string(owner_public_key),
         mint=mint_key.to_solders(),
     )
     instructions.append(create_token_account_instruction)
@@ -45,12 +46,12 @@ def generate_create_account_transaction(
             program_id=PublicKey(TOKEN_PROGRAM_ID),
             account=owner_token_account_public_key,
             authority=AuthorityType.CLOSE_ACCOUNT,
-            current_authority=owner_public_key,
+            current_authority=PublicKey(owner_public_key),
             new_authority=fee_payer_key,
         )
     )
     instructions.append(set_authority_instruction.to_solders())
 
-    message = SoldersMessage(instructions, owner.to_solders().pubkey())
+    message = SoldersMessage(instructions, Pubkey.from_string(mint_public_key))
 
-    return sign_and_serialize_transaction(message, mint_fee_payer, owner, blockhash)
+    return sign_and_serialize_transaction(message, mint_fee_payer, owner.solana, blockhash)

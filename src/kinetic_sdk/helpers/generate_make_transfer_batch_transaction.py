@@ -4,6 +4,7 @@ from typing import Dict, List
 from solana.publickey import PublicKey
 from solders.instruction import Instruction
 from solders.message import Message as SoldersMessage
+from solders.pubkey import Pubkey
 
 from kinetic_sdk.helpers.create_make_transfer_instruction import create_make_transfer_instruction
 from kinetic_sdk.helpers.create_memo_instruction import create_memo_instruction
@@ -32,7 +33,7 @@ def generate_make_transfer_batch_transaction(
 
     for destination in destinations:
         instruction = create_make_transfer_instruction(
-            owner=owner.public_key.to_solders(),
+            owner=Pubkey.from_string(owner.public_key),
             owner_token_account=PublicKey(owner_token_account).to_solders(),
             destination_token_account=PublicKey(destination["destination"]).to_solders(),
             mint=PublicKey(mint_public_key).to_solders(),
@@ -42,6 +43,6 @@ def generate_make_transfer_batch_transaction(
 
         instructions.append(instruction)
 
-    message = SoldersMessage(instructions, owner.to_solders().pubkey())
+    message = SoldersMessage(instructions, Pubkey.from_string(owner.public_key))
 
-    return sign_and_serialize_transaction(message, mint_fee_payer, owner, blockhash)
+    return sign_and_serialize_transaction(message, mint_fee_payer, owner.solana, blockhash)

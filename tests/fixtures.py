@@ -91,50 +91,50 @@ TEST_MNEMONIC_12_SET = [
 ]
 
 TEST_MNEMONIC_24_SET = [
-  TEST_MNEMONIC_24_KEYPAIR,
-  {
-    "mnemonic": TEST_MNEMONIC_24,
-    "public_key": 'Foo948ttNuYa8SsfHX78BVyPVA7P7MsV8u43ZeQ1RBxm',
-    "secret_key": 'TcauP27RkmyhH2AsVaPh5rCofCN4xCoB1h5MgUT6eRoJ7GiVPDBqtW1dAmh9CNcHSqCVnoEFUbRhfApM6oLrUDF',
-  },
-  {
-    "mnemonic": TEST_MNEMONIC_24,
-    "public_key": '3ySWEh9mvVUpzMYYcqEv7VeAQp7ueGFAjUg1G9DBTjD5',
-    "secret_key": '48wHgpEEb1f14kcYAyskTmUY9WnzLXuGUi1qmGiZr89uEmNo8g3uDNsk4aNjMaAfrE4oew7tk7VXWtUj8jWZGdbR',
-  },
-  {
-    "mnemonic": TEST_MNEMONIC_24,
-    "public_key": 'HyMtaWzweBgpmgDf2dn8RhsM1c9m48VPQFjV6DAkHxbv',
-    "secret_key": '46HfvZCsmSCnS9akRqULDci7313KQGk7Ndv7PXejTa4rnEtH7PnGMUo5jxkJwMJjifFxHyfJSkYcziEBqJqGPQYL',
-  },
-  {
-    "mnemonic": TEST_MNEMONIC_24,
-    "public_key": '5SZcAkce1YHt5D4ANfxQGBo1fRcjn7jbCaUGgaBPz8or',
-    "secret_key": '3Gr9wYRLhz9LLhkSTYy1TsXyUbDcsfhVUxpDxDrHSjdY2J1tNBQWRZ4qdFvbH5AiMJCvq9qhxZc6j1RinPXMWDMa',
-  },
-  {
-    "mnemonic": TEST_MNEMONIC_24,
-    "public_key": '77VRnnzwRTeQLDpNDfMh8DrDkzbAtcuKncZyWN49oegG',
-    "secret_key": 'vrMzreRiV8Abz2WxqZhgh2Hmg5Mnc65QD3P1tr5Y7a296d7Y4FrUBppGCUAz2qCa6iNVUjygZu4SMiRDmW59Vbe',
-  },
-  {
-    "mnemonic": TEST_MNEMONIC_24,
-    "public_key": 'GRwsvJC92A9UB4eEcpzuxPqsuBdKRjd731uGp6BLbPJv',
-    "secret_key": '4ZPFuK3dS189sJFXdTiVRXeVA7ZV4LPgUUgXJwx7WVWMVCpafG3L1D2j1Z4dSJzamyYruHCSYWrwP6s8HhGLTYS2',
-  },
-  {
-    "mnemonic": TEST_MNEMONIC_24,
-    "public_key": 'piCoBHqPoK4dhg84g1NajB6vdJX785G3wT2rExaQ6Q3',
-    "secret_key": '3iUkSFmpVM4rZUsMJqGH1ajY3tWxG9A64agQwaPCZ1m5Yc3V8JacEPnAu3oDdhxTARHnpXKBBVcDJhv9cR2JDvd9',
-  },
-  {
-    "mnemonic": TEST_MNEMONIC_24,
-    "public_key": '6EeiyS9X6222PeUzpKA32jc3ZEkpTKms3qNZEmySm1DS',
-    "secret_key": '8BJqbw31Zmn7887LtFtevmmGaUm5BNUvMB1tsnLdzCv5TFPTodYDCsKCFovHoL1BSZwGxbixDZoWwszLpSyYKXv',
-  },
-  {
-    "mnemonic": TEST_MNEMONIC_24,
-    "public_key": 'DhW8bCabXWMJYg99rtZyy2XWax8J5wfLh8kmkpDxbR8G',
-    "secret_key": '3P4zpjXuBtxH8hMguo8k68Nz3mDYRto3CaMkSm55TtPZzinRYg76uyvy2CBimcegBRThH92H9MzffYShJB62W8ya',
-  },
+    TEST_MNEMONIC_24_KEYPAIR,
+    {
+        "mnemonic": TEST_MNEMONIC_24,
+        "public_key": "Foo948ttNuYa8SsfHX78BVyPVA7P7MsV8u43ZeQ1RBxm",
+        "secret_key": "TcauP27RkmyhH2AsVaPh5rCofCN4xCoB1h5MgUT6eRoJ7GiVPDBqtW1dAmh9CNcHSqCVnoEFUbRhfApM6oLrUDF",
+    },
+    {
+        "mnemonic": TEST_MNEMONIC_24,
+        "public_key": "3ySWEh9mvVUpzMYYcqEv7VeAQp7ueGFAjUg1G9DBTjD5",
+        "secret_key": "48wHgpEEb1f14kcYAyskTmUY9WnzLXuGUi1qmGiZr89uEmNo8g3uDNsk4aNjMaAfrE4oew7tk7VXWtUj8jWZGdbR",
+    },
+    {
+        "mnemonic": TEST_MNEMONIC_24,
+        "public_key": "HyMtaWzweBgpmgDf2dn8RhsM1c9m48VPQFjV6DAkHxbv",
+        "secret_key": "46HfvZCsmSCnS9akRqULDci7313KQGk7Ndv7PXejTa4rnEtH7PnGMUo5jxkJwMJjifFxHyfJSkYcziEBqJqGPQYL",
+    },
+    {
+        "mnemonic": TEST_MNEMONIC_24,
+        "public_key": "5SZcAkce1YHt5D4ANfxQGBo1fRcjn7jbCaUGgaBPz8or",
+        "secret_key": "3Gr9wYRLhz9LLhkSTYy1TsXyUbDcsfhVUxpDxDrHSjdY2J1tNBQWRZ4qdFvbH5AiMJCvq9qhxZc6j1RinPXMWDMa",
+    },
+    {
+        "mnemonic": TEST_MNEMONIC_24,
+        "public_key": "77VRnnzwRTeQLDpNDfMh8DrDkzbAtcuKncZyWN49oegG",
+        "secret_key": "vrMzreRiV8Abz2WxqZhgh2Hmg5Mnc65QD3P1tr5Y7a296d7Y4FrUBppGCUAz2qCa6iNVUjygZu4SMiRDmW59Vbe",
+    },
+    {
+        "mnemonic": TEST_MNEMONIC_24,
+        "public_key": "GRwsvJC92A9UB4eEcpzuxPqsuBdKRjd731uGp6BLbPJv",
+        "secret_key": "4ZPFuK3dS189sJFXdTiVRXeVA7ZV4LPgUUgXJwx7WVWMVCpafG3L1D2j1Z4dSJzamyYruHCSYWrwP6s8HhGLTYS2",
+    },
+    {
+        "mnemonic": TEST_MNEMONIC_24,
+        "public_key": "piCoBHqPoK4dhg84g1NajB6vdJX785G3wT2rExaQ6Q3",
+        "secret_key": "3iUkSFmpVM4rZUsMJqGH1ajY3tWxG9A64agQwaPCZ1m5Yc3V8JacEPnAu3oDdhxTARHnpXKBBVcDJhv9cR2JDvd9",
+    },
+    {
+        "mnemonic": TEST_MNEMONIC_24,
+        "public_key": "6EeiyS9X6222PeUzpKA32jc3ZEkpTKms3qNZEmySm1DS",
+        "secret_key": "8BJqbw31Zmn7887LtFtevmmGaUm5BNUvMB1tsnLdzCv5TFPTodYDCsKCFovHoL1BSZwGxbixDZoWwszLpSyYKXv",
+    },
+    {
+        "mnemonic": TEST_MNEMONIC_24,
+        "public_key": "DhW8bCabXWMJYg99rtZyy2XWax8J5wfLh8kmkpDxbR8G",
+        "secret_key": "3P4zpjXuBtxH8hMguo8k68Nz3mDYRto3CaMkSm55TtPZzinRYg76uyvy2CBimcegBRThH92H9MzffYShJB62W8ya",
+    },
 ]
