@@ -27,7 +27,6 @@ from kinetic_sdk.generated.client.model.compiled_instruction import CompiledInst
 from kinetic_sdk.generated.client.model.confirmation_status import ConfirmationStatus
 from kinetic_sdk.generated.client.model.confirmed_signature_info import ConfirmedSignatureInfo
 from kinetic_sdk.generated.client.model.confirmed_transaction_meta import ConfirmedTransactionMeta
-from kinetic_sdk.generated.client.model.context import Context
 from kinetic_sdk.generated.client.model.create_account_request import CreateAccountRequest
 from kinetic_sdk.generated.client.model.get_transaction_response import GetTransactionResponse
 from kinetic_sdk.generated.client.model.history_response import HistoryResponse
@@ -38,7 +37,6 @@ from kinetic_sdk.generated.client.model.minimum_rent_exemption_balance_response 
 )
 from kinetic_sdk.generated.client.model.request_airdrop_request import RequestAirdropRequest
 from kinetic_sdk.generated.client.model.request_airdrop_response import RequestAirdropResponse
-from kinetic_sdk.generated.client.model.rpc_response_and_context import RpcResponseAndContext
 from kinetic_sdk.generated.client.model.signature_status import SignatureStatus
 from kinetic_sdk.generated.client.model.token_amount import TokenAmount
 from kinetic_sdk.generated.client.model.token_balance import TokenBalance

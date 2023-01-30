@@ -23,20 +23,18 @@ class KineticSdk:
         account: PublicKeyString,
         commitment: Optional[Commitment] = None,
         mint: Optional[PublicKeyString] = None,
-        reference_id: Optional[str] = None,
-        reference_type: Optional[str] = None,
+        reference: Optional[str] = None,
     ):
-        return self.internal.close_account(account, commitment, mint, reference_id, reference_type)
+        return self.internal.close_account(account, commitment, mint, reference)
 
     def create_account(
         self,
         owner: Keypair,
         commitment: Optional[Commitment] = None,
         mint: Optional[PublicKeyString] = None,
-        reference_id: Optional[str] = None,
-        reference_type: Optional[str] = None,
+        reference: Optional[str] = None,
     ):
-        return self.internal.create_account(owner, commitment, mint, reference_id, reference_type)
+        return self.internal.create_account(owner, commitment, mint, reference)
 
     def get_account_info(
         self,
@@ -55,6 +53,9 @@ class KineticSdk:
     def get_history(self, account: PublicKeyString, mint: Optional[PublicKeyString] = None):
         return self.internal.get_history(account, mint)
 
+    def get_kinetic_transaction(self, signature: Optional[str] = None, reference: Optional[str] = None):
+        return self.internal.get_kinetic_transaction(signature, reference)
+
     def get_token_accounts(self, account: PublicKeyString, mint: Optional[PublicKeyString] = None):
         return self.internal.get_token_accounts(account, mint)
 
@@ -69,12 +70,11 @@ class KineticSdk:
         tx_type: TransactionType = TransactionType.NONE,
         mint: Optional[PublicKeyString] = None,
         commitment: Optional[Commitment] = None,
-        reference_id: Optional[str] = None,
-        reference_type: Optional[str] = None,
+        reference: Optional[str] = None,
         sender_create: bool = False,
     ):
         return self.internal.make_transfer(
-            owner, destination, amount, mint, tx_type, reference_id, reference_type, sender_create, commitment
+            owner, destination, amount, mint, tx_type, reference, sender_create, commitment
         )
 
     def make_transfer_batch(
@@ -84,12 +84,9 @@ class KineticSdk:
         tx_type: TransactionType = TransactionType.NONE,
         mint: Optional[PublicKeyString] = None,
         commitment: Optional[Commitment] = None,
-        reference_id: Optional[str] = None,
-        reference_type: Optional[str] = None,
+        reference: Optional[str] = None,
     ):
-        return self.internal.make_transfer_batch(
-            owner, destinations, mint, tx_type, reference_id, reference_type, commitment
-        )
+        return self.internal.make_transfer_batch(owner, destinations, mint, tx_type, reference, commitment)
 
     def request_airdrop(
         self,
