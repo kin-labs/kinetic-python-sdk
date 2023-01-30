@@ -50,8 +50,7 @@ class KineticSdkInternal:
         account: PublicKeyString,
         commitment: Commitment,
         mint: PublicKeyString,
-        reference_id: str,
-        reference_type: str,
+        reference: str,
     ):
         app_config = self._ensure_app_config()
         app_mint = get_app_mint(app_config, mint)
@@ -63,8 +62,7 @@ class KineticSdkInternal:
             environment=self.sdk_config["environment"],
             index=self.sdk_config["index"],
             mint=app_mint.public_key,
-            reference_id=reference_id,
-            reference_type=reference_type,
+            reference=reference,
         )
 
         return self.account_api.close_account(request)
@@ -74,8 +72,7 @@ class KineticSdkInternal:
         owner: Keypair,
         commitment: Optional[Commitment] = None,
         mint: Optional[PublicKeyString] = None,
-        reference_id: Optional[str] = None,
-        reference_type: Optional[str] = None,
+        reference: Optional[str] = None,
     ):
         app_config = self._ensure_app_config()
         app_mint = get_app_mint(app_config, mint)
@@ -105,8 +102,7 @@ class KineticSdkInternal:
             index=self.sdk_config["index"],
             last_valid_block_height=blockhash["last_valid_block_height"],
             mint=app_mint.public_key,
-            reference_id=reference_id,
-            reference_type=reference_type,
+            reference=reference,
             tx=pybase64.b64encode_as_string(tx),
         )
 
@@ -163,6 +159,14 @@ class KineticSdkInternal:
             commitment,
         )
 
+    def get_kinetic_transaction(self, signature: Optional[str] = None, reference: Optional[str] = None):
+        return self.transaction_api.get_kinetic_transaction(
+            self.sdk_config["environment"],
+            self.sdk_config["index"],
+            reference=reference or '',
+            signature=signature or '',
+        )
+
     def get_token_accounts(
         self, account: PublicKeyString, mint: PublicKeyString, commitment: Optional[Commitment] = None
     ):
@@ -192,8 +196,7 @@ class KineticSdkInternal:
         amount: str,
         mint: PublicKeyString,
         tx_type: TransactionType,
-        reference_id: str,
-        reference_type: str,
+        reference: str,
         sender_create: Optional[bool] = None,
         commitment: Optional[Commitment] = None,
     ):
@@ -254,8 +257,7 @@ class KineticSdkInternal:
             index=self.sdk_config["index"],
             last_valid_block_height=blockhash["last_valid_block_height"],
             mint=app_mint.public_key,
-            reference_id=reference_id,
-            reference_type=reference_type,
+            reference=reference,
             tx=pybase64.b64encode_as_string(tx),
         )
 
@@ -267,8 +269,7 @@ class KineticSdkInternal:
         destinations,
         mint,
         tx_type,
-        reference_id: str,
-        reference_type: str,
+        reference: str,
         commitment: Optional[Commitment] = None,
     ):
         app_config = self._ensure_app_config()
@@ -335,8 +336,7 @@ class KineticSdkInternal:
             index=self.sdk_config["index"],
             last_valid_block_height=blockhash["last_valid_block_height"],
             mint=app_mint.public_key,
-            reference_id=reference_id,
-            reference_type=reference_type,
+            reference=reference,
             tx=pybase64.b64encode_as_string(tx),
         )
 

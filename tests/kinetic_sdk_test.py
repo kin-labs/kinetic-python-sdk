@@ -1,5 +1,7 @@
 # flake8: noqa: F841
 # pylint: disable=missing-module-docstring
+import uuid
+
 from solana.publickey import PublicKey
 
 from kinetic_sdk import (
@@ -33,6 +35,10 @@ sdk = KineticSdk.setup(
     index=1,
     headers=[{"kinetic-extra-header": "Test Header Value"}],
 )
+
+
+def unique_id():
+    return "test-{}".format(uuid.uuid4())
 
 
 def test_get_balance():
@@ -128,6 +134,31 @@ def test_make_transfer():
     assert isinstance(transfer["status"], TransactionStatus)
     assert transfer["status"] == TransactionStatus("Committed")
     assert transfer["source"] == ALICE_ACCOUNT
+
+
+def test_make_transfer_with_reference():
+    """Test making a transfer with a reference"""
+    reference = unique_id()
+    transfer = sdk.make_transfer(
+        owner=ALICE_KEYPAIR,
+        destination=BOB_ACCOUNT,
+        amount=1,
+        reference=reference,
+    )
+    assert isinstance(transfer, Transaction)
+    assert transfer["errors"] == []
+    assert transfer["status"] == TransactionStatus("Committed")
+    assert isinstance(transfer["status"], TransactionStatus)
+
+    found = sdk.get_kinetic_transaction(reference=reference)
+    assert found[0]["amount"] == "1"
+    assert found[0]["status"] == TransactionStatus("Confirmed")
+    assert found[0]["source"] == ALICE_ACCOUNT
+    assert found[0]["reference"] == reference
+    assert found[0]["commitment"] == "Confirmed"
+    assert found[0]["destination"] == BOB_TOKEN_ACCOUNT
+    assert found[0]["fee_payer"] == FEE_PAYER
+    assert found[0]["mint"] == DEFAULT_MINT
 
 
 def test_make_transfer_batch():
